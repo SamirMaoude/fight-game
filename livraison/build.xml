@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="fightGame" default="run" basedir=".">
+    <property name="app.name"      value="fightGame" />
+    <property name="app.version"   value="0.1"/>
+    <property name="app.fullname"   value="${app.name}-${app.version}"/>
+
+    <property name="dist.home"     value="${basedir}/dist"/>
+    <property name="docs.home"     value="${basedir}/doc"/>
+    <property name="lib.home"      value="${basedir}/lib"/>
+    <property name="src.home"      value="${basedir}/src"/>
+    <property name="build.home"      value="${basedir}/build"/>
+    <property name="test.report.home"      value="${basedir}/build/test/results"/>
+
+    <property name="javac.version"      value="1.8"/>
+    <property name="javac.encoding"      value="UTF-8"/>
+  
+    <!-- ==================== Compile options =========================== -->
+    <property name="compile.debug"       value="true"/>
+    <property name="compile.deprecation" value="false"/>
+    <property name="compile.optimize"    value="true"/>
+
+    <!-- ==================== Clean Targets ==================================== -->
+    <target name="clean" description="Delete old build and dist directories">
+        <delete dir="${dist.home}"/>
+        <delete dir="${docs.home}"/>
+        <delete dir="${build.home}"/>
+
+        <subant failonerror="true">
+            <fileset dir="${src.home}" includes="**/build.xml" />
+            <target name="clean"/>
+        </subant>
+    </target>
+
+    <target name="clean_all" depends="clean" description="Delete old build, dist and lib directories">
+        <delete dir="${lib.home}"/>
+
+        <subant failonerror="true">
+            <fileset dir="${src.home}" includes="**/build.xml" />
+            <target name="clean_all"/>
+        </subant>
+    </target>
+
+    <!-- ==================== Prepare Target ================================== -->
+    <target name="prepare">
+        <mkdir dir="${dist.home}"/>
+        <mkdir dir="${dist.home}/lib"/>
+        <mkdir dir="${docs.home}"/>
+        <mkdir dir="${test.report.home}"/>
+    </target>
+	
+    <!-- ==================== JUnit installation Target ===================================== -->
+    <target name="check-junit-installed">
+        <available property="file.exists" file="${lib.home}/ant-junit.jar"/>
+    </target>
+
+    <target name="install-junit" depends="check-junit-installed" description="Install junit" unless="file.exists">
+        <mkdir dir="${lib.home}"/>
+
+        <get dest="${lib.home}/ant-junit.jar" src="https://repo1.maven.org/maven2/org/apache/ant/ant-junit/1.10.15/ant-junit-1.10.15.jar"/>
+        <get dest="${lib.home}/junit.jar" src="https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar"/>
+        
+        <fail message="The JUnit dependencies have been installed. Please rerun your command and specify -lib lib/ant-junit.jar/ to ant command." unless="file.exists" />
+    </target>
+  
+    <!-- ==================== Javadoc Target ================================== -->
+    <target name="javadoc" depends="install-junit" description="Create Javadoc API documentation">
+        <mkdir dir="${docs.home}/api"/>
+		
+        <!-- Links the 2 documentation as one -->
+        <javadoc sourcepath="${src.home}/gamePlayers/src/;${src.home}/fightGame/src/"
+                 destdir="${docs.home}/api"
+                 packagenames="*">
+            <classpath>
+                <fileset dir="">
+                    <include name="**/*.java"/>
+                </fileset>
+            </classpath>
+        </javadoc>
+    </target>
+
+    <!-- ==================== Dist Target ===================================== -->
+    <target name="dist" depends="clean,prepare,javadoc" description="Create binary distribution">
+        <subant failonerror="true">
+            <fileset dir="src/gamePlayers" includes="build.xml"/>
+            <target name="dist"/>
+        </subant>
+        <subant failonerror="true">
+            <fileset dir="src/fightGame" includes="build.xml"/>
+            <target name="dist"/>
+        </subant>
+        
+        <copy file="${src.home}/fightGame/dist/${app.fullname}.jar" todir="${dist.home}" />
+        <copy todir="${dist.home}/lib">
+            <fileset dir="${src.home}/fightGame/dist/lib"/>
+        </copy>
+    </target>
+
+    <!-- ==================== Run Target ================================== -->
+    <target name="run" depends="dist">
+        <java jar="${dist.home}/${app.fullname}.jar" fork="true" />
+    </target>
+	
+    <!-- ==================== Test Target ===================================== -->
+    <target name="test" depends="dist">
+        <subant failonerror="true">
+            <fileset dir="src/gamePlayers" includes="build.xml"/>
+            <target name="junitreport"/>
+        </subant>
+        <copy todir="${test.report.home}/gamePlayers">
+            <fileset dir="src/gamePlayers/build/test/results"/>
+        </copy>
+        <subant failonerror="true">
+            <fileset dir="src/fightGame" includes="build.xml"/>
+            <target name="junitreport"/>
+        </subant>
+        <copy todir="${test.report.home}/fightGame">
+            <fileset dir="src/fightGame/build/test/results"/>
+        </copy>
+    </target>
+
+</project>
