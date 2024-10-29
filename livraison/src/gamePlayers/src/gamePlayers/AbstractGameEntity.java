@@ -22,7 +22,8 @@ public abstract class AbstractGameEntity extends AbtractListenableModel implemen
         return this.type;
     }
 
-    public abstract void attack();
+    
+
 
     
 }

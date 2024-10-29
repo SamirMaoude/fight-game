@@ -8,9 +8,8 @@ public class Mine extends Weapon{
         super(EntityType.MINE, position,damage);
     }
 
-    @Override
-    public void attack() {
-        //Creer une explosion
+    public void use(){
+
     }
 
 }

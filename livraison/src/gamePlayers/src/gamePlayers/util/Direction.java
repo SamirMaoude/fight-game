@@ -1,5 +1,5 @@
 package gamePlayers.util;
 
-public enum Move {
+public enum Direction {
     LEFT,RIGHT,TOP,BOTTOM
 }
