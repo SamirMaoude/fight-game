@@ -21,7 +21,7 @@ public abstract class AbtractListenableModel implements ListenableModel {
     }
 
     @Override
-    public void fireChangement() {
+    public void notifyModelListeners() {
        for (ModelListener modelListener : this.listerners) {
             modelListener.update(this);
        }
