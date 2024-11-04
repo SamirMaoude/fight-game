@@ -1,5 +1,146 @@
 package fightGame.model;
 
-public class GameBoard {
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import gamePlayers.AbstractGameEntity;
+import gamePlayers.util.AbtractListenableModel;
+import gamePlayers.util.DIRECTION;
+import gamePlayers.util.EntityType;
+import gamePlayers.util.ListenableModel;
+import gamePlayers.util.ModelListener;
+import gamePlayers.util.Position;
+
+public class GameBoard extends AbtractListenableModel implements GameBoardInterface, ModelListener {
+
+    private int rows;
+    private int cols;
+    private int nextPlayerIndex = 0;
+
+    private Map<Position, AbstractGameEntity> entities = new HashMap<>();
+    private List<Player> players = new ArrayList<>();
+
+    public GameBoard(int rows, int cols){
+        this.rows = rows;
+        this.cols = cols;
+    }
+
+    public GameBoard(int rows, int cols, List<Player> players){
+        this(rows, cols);
+        this.players = players;
+    }
+
+    public boolean addEntity(AbstractGameEntity entity, Position position){
+
+        if(!isValidPosition(position)){
+            return false;
+        }
+        
+        entities.put(position, entity);
+
+        return true;
+    }
+
+    @Override
+    public void update(ListenableModel source) {
+
+        notifyModelListeners();
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'update'");
+    }
+
+    @Override
+    public AbstractGameEntity getEntityAt(Position position) {
+        return entities.get(position);
+    }
+
+    @Override
+    public boolean moveEntity(Position oldPosition, DIRECTION direction) {
+        
+        AbstractGameEntity entity = entities.get(oldPosition);
+
+        if(entity == null) return false;
+
+        Position newPosition = new Position(oldPosition);
+
+        switch (direction) {
+            case LEFT:
+                newPosition.moveLeft();
+                break;
+            
+            case RIGHT:
+                newPosition.moveRight();
+                break;
+
+            case BOTTOM:
+                newPosition.moveBottom();
+                break;
+
+            case TOP:
+                newPosition.moveTop();
+                break;
+        
+            default:
+                return false;
+        }
+
+        if(!isValidPosition(newPosition)){
+            return false;
+        }
+
+        entities.put(oldPosition, null);
+
+        entities.put(newPosition, entity);
+
+        return true;
+
+
+    }
+
+    @Override
+    public Player getNextPlayer() {
+        return players.get(nextPlayerIndex % players.size());
+    }
+
+    @Override
+    public List<Action> getActions(Player player) {
+
+        List<Action> actions = new ArrayList<>();
+
+        // TODO Auto-generated method stub
+        // throw new UnsupportedOperationException("Unimplemented method 'getActions'");
+
+        return actions;
+    }
+
+    @Override
+    public boolean performAction(Action action, Player player) {
+
+        nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
+
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'performAction'");
+    }
+
+
+    private boolean isValidPosition(Position position){
+        int r = position.getRow();
+        int c = position.getCol();
+
+        if(!((0 <= r &&  r < rows)  && (0 < c && c < cols))) return false;
+
+        // Position occupée;
+        if(entities.get(position) != null){
+            AbstractGameEntity entity = entities.get(position);
+
+            if(entity.getType() == EntityType.UNIT) return false;
+        }
+
+        return true;
+
+       
+    }
     
 }
