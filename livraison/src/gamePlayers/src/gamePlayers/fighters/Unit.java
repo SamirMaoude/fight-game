@@ -78,13 +78,13 @@ public class Unit extends AbstractGameEntity {
 
     public void move(Direction move) {
         switch (move) {
-            case Direction.LEFT:
+            case LEFT:
                 this.position.setCol(this.position.getCol() - 1);
                 break;
-            case Direction.RIGHT:
+            case RIGHT:
                 this.position.setCol(this.position.getCol() + 1);
                 break;
-            case Direction.TOP:
+            case TOP:
                 this.position.setRow(this.position.getRow() - 1);
                 break;
             default:
