@@ -7,7 +7,7 @@ import java.util.Map;
 
 import gamePlayers.AbstractGameEntity;
 import gamePlayers.util.AbtractListenableModel;
-import gamePlayers.util.DIRECTION;
+import gamePlayers.util.Direction;
 import gamePlayers.util.EntityType;
 import gamePlayers.util.ListenableModel;
 import gamePlayers.util.ModelListener;
@@ -57,7 +57,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     }
 
     @Override
-    public boolean moveEntity(Position oldPosition, DIRECTION direction) {
+    public boolean moveEntity(Position oldPosition, Direction direction) {
         
         AbstractGameEntity entity = entities.get(oldPosition);
 

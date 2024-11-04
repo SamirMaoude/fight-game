@@ -1,2 +1,10 @@
 .class
 **/build/*
+livraison/doc/*
+livraison/src/fightGame/dist/*
+livraison/lib/*
+livraison/src/gamePlayers/dist/*
+livraison/dist/*
+livraison/src/fightGame/lib/*
+livraison/src/gamePlayers/lib/*
+livraison/src/fightGame/src/fightGame/model/GameBoardProxy.java
