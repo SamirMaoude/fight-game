@@ -1,0 +1,5 @@
+package fightGame.model;
+
+public enum Action {
+    MOVE_TO_RIGHT, MOVE_TO_LEFT, MOVE_TO_BOTTOM, MOVE_TO_TOP, USE_MINE,  USE_BOMB, USE_PROJECTILS, NOTHING, ACTIVATED_SHIELD
+}

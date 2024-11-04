@@ -4,27 +4,23 @@ import gamePlayers.util.*;
 
 public class Projectile extends Weapon{
 
-    private int distance;
+    private int scope;
 
-    public Projectile(Position position, int distance, int damage) {
-        super(EntityType.PROJECTILE, position,damage);
-        if(distance<=0){
+    public Projectile(Position position, int scope, int damage) {
+        super(EntityType.PROJECTILE, position, damage);
+        if(scope<=0){
             throw new IllegalArgumentException("Projectile distance or damage value must be positive");
         }
-        this.distance = distance;
+        this.scope = scope;
     }
 
-    public int getDistance() {
-        return distance;
+    public int getScope() {
+        return scope;
     }
 
-    @Override
-    public void attack() {
-        //Creer un tir
-    }
+    public void use (Direction direction){
 
-    
-    
+    }
 
 
 }

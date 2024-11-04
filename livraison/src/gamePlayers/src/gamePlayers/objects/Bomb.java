@@ -3,22 +3,24 @@ package gamePlayers.objects;
 import gamePlayers.util.*;
 public class Bomb extends Weapon{
 
-    private int time;
-    public Bomb(Position position, int damage, int time) {
+    private int timeBeforeExplosition;
+    public Bomb(Position position, int damage, int timeBeforeExplosition) {
         super(EntityType.BOMB, position, damage);
-        if(time<1){
+        if(timeBeforeExplosition<1){
             throw new IllegalArgumentException("You can not provide a value under 1 as boom time");
         }
-        this.time = time;
+        this.timeBeforeExplosition = timeBeforeExplosition;
     }
 
-    public int getTime() {
-        return time;
+    public int getTimeBeforeExplosition() {
+        return timeBeforeExplosition;
     }
 
-    @Override
-    public void attack() {
-        //Creer une explosion
+    public void detonate(){
+        
     }
 
+   
+
+   
 }

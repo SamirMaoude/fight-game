@@ -76,15 +76,15 @@ public class Unit extends AbstractGameEntity {
         return projectiles;
     }
 
-    public void move(Move move) {
+    public void move(Direction move) {
         switch (move) {
-            case Move.LEFT:
+            case LEFT:
                 this.position.setCol(this.position.getCol() - 1);
                 break;
-            case Move.RIGHT:
+            case RIGHT:
                 this.position.setCol(this.position.getCol() + 1);
                 break;
-            case Move.TOP:
+            case TOP:
                 this.position.setRow(this.position.getRow() - 1);
                 break;
             default:
@@ -93,12 +93,7 @@ public class Unit extends AbstractGameEntity {
         }
     }
 
-    @Override
-    public void attack() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'attack'");
-    }
-
+   
     public boolean hasBombs() {
         return !(this.bombs == null || this.bombs.isEmpty());
     }
@@ -109,6 +104,30 @@ public class Unit extends AbstractGameEntity {
 
     public boolean hasProjectiles() {
         return !(this.projectiles == null || this.projectiles.isEmpty());
+    }
+
+    public void takePellet(Pellet pellet){
+        this.energy+=pellet.getEnergy();
+    }
+
+    public void useBomb(){
+
+    }
+
+    public void useMine(){
+        
+    }
+
+    public void useProjectile(){
+        
+    }
+
+    @Override
+    public void destroy() {
+        this.position = null;
+        this.bombs = null;
+        this.mines = null;
+        this.projectiles = null;
     }
 
 }
