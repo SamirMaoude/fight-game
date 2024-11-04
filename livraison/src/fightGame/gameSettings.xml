@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gameSettings>
+    <nbRows>10</nbRows>
+    <nbCols>10</nbCols>
+    <nbBombs>5</nbBombs>
+    <nbProjectiles>10</nbProjectiles>
+    <nbMines>3</nbMines>
+    <bombVisibility>PUBLIC</bombVisibility>
+    <mineVisibility>PRIVATE</mineVisibility>
+    <startingEnergy>100</startingEnergy>
+    <projectileScope>5</projectileScope>
+    <bombDamage>50</bombDamage>
+    <bombTimer>3</bombTimer>
+    <mineDamage>30</mineDamage>
+    <projectileDamage>20</projectileDamage>
+    <pelletBoost>10</pelletBoost>
+    <moveCost>2</moveCost>
+    <shieldCost>5</shieldCost>
+    <shieldAbsorption>80</shieldAbsorption>
+    <shieldTimer>5</shieldTimer>
+</gameSettings>
