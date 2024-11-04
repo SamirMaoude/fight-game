@@ -12,6 +12,10 @@ public class Position {
         this.col = col;
     }
 
+    public Position(Position position){
+        this(position.getRow(), position.getCol());
+    }
+
     public int getRow() {
         return row;
     }
@@ -26,6 +30,29 @@ public class Position {
 
     public void setCol(int col) {
         this.col = col;
+    }
+
+    public void moveLeft(){
+        if(this.col -1 < 0){
+            throw new IllegalArgumentException("Position coordonate can not be negative");
+        }
+        this.col -= 1;
+    }
+
+    public void moveRight(){
+        this.col += 1;
+    }
+
+    public void moveTop(){
+        if(this.row -1 < 0){
+            throw new IllegalArgumentException("Position coordonate can not be negative");
+        }
+
+        this.row -= 1;
+    }
+
+    public void moveBottom(){
+        this.row += 1;
     }
 
     
