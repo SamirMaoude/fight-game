@@ -6,8 +6,8 @@ public class Projectile extends Weapon{
 
     private int scope;
 
-    public Projectile(Position position, int scope, int damage) {
-        super(EntityType.PROJECTILE, position, damage);
+    public Projectile(Position position, int scope, int damage,Player player) {
+        super(EntityType.PROJECTILE, position,player, damage);
         if(scope<=0){
             throw new IllegalArgumentException("Projectile distance or damage value must be positive");
         }

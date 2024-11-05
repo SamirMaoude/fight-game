@@ -9,8 +9,8 @@ public abstract class Weapon extends AbstractGameEntity {
     protected int damage;
     protected Unit unit;
 
-    public Weapon(EntityType type, Position position, int damage) {
-        super(type, position);
+    public Weapon(EntityType type, Position position, Player player, int damage) {
+        super(type, position,player);
         if(damage<0){
             throw new IllegalArgumentException("Weapon damage value must be positive");
         }

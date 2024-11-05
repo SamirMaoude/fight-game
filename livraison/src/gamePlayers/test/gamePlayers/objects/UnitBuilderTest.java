@@ -2,7 +2,6 @@ package gamePlayers.objects;
 
 import gamePlayers.fighters.Unit;
 import gamePlayers.fighters.UnitBuilder;
-0000000000000082*7
 import gamePlayers.util.Position;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

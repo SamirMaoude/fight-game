@@ -9,6 +9,7 @@ import gamePlayers.util.*;
 
 public class UnitBuilder {
     private Position position;
+    private Player owner;
     private String name;
     private int energy;
     private LinkedList<Bomb> bombs;
@@ -22,8 +23,13 @@ public class UnitBuilder {
         this.bombs = null;
         this.mines = null;
         this.projectiles = null;
+        this.owner = null;
     }
 
+    public UnitBuilder withOwner(Player player){
+        this.owner = player;
+        return this;
+    }
     public UnitBuilder withPosition(Position position){
         this.position = position;
         return this;
@@ -42,7 +48,7 @@ public class UnitBuilder {
     public UnitBuilder withBombs(){
         LinkedList<Bomb> bombs = new LinkedList<>();
         for(int i=0; i<10; i++){
-            bombs.add(new Bomb(null, 50, 3));
+            bombs.add(new Bomb(null, 50,this.owner, 3));
         }
         this.bombs = bombs;
         return this;
@@ -51,7 +57,7 @@ public class UnitBuilder {
     public UnitBuilder withMines(){
         LinkedList<Mine> mines = new LinkedList<>();
         for(int i=0; i<10; i++){
-            mines.add(new Mine(null, 50));
+            mines.add(new Mine(null, 50,this.owner));
         }
         this.mines = mines;
         return this;
@@ -60,13 +66,13 @@ public class UnitBuilder {
     public UnitBuilder withProjectiles(){
         LinkedList<Projectile> projectiles = new LinkedList<>();
         for(int i=0; i<10; i++){
-            projectiles.add(new Projectile(null, 10, 20));
+            projectiles.add(new Projectile(null, 10, 20,this.owner));
         }
         this.projectiles = projectiles;
         return this;
     }
 
     public Unit build(){
-        return new Unit(this.position, this.name, this.energy, this.bombs, this.mines, this.projectiles);
+        return new Unit(this.position, this.name, this.owner, this.energy, this.bombs, this.mines, this.projectiles);
     }
 }

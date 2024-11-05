@@ -17,9 +17,10 @@ public class Unit extends AbstractGameEntity {
     private LinkedList<Mine> mines;
     private LinkedList<Projectile> projectiles;
 
-    public Unit(Position position, String name, int energy, LinkedList<Bomb> bombs, LinkedList<Mine> mines,
+    public Unit(Position position, String name, Player owner, int energy, LinkedList<Bomb> bombs,
+            LinkedList<Mine> mines,
             LinkedList<Projectile> projectiles) {
-        super(EntityType.UNIT, position);
+        super(EntityType.UNIT, position, owner);
         if (energy <= 0) {
             throw new IllegalArgumentException("Unit energy must be higher than 0 during creation");
         }
@@ -93,7 +94,6 @@ public class Unit extends AbstractGameEntity {
         }
     }
 
-   
     public boolean hasBombs() {
         return !(this.bombs == null || this.bombs.isEmpty());
     }
@@ -106,20 +106,20 @@ public class Unit extends AbstractGameEntity {
         return !(this.projectiles == null || this.projectiles.isEmpty());
     }
 
-    public void takePellet(Pellet pellet){
-        this.energy+=pellet.getEnergy();
+    public void takePellet(Pellet pellet) {
+        this.energy += pellet.getEnergy();
     }
 
-    public void useBomb(){
+    public void useBomb() {
 
     }
 
-    public void useMine(){
-        
+    public void useMine() {
+
     }
 
-    public void useProjectile(){
-        
+    public void useProjectile() {
+
     }
 
     @Override
@@ -128,6 +128,10 @@ public class Unit extends AbstractGameEntity {
         this.bombs = null;
         this.mines = null;
         this.projectiles = null;
+    }
+
+    public boolean isAlive(){
+        return this.energy>0;
     }
 
 }
