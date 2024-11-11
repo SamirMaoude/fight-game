@@ -55,6 +55,11 @@ public class Position {
         this.row += 1;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        Position p = (Position)obj;
+        return this.row == p.getRow() && this.col == p.getCol();
+    }
     
 
     

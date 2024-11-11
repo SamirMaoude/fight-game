@@ -153,8 +153,6 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         }
 
         return true;
-
-       
     }
 
     public int getRows() {

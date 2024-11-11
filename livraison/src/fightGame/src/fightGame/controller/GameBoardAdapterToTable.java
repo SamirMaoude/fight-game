@@ -1,5 +1,30 @@
 package fightGame.controller;
 
-public class GameBoardAdapterToTable {
+import javax.swing.table.AbstractTableModel;
+
+import fightGame.model.GameBoard;
+import gamePlayers.util.Position;
+
+public class GameBoardAdapterToTable extends AbstractTableModel {
+    private GameBoard gameBoard;
+
+    public GameBoardAdapterToTable(GameBoard gameBoard){
+        this.gameBoard = gameBoard;
+    }
+    @Override
+    public int getColumnCount() {
+        return this.gameBoard.getColums()
+    }
+
+    @Override
+    public int getRowCount() {
+        return this.gameBoard.getRows();
+    }
+
+    @Override
+    public Object getValueAt(int rowIndex, int columnIndex) {
+        GameBoardProxy proxy = this.gameBoard.nextPlayer().getGameBoardProxy();
+        return  proxy.getEntityAt(new Position(rowIndex,columnIndex)).toString();
+    }
     
 }
