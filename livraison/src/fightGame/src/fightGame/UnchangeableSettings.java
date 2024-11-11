@@ -13,8 +13,8 @@ public class UnchangeableSettings {
     public static int NB_BOMBS;
     public static int NB_PROJECTILES;
     public static int NB_MINES;
-    public static String BOMB_VISIBILITY;
-    public static String MINE_VISIBILITY;
+        public static boolean BOMB_VISIBILITY;
+    public static boolean MINE_VISIBILITY;
     public static int STARTING_ENERGY;
     public static int PROJECTILE_SCOPE;
     public static int BOMB_DAMAGE;

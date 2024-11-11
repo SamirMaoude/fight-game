@@ -34,10 +34,12 @@ public class UnchangeableSettingsHandler extends DefaultHandler {
                     UnchangeableSettings.NB_MINES = Integer.parseInt(value);
                     break;
                 case "bombVisibility":
-                    UnchangeableSettings.BOMB_VISIBILITY = value;
+                    if(Integer.parseInt(value) == 1) UnchangeableSettings.BOMB_VISIBILITY = true;
+                    else UnchangeableSettings.BOMB_VISIBILITY = false;
                     break;
                 case "mineVisibility":
-                    UnchangeableSettings.MINE_VISIBILITY = value;
+                    if(Integer.parseInt(value) == 1) UnchangeableSettings.MINE_VISIBILITY = true;
+                    else UnchangeableSettings.MINE_VISIBILITY = false;
                     break;
                 case "startingEnergy":
                     UnchangeableSettings.STARTING_ENERGY = Integer.parseInt(value);

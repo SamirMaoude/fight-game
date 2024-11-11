@@ -20,16 +20,29 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     private int nextPlayerIndex = 0;
 
     private Map<Position, AbstractGameEntity> entities = new HashMap<>();
-    private List<Player> players = new ArrayList<>();
+    private List<FightGamePlayer> players = new ArrayList<>();
 
     public GameBoard(int rows, int cols){
         this.rows = rows;
         this.cols = cols;
     }
 
-    public GameBoard(int rows, int cols, List<Player> players){
+    public GameBoard(int rows, int cols, List<FightGamePlayer> players){
         this(rows, cols);
         this.players = players;
+    }
+
+    public GameBoard(GameBoard gameBoard, List<FightGamePlayer> players){
+        this(gameBoard.getRows(), gameBoard.getCols(), players);
+    }
+
+    public GameBoard(GameBoard gameBoard, List<FightGamePlayer> players, Map<Position, AbstractGameEntity> entities){
+        this(gameBoard, players);
+        this.entities = entities;
+    }
+    
+    public Map<Position, AbstractGameEntity> getEntities() {
+        return entities;
     }
 
     public boolean addEntity(AbstractGameEntity entity, Position position){
@@ -94,18 +107,19 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
         entities.put(newPosition, entity);
 
+        entity.setPosition(newPosition);
+
         return true;
 
 
     }
 
-    @Override
-    public Player getNextPlayer() {
+    public FightGamePlayer getNextPlayer() {
         return players.get(nextPlayerIndex % players.size());
     }
 
     @Override
-    public List<Action> getActions(Player player) {
+    public List<Action> getActions(FightGamePlayer player) {
 
         List<Action> actions = new ArrayList<>();
 
@@ -116,7 +130,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     }
 
     @Override
-    public boolean performAction(Action action, Player player) {
+    public boolean performAction(Action action, FightGamePlayer player) {
 
         nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
 
@@ -141,6 +155,24 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         return true;
 
        
+    }
+
+    public int getRows() {
+        return rows;
+    }
+
+    public int getCols() {
+        return cols;
+    }
+
+    @Override
+    public int getNextPlayerIndex() {
+
+        while(!players.get(nextPlayerIndex).getUnit().isAlive()){
+            nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
+        }
+
+        return nextPlayerIndex;
     }
     
 }

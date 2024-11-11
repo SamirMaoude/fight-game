@@ -5,8 +5,8 @@
     <nbBombs>5</nbBombs>
     <nbProjectiles>10</nbProjectiles>
     <nbMines>3</nbMines>
-    <bombVisibility>PUBLIC</bombVisibility>
-    <mineVisibility>PRIVATE</mineVisibility>
+    <bombVisibility>1</bombVisibility>
+    <mineVisibility>0</mineVisibility>
     <startingEnergy>100</startingEnergy>
     <projectileScope>5</projectileScope>
     <bombDamage>50</bombDamage>

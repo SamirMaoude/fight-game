@@ -9,7 +9,7 @@ import gamePlayers.util.Position;
 public interface GameBoardInterface {
     AbstractGameEntity getEntityAt(Position position);
     boolean moveEntity(Position oldPosition, Direction direction);
-    Player getNextPlayer();
-    List<Action> getActions(Player player);
-    boolean performAction(Action action, Player player);
+    int getNextPlayerIndex();
+    List<Action> getActions(FightGamePlayer player);
+    boolean performAction(Action action, FightGamePlayer player);
 }
