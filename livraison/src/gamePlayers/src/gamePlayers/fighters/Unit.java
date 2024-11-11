@@ -110,16 +110,21 @@ public class Unit extends AbstractGameEntity {
         this.energy += pellet.getEnergy();
     }
 
-    public void useBomb() {
+    public Bomb useBomb() {
+        if(this.hasBombs()) return this.bombs.pop();
 
+        return null;
     }
 
-    public void useMine() {
+    public Mine useMine() {
+        if(this.hasMines()) return this.mines.pop();
 
+        return null;
     }
 
-    public void useProjectile() {
-
+    public Projectile useProjectile() {
+        if(this.hasProjectiles()) return this.projectiles.pop();
+        return null;
     }
 
     @Override
