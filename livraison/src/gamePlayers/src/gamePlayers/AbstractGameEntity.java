@@ -40,7 +40,4 @@ public abstract class AbstractGameEntity extends AbtractListenableModel implemen
     }
 
     
-
-
-    
 }

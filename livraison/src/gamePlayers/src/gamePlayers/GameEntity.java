@@ -4,7 +4,7 @@ import gamePlayers.util.EntityType;
 import gamePlayers.util.Player;
 import gamePlayers.util.Position;
 
-public interface GameEntity {
+public interface GameEntity extends Cloneable{
     public Position getPosition();
     public void setPosition(Position position);
     public EntityType getType();
