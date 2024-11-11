@@ -8,10 +8,9 @@ import gamePlayers.util.Position;
 public class Pellet extends AbstractGameEntity{
     private int energy;
 
-    public Pellet(EntityType type, Position position,Player player, int energy) {
-        super(type, position,player);
+    public Pellet(Position position,Player player, int energy) {
+        super(EntityType.PELLET, position,player);
         this.energy = energy;
-        
     }
 
     public int getEnergy(){
@@ -22,5 +21,19 @@ public class Pellet extends AbstractGameEntity{
     public void destroy() {
        this.position = null;
     }
-    
+
+    @Override
+    public Object clone(){
+        Pellet clone = null;
+        try {
+            clone = (Pellet)super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            cnse.printStackTrace(System.err);
+        }
+        clone.energy = this.energy;
+        clone.position = (Position)this.position.clone();
+        clone.owner = (Player)this.owner.clone();
+        clone.type = EntityType.PELLET;
+        return clone;
+    } 
 }

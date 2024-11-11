@@ -12,4 +12,19 @@ public class Mine extends Weapon{
 
     }
 
+    @Override
+    public Object clone(){
+        Mine clone = null;
+        try {
+            clone = (Mine)super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            cnse.printStackTrace(System.err);
+        }
+        clone.position = (Position)this.position.clone();
+        clone.damage = this.damage;
+        clone.owner = (Player)this.owner.clone();
+        clone.type = EntityType.MINE;
+        return clone;
+    }
+
 }

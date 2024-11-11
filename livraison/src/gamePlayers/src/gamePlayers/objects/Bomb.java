@@ -19,6 +19,22 @@ public class Bomb extends Weapon{
     public void detonate(){
         
     }
+    
+    @Override
+    public Object clone(){
+        Bomb clone = null;
+        try {
+            clone = (Bomb)super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            cnse.printStackTrace(System.err);
+        }
+        clone.timeBeforeExplosition = this.timeBeforeExplosition;
+        clone.position = (Position)this.position.clone();
+        clone.damage = this.damage;
+        clone.owner = (Player)this.owner.clone();
+        clone.type = EntityType.BOMB;
+        return clone;
+    }
 
    
 

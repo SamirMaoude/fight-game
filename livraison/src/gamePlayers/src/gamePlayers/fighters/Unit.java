@@ -44,6 +44,10 @@ public class Unit extends AbstractGameEntity {
         return this.name;
     }
 
+    public void receiveDamage(int damage){
+        this.energy -= damage;
+    }
+
     public int getEnergy() {
         return energy;
     }
@@ -127,6 +131,8 @@ public class Unit extends AbstractGameEntity {
         return null;
     }
 
+
+
     @Override
     public void destroy() {
         this.position = null;
@@ -137,6 +143,25 @@ public class Unit extends AbstractGameEntity {
 
     public boolean isAlive(){
         return this.energy>0;
+    }
+
+    @Override
+    public Object clone(){
+        Unit clone = null;
+        try {
+            clone = (Unit)super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            cnse.printStackTrace(System.err);
+        }
+        clone.name = this.name;
+        clone.energy = this.energy;
+        clone.bombs = (LinkedList<Bomb>)this.bombs.clone();
+        clone.mines = (LinkedList<Mine>)this.mines.clone();
+        clone.projectiles = (LinkedList<Projectile>)this.projectiles.clone();
+        clone.position = (Position)this.position;
+        clone.owner = (Player)this.owner.clone();
+        clone.type = EntityType.UNIT;
+        return clone;
     }
 
 }

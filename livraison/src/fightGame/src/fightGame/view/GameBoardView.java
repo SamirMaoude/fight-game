@@ -1,5 +1,7 @@
 package fightGame.view;
 
-public class GameBoardView {
+import javax.swing.JTable;
+
+public class GameBoardView extends JTable{
     
 }
