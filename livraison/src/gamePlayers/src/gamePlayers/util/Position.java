@@ -74,4 +74,9 @@ public class Position implements Cloneable {
         return clone;
     }
 
+    @Override
+    public String toString(){
+        return "Ligne " + this.row + " Colonne " + this.col;
+    }
+
 }

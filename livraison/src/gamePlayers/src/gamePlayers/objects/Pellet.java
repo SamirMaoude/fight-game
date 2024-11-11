@@ -35,7 +35,5 @@ public class Pellet extends AbstractGameEntity{
         clone.owner = (Player)this.owner.clone();
         clone.type = EntityType.PELLET;
         return clone;
-    }
-
-    
+    } 
 }

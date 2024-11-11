@@ -44,6 +44,10 @@ public class Unit extends AbstractGameEntity {
         return this.name;
     }
 
+    public void receiveDamage(int damage){
+        this.energy -= damage;
+    }
+
     public int getEnergy() {
         return energy;
     }
@@ -126,6 +130,8 @@ public class Unit extends AbstractGameEntity {
         if(this.hasProjectiles()) return this.projectiles.pop();
         return null;
     }
+
+
 
     @Override
     public void destroy() {
