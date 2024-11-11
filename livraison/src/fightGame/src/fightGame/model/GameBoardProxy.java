@@ -6,9 +6,8 @@ import java.util.Map;
 
 import fightGame.UnchangeableSettings;
 import gamePlayers.AbstractGameEntity;
-import gamePlayers.objects.Weapon;
+import gamePlayers.util.Action;
 import gamePlayers.util.Direction;
-import gamePlayers.util.EntityType;
 import gamePlayers.util.Position;
 
 public class GameBoardProxy implements GameBoardInterface{
@@ -78,7 +77,7 @@ public class GameBoardProxy implements GameBoardInterface{
     }
 
     @Override
-    public boolean performAction(Action action, FightGamePlayer player) {
+    public boolean performAction(FightGameAction action, FightGamePlayer player) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'performAction'");
     }

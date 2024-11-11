@@ -13,5 +13,5 @@ public interface GameBoardInterface {
     boolean moveEntity(Position oldPosition, Direction direction);
     int getNextPlayerIndex();
     List<Action> getActions(FightGamePlayer player);
-    boolean performAction(Action action, FightGamePlayer player);
+    boolean performAction(FightGameAction action, FightGamePlayer player);
 }

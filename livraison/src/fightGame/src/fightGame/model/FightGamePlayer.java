@@ -1,6 +1,7 @@
 package fightGame.model;
 
 import gamePlayers.fighters.Unit;
+import gamePlayers.util.Player;
 
 public abstract class FightGamePlayer implements Player {
     protected GameBoardProxy gameBoardProxy;
