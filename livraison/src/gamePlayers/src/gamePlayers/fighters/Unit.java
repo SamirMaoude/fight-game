@@ -139,4 +139,23 @@ public class Unit extends AbstractGameEntity {
         return this.energy>0;
     }
 
+    @Override
+    public Object clone(){
+        Unit clone = null;
+        try {
+            clone = (Unit)super.clone();
+        } catch(CloneNotSupportedException cnse) {
+            cnse.printStackTrace(System.err);
+        }
+        clone.name = this.name;
+        clone.energy = this.energy;
+        clone.bombs = (LinkedList<Bomb>)this.bombs.clone();
+        clone.mines = (LinkedList<Mine>)this.mines.clone();
+        clone.projectiles = (LinkedList<Projectile>)this.projectiles.clone();
+        clone.position = (Position)this.position;
+        clone.owner = (Player)this.owner.clone();
+        clone.type = EntityType.UNIT;
+        return clone;
+    }
+
 }
