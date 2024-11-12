@@ -1,4 +1,4 @@
-package fightGame.view.widgets;
+package fightGame.view.utils;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -16,8 +16,10 @@ public class IconCellRenderer extends DefaultTableCellRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
             boolean hasFocus, int row, int column) {
+
         JLabel label = new JLabel();
-        label.setIcon(this.imageIcon); 
+        label.setIcon((ImageIcon) value);
+        label.setHorizontalAlignment(JLabel.CENTER); // Centrer l'image
         return label;
     }
 }

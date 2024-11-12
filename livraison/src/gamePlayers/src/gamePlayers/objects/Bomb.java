@@ -4,6 +4,7 @@ import gamePlayers.util.*;
 public class Bomb extends Weapon{
 
     private int timeBeforeExplosition;
+
     public Bomb(Position position, int damage, Player palyer, int timeBeforeExplosition) {
         super(EntityType.BOMB, position,palyer, damage);
         if(timeBeforeExplosition<1){
@@ -19,6 +20,8 @@ public class Bomb extends Weapon{
     public void detonate(){
         
     }
+
+    
     
     @Override
     public Object clone(){
@@ -34,6 +37,14 @@ public class Bomb extends Weapon{
         clone.owner = (Player)this.owner.clone();
         clone.type = EntityType.BOMB;
         return clone;
+    }
+
+    public void descreasedTime(){
+        this.timeBeforeExplosition--;
+    }
+
+    public void setTimeBeforeExplosition(int timeBeforeExplosition) {
+        this.timeBeforeExplosition = timeBeforeExplosition;
     }
 
    

@@ -3,6 +3,7 @@ package fightGame.controller;
 import javax.swing.table.AbstractTableModel;
 
 import fightGame.model.GameBoard;
+import fightGame.model.GameBoardProxy;
 import gamePlayers.util.Position;
 
 public class GameBoardAdapterToTable extends AbstractTableModel {
@@ -13,7 +14,7 @@ public class GameBoardAdapterToTable extends AbstractTableModel {
     }
     @Override
     public int getColumnCount() {
-        return this.gameBoard.getColums()
+        return this.gameBoard.getCols();
     }
 
     @Override
@@ -23,7 +24,7 @@ public class GameBoardAdapterToTable extends AbstractTableModel {
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        GameBoardProxy proxy = this.gameBoard.nextPlayer().getGameBoardProxy();
+        GameBoardProxy proxy = this.gameBoard.getNextPlayer().getGameBoardProxy();
         return  proxy.getEntityAt(new Position(rowIndex,columnIndex)).toString();
     }
     
