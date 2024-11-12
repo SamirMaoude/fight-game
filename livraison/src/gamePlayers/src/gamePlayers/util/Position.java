@@ -79,4 +79,5 @@ public class Position implements Cloneable {
         return "Ligne " + this.row + " Colonne " + this.col;
     }
 
+ 
 }
