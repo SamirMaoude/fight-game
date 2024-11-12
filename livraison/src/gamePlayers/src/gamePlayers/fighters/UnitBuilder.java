@@ -15,6 +15,7 @@ public class UnitBuilder {
     private LinkedList<Bomb> bombs;
     private LinkedList<Mine> mines;
     private LinkedList<Projectile> projectiles;
+    private int shieldRetention;
 
     public UnitBuilder(){
         this.position = null;
@@ -24,6 +25,7 @@ public class UnitBuilder {
         this.mines = null;
         this.projectiles = null;
         this.owner = null;
+        this.shieldRetention = 0;
     }
 
     public UnitBuilder withOwner(Player player){
@@ -37,6 +39,11 @@ public class UnitBuilder {
 
     public UnitBuilder withName(String name){
         this.name = name;
+        return this;
+    }
+
+    public UnitBuilder withShieldRetention(int shieldRetention){
+        this.shieldRetention = shieldRetention;
         return this;
     }
 
@@ -73,6 +80,6 @@ public class UnitBuilder {
     }
 
     public Unit build(){
-        return new Unit(this.position, this.name, this.owner, this.energy, this.bombs, this.mines, this.projectiles);
+        return new Unit(this.position, this.name, this.owner, this.energy, this.bombs, this.mines, this.projectiles, this.shieldRetention);
     }
 }

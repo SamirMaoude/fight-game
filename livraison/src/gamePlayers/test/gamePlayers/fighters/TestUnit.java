@@ -27,7 +27,7 @@ public class TestUnit {
         bombs = new LinkedList<>();
         mines = new LinkedList<>();
         projectiles = new LinkedList<>();
-        unit = new Unit(initialPosition,"warrior",100,bombs,mines,projectiles);
+        unit = new Unit(initialPosition,"Warrior",100,bombs,mines,projectiles);
     }
 
     @Test
