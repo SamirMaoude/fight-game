@@ -16,10 +16,13 @@ public class Unit extends AbstractGameEntity {
     private LinkedList<Bomb> bombs;
     private LinkedList<Mine> mines;
     private LinkedList<Projectile> projectiles;
+    private int shieldRetention;
+    private int shieldTimer = 0;
+    private boolean shieldActivated = false;
 
     public Unit(Position position, String name, Player owner, int energy, LinkedList<Bomb> bombs,
             LinkedList<Mine> mines,
-            LinkedList<Projectile> projectiles) {
+            LinkedList<Projectile> projectiles, int shieldRetention) {
         super(EntityType.UNIT, position, owner);
         if (energy <= 0) {
             throw new IllegalArgumentException("Unit energy must be higher than 0 during creation");
@@ -33,6 +36,7 @@ public class Unit extends AbstractGameEntity {
         this.bombs = bombs;
         this.mines = mines;
         this.projectiles = projectiles;
+        this.shieldRetention = shieldRetention;
     }
 
     /**
@@ -44,8 +48,24 @@ public class Unit extends AbstractGameEntity {
         return this.name;
     }
 
-    public void receiveDamage(int damage){
-        this.energy -= damage;
+    public void receiveDamage(int damage) {
+        if (this.shieldActivated) {
+            if(damage>= this.shieldRetention){
+                this.energy -= damage;
+                this.energy += this.shieldRetention;
+            }
+            
+        } else {
+            this.energy -= damage;
+        }
+    }
+
+    public void setShieldActivated(boolean shieldActivated) {
+        this.shieldActivated = shieldActivated;
+    }
+
+    public boolean getShieldActivated() {
+        return this.shieldActivated;
     }
 
     public int getEnergy() {
@@ -79,6 +99,14 @@ public class Unit extends AbstractGameEntity {
 
     public LinkedList<Projectile> getProjectiles() {
         return projectiles;
+    }
+
+    public void setShieldTimer(int time) {
+        this.shieldTimer = time;
+    }
+
+    public int getShieldTimer() {
+        return this.shieldTimer;
     }
 
     public void move(Direction move) {
@@ -115,23 +143,27 @@ public class Unit extends AbstractGameEntity {
     }
 
     public Bomb useBomb() {
-        if(this.hasBombs()) return this.bombs.pop();
+        if (this.hasBombs()) {
+            return this.bombs.pop();
+        }
 
         return null;
     }
 
     public Mine useMine() {
-        if(this.hasMines()) return this.mines.pop();
+        if (this.hasMines()){
+            return this.mines.pop();
+        }
 
         return null;
     }
 
     public Projectile useProjectile() {
-        if(this.hasProjectiles()) return this.projectiles.pop();
+        if (this.hasProjectiles()){
+            return this.projectiles.pop();
+        }
         return null;
     }
-
-
 
     @Override
     public void destroy() {
@@ -141,25 +173,25 @@ public class Unit extends AbstractGameEntity {
         this.projectiles = null;
     }
 
-    public boolean isAlive(){
-        return this.energy>0;
+    public boolean isAlive() {
+        return this.energy > 0;
     }
 
     @Override
-    public Object clone(){
+    public Object clone() {
         Unit clone = null;
         try {
-            clone = (Unit)super.clone();
-        } catch(CloneNotSupportedException cnse) {
+            clone = (Unit) super.clone();
+        } catch (CloneNotSupportedException cnse) {
             cnse.printStackTrace(System.err);
         }
         clone.name = this.name;
         clone.energy = this.energy;
-        clone.bombs = (LinkedList<Bomb>)this.bombs.clone();
-        clone.mines = (LinkedList<Mine>)this.mines.clone();
-        clone.projectiles = (LinkedList<Projectile>)this.projectiles.clone();
-        clone.position = (Position)this.position;
-        clone.owner = (Player)this.owner.clone();
+        clone.bombs = (LinkedList<Bomb>) this.bombs.clone();
+        clone.mines = (LinkedList<Mine>) this.mines.clone();
+        clone.projectiles = (LinkedList<Projectile>) this.projectiles.clone();
+        clone.position = (Position) this.position;
+        clone.owner = (Player) this.owner.clone();
         clone.type = EntityType.UNIT;
         return clone;
     }

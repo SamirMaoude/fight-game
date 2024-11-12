@@ -2,9 +2,9 @@ package fightGame;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
-
+import java.awt.*;
 public class UnchangeableSettings {
-    
+
     public static String SETTINGS_FILE = "./gameSettings.xml";
     
     // Déclaration des constantes de jeu
@@ -13,7 +13,7 @@ public class UnchangeableSettings {
     public static int NB_BOMBS;
     public static int NB_PROJECTILES;
     public static int NB_MINES;
-        public static boolean BOMB_VISIBILITY;
+    public static boolean BOMB_VISIBILITY;
     public static boolean MINE_VISIBILITY;
     public static int STARTING_ENERGY;
     public static int PROJECTILE_SCOPE;
@@ -27,6 +27,11 @@ public class UnchangeableSettings {
     public static int SHIELD_ABSORPTION;
     public static int SHIELD_TIMER;
     public static int NB_PLAYERS;
+    //public static int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
+    //public static int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
+
+
+
 
     // Méthode pour charger les paramètres
     public static void loadSettings() {

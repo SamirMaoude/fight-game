@@ -2,7 +2,7 @@ package gamePlayers.util;
 
 import gamePlayers.fighters.Unit;
 
-public interface Player extends Cloneable{
+public interface Player{
     public Unit getUnit();
     public Action play();
     @Override
