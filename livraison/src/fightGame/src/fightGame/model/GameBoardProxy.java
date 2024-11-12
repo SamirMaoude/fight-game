@@ -1,13 +1,17 @@
 package fightGame.model;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import fightGame.UnchangeableSettings;
 import gamePlayers.AbstractGameEntity;
+import gamePlayers.fighters.Unit;
 import gamePlayers.util.Action;
 import gamePlayers.util.Direction;
+import gamePlayers.util.EntityType;
 import gamePlayers.util.Position;
 
 public class GameBoardProxy implements GameBoardInterface{
@@ -21,48 +25,59 @@ public class GameBoardProxy implements GameBoardInterface{
     }
 
     @Override
-    public AbstractGameEntity getEntityAt(Position position) {
-        AbstractGameEntity entity = gameBoard.getEntityAt(position);
+    public Set<AbstractGameEntity> getEntitiesAt(Position position) {
+        Set<AbstractGameEntity> positionEntities = gameBoard.getEntitiesAt(position);
 
 
-        if(entity == null) return null;
+        if(positionEntities.isEmpty()) return new HashSet<>();
 
-        switch (entity.getType()) {
-            case BOMB:
-                if(UnchangeableSettings.BOMB_VISIBILITY == false){
-                    if(player.equals(entity.getOwner())) return entity;
+        Set<AbstractGameEntity> copy = new HashSet<>(positionEntities);
 
-                    return null;
-                }
+        for (AbstractGameEntity entity : positionEntities) {
+            switch (entity.getType()) {
+                case BOMB:
+                    if(UnchangeableSettings.BOMB_VISIBILITY == false){
+                        if(!player.equals(entity.getOwner())) copy.remove(entity);
+                    }
+                    
+                    break;
+    
+                case MINE:
                 
-                break;
-
-            case MINE:
+                    if(UnchangeableSettings.MINE_VISIBILITY == false){
+                        if(!player.equals(entity.getOwner())) copy.remove(entity);
+                    }
+                    
+                    break;
             
-                if(UnchangeableSettings.MINE_VISIBILITY == false){
-                    if(player.equals(entity.getOwner())) return entity;
-
-                    return null;
-                }
-                
-                break;
-        
-            default:
-                break;
+                default:
+                    break;
+            }
+            
         }
         
-        return entity;
+        return copy;
         
     }
 
     @Override
-    public boolean moveEntity(Position oldPosition, Direction direction) {
+    public boolean moveUnit(Position oldPosition, Direction direction) {
 
-        AbstractGameEntity entity = this.getEntityAt(oldPosition);
+        Set<AbstractGameEntity> oldPositionEntites = this.getEntitiesAt(oldPosition);
 
-        if(entity == null) return false;
+        if(oldPositionEntites.isEmpty()) return false;
 
-        return gameBoard.moveEntity(oldPosition, direction);
+        Unit unit = null;
+        for(AbstractGameEntity entity: oldPositionEntites){
+            if(entity.getType()==EntityType.UNIT){
+                unit = (Unit)entity;
+                break;
+            }
+        }
+
+        if(!unit.getOwner().equals(player)) return false;
+
+        return gameBoard.moveUnit(oldPosition, direction);
     }
 
     public FightGamePlayer getNextPlayer() {
@@ -70,16 +85,12 @@ public class GameBoardProxy implements GameBoardInterface{
         throw new UnsupportedOperationException("Unimplemented method 'getNextPlayer'");
     }
 
-    @Override
-    public List<Action> getActions(FightGamePlayer player) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getActions'");
+    public List<Action> getActions() {
+        return gameBoard.getActions(player);
     }
 
-    @Override
-    public boolean performAction(FightGameAction action, FightGamePlayer player) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'performAction'");
+    public boolean performAction(FightGameAction action) {
+        return this.gameBoard.performAction(action, player);
     }
 
     public GameBoard getGameBoard() {
@@ -101,9 +112,14 @@ public class GameBoardProxy implements GameBoardInterface{
 
     public GameBoard getGameBoard(List<FightGamePlayer> players){
 
-        Map<Position, AbstractGameEntity> entities = new HashMap<>();
+        Map<Position, Set<AbstractGameEntity>> entities = new HashMap<>();
         for(Position position: gameBoard.getEntities().keySet()){
-            entities.put(position, this.getEntityAt(position));
+            Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
+            Set<AbstractGameEntity> copy = new HashSet<>();
+            for(AbstractGameEntity entity: positionEntities){
+                copy.add(entity.clone());
+            }
+            entities.put(position, copy);
         }
 
         return new GameBoard(gameBoard, players, entities);

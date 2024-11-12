@@ -1,15 +1,18 @@
 package fightGame.model;
 
+import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import fightGame.UnchangeableSettings;
 import gamePlayers.AbstractGameEntity;
 import gamePlayers.fighters.Unit;
 import gamePlayers.objects.Bomb;
 import gamePlayers.objects.Mine;
+import gamePlayers.objects.Pellet;
 import gamePlayers.util.AbtractListenableModel;
 import gamePlayers.util.Action;
 import gamePlayers.util.Direction;
@@ -24,8 +27,11 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     private int cols;
     private int nextPlayerIndex = 0;
 
-    private Map<Position, AbstractGameEntity> entities = new HashMap<>();
+    private Map<Position, Set<AbstractGameEntity>> entities = new HashMap<>();
     private List<FightGamePlayer> players = new ArrayList<>();
+    private List<Position> impactedPositionsByBomb = new ArrayList<>();
+    private List<Position> impactedPositionsByMine = new ArrayList<>();
+    private List<Position> impactedPositionsByProjectile = new ArrayList<>();
 
     public GameBoard(int rows, int cols){
         this.rows = rows;
@@ -41,22 +47,24 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         this(gameBoard.getRows(), gameBoard.getCols(), players);
     }
 
-    public GameBoard(GameBoard gameBoard, List<FightGamePlayer> players, Map<Position, AbstractGameEntity> entities){
+    public GameBoard(GameBoard gameBoard, List<FightGamePlayer> players, Map<Position, Set<AbstractGameEntity>> entities){
         this(gameBoard, players);
         this.entities = entities;
     }
     
-    public Map<Position, AbstractGameEntity> getEntities() {
+    public Map<Position, Set<AbstractGameEntity>> getEntities() {
         return entities;
     }
 
     public boolean addEntity(AbstractGameEntity entity, Position position){
 
-        if(!isValidPosition(position)){
+        if(!isValidMove(position)){
             return false;
         }
         
-        entities.put(position, entity);
+        Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
+        positionEntities.add(entity);
+        entities.put(position, positionEntities);
 
         return true;
     }
@@ -70,18 +78,29 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     }
 
     @Override
-    public AbstractGameEntity getEntityAt(Position position) {
-        return entities.get(position);
+    public Set<AbstractGameEntity> getEntitiesAt(Position position) {
+        return entities.getOrDefault(position, new HashSet<>());
     }
 
     @Override
-    public boolean moveEntity(Position oldPosition, Direction direction) {
+    public boolean moveUnit(Position oldPosition, Direction direction) {
         
-        AbstractGameEntity entity = entities.get(oldPosition);
+        Set<AbstractGameEntity> positionEntities = entities.getOrDefault(oldPosition, new HashSet<>());
 
-        if(entity == null) return false;
+        if(positionEntities.isEmpty()) return false;
 
         Position newPosition = new Position(oldPosition);
+
+        Unit unit = null;
+
+        for(AbstractGameEntity entity: positionEntities){
+            if(entity.getType()==EntityType.UNIT){
+                unit = (Unit)entity;
+                break;
+            }
+        }
+
+        if(unit==null) return false;
 
         switch (direction) {
             case LEFT:
@@ -104,15 +123,33 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 return false;
         }
 
-        if(!isValidPosition(newPosition)){
+        if(!isValidMove(newPosition)){
             return false;
         }
 
-        entities.put(oldPosition, null);
+        this.getEntitiesAt(oldPosition).remove(unit);
 
-        entities.put(newPosition, entity);
+        Set<AbstractGameEntity> newPositionEntities = this.getEntitiesAt(newPosition);
+        newPositionEntities.add(unit);
+        entities.put(newPosition, newPositionEntities);
 
-        entity.setPosition(newPosition);
+        unit.setPosition(newPosition);
+
+        for(AbstractGameEntity entity: newPositionEntities){
+
+            switch (entity.getType()) {
+                case MINE:
+                    detonateMineAt(newPosition, (Mine)entity);
+                    break;
+                case PELLET:
+                    unit.takePellet((Pellet)entity);
+                    break;
+                default:
+                    break;
+            }
+            
+
+        }
 
         return true;
 
@@ -123,38 +160,113 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         return players.get(nextPlayerIndex % players.size());
     }
 
-    @Override
+
     public List<Action> getActions(FightGamePlayer player) {
 
         List<Action> actions = new ArrayList<>();
+        actions.add(new FightGameAction(FightGameActionType.NOTHING));
 
-        // TODO Auto-generated method stub
-        // throw new UnsupportedOperationException("Unimplemented method 'getActions'");
+        Unit unit = player.getUnit();
+        Position position = unit.getPosition();
+        
+        
+        Position copyPosition = new Position(position);
+        copyPosition.moveRight();
+        if(isValidPosition(copyPosition)){
+
+            //MOVE_UNIT_TO_RIGHT,
+            if(isValidMove(copyPosition))actions.add(new FightGameAction(FightGameActionType.MOVE_UNIT_TO_RIGHT));
+
+            //USE_MINE_AT_RIGHT,
+            if(unit.hasMines())actions.add(new FightGameAction(FightGameActionType.USE_MINE_AT_RIGHT));
+            
+            //USE_BOMB_AT_RIGHT,
+            if(unit.hasBombs())actions.add(new FightGameAction(FightGameActionType.USE_BOMB_AT_RIGHT));
+
+            //USE_PROJECTILE_AT_RIGHT,
+            if(unit.hasBombs())actions.add(new FightGameAction(FightGameActionType.USE_PROJECTILE_AT_RIGHT));
+
+        }
+
+        //MOVE_UNIT_TO_LEFT,
+        copyPosition = new Position(position);
+        copyPosition.moveLeft();
+        if(isValidPosition(copyPosition)){
+            //MOVE_UNIT_TO_LEFT,
+            if(isValidMove(copyPosition))actions.add(new FightGameAction(FightGameActionType.MOVE_UNIT_TO_LEFT));
+
+            //USE_MINE_AT_LEFT,
+            if(unit.hasMines())actions.add(new FightGameAction(FightGameActionType.USE_MINE_AT_LEFT));
+            
+            //USE_BOMB_AT_LEFT,
+            if(unit.hasBombs())actions.add(new FightGameAction(FightGameActionType.USE_BOMB_AT_LEFT));
+
+            //USE_PROJECTILE_AT_LEFT,
+            if(unit.hasBombs())actions.add(new FightGameAction(FightGameActionType.USE_PROJECTILE_AT_LEFT));
+        }
+
+        //MOVE_UNIT_TO_BOTTOM,
+        copyPosition = new Position(position);
+        copyPosition.moveBottom();
+        if(isValidPosition(copyPosition)){
+            //MOVE_UNIT_TO_BOTTOM,
+            if(isValidMove(copyPosition))actions.add(new FightGameAction(FightGameActionType.MOVE_UNIT_TO_BOTTOM));
+
+            //USE_MINE_AT_BOTTOM,
+            if(unit.hasMines())actions.add(new FightGameAction(FightGameActionType.USE_MINE_AT_BOTTOM));
+            
+            //USE_BOMB_AT_BOTTOM,
+            if(unit.hasBombs())actions.add(new FightGameAction(FightGameActionType.USE_BOMB_AT_BOTTOM));
+
+            //USE_PROJECTILE_AT_BOTTOM,
+            if(unit.hasBombs())actions.add(new FightGameAction(FightGameActionType.USE_PROJECTILE_AT_BOTTOM));
+        }
+
+
+        //MOVE_UNIT_TO_TOP,
+        copyPosition = new Position(position);
+        copyPosition.moveTop();
+        if(isValidPosition(copyPosition)){
+            //MOVE_UNIT_TO_TOP,
+            if(isValidMove(copyPosition))actions.add(new FightGameAction(FightGameActionType.MOVE_UNIT_TO_TOP));
+
+            //USE_MINE_AT_TOP,
+            if(unit.hasMines())actions.add(new FightGameAction(FightGameActionType.USE_MINE_AT_TOP));
+            
+            //USE_BOMB_AT_TOP,
+            if(unit.hasBombs())actions.add(new FightGameAction(FightGameActionType.USE_BOMB_AT_TOP));
+
+            //USE_PROJECTILE_AT_TOP,
+            if(unit.hasBombs())actions.add(new FightGameAction(FightGameActionType.USE_PROJECTILE_AT_TOP));
+        }
+
+        if(unit.getEnergy()>UnchangeableSettings.SHIELD_COST)actions.add(new FightGameAction(FightGameActionType.ACTIVATE_SHIELD));
 
         return actions;
     }
 
-    @Override
+
     public boolean performAction(FightGameAction action, FightGamePlayer player) {
 
         Unit unit = player.getUnit();
         Position unitPosition = unit.getPosition();
+        impactedPositionsByProjectile = new ArrayList<>();
 
         switch (action.TYPE) {
             case MOVE_UNIT_TO_RIGHT:
-                if(!this.moveEntity(unitPosition, Direction.RIGHT)) return false;
+                if(!this.moveUnit(unitPosition, Direction.RIGHT)) return false;
                 break;
 
             case MOVE_UNIT_TO_LEFT:
-                if(!this.moveEntity(unitPosition, Direction.LEFT)) return false;
+                if(!this.moveUnit(unitPosition, Direction.LEFT)) return false;
                 break;
 
             case MOVE_UNIT_TO_BOTTOM:
-                if(!this.moveEntity(unitPosition, Direction.BOTTOM)) return false;
+                if(!this.moveUnit(unitPosition, Direction.BOTTOM)) return false;
                 break;
 
             case MOVE_UNIT_TO_TOP:
-                if(!this.moveEntity(unitPosition, Direction.TOP)) return false;
+                if(!this.moveUnit(unitPosition, Direction.TOP)) return false;
                 break;
 
             case USE_MINE_AT_LEFT:{
@@ -304,15 +416,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 while(col < Math.min(maxDistance, this.getCols())){
                     Position position = new Position(row, col);
 
-                    AbstractGameEntity entity = this.getEntityAt(position);
-
-                    if(entity.getType()==EntityType.WALL) break;
-
-                    if(entity.getType()==EntityType.UNIT){
-                        Unit x = (Unit)entity;
-
-                        x.receiveDamage(UnchangeableSettings.PROJECTILE_DAMAGE);
-                    }
+                    if(!this.projectileEffect(position)) break;
 
                     col++;
                     
@@ -329,15 +433,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 while(col > Math.max(maxDistance, -1)){
                     Position position = new Position(row, col);
 
-                    AbstractGameEntity entity = this.getEntityAt(position);
-
-                    if(entity.getType()==EntityType.WALL) break;
-
-                    if(entity.getType()==EntityType.UNIT){
-                        Unit x = (Unit)entity;
-
-                        x.receiveDamage(UnchangeableSettings.PROJECTILE_DAMAGE);
-                    }
+                    if(!this.projectileEffect(position)) break;
 
                     col--;
                     
@@ -353,16 +449,8 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 row--;
                 while(col > Math.max(maxDistance, -1)){
                     Position position = new Position(row, col);
-
-                    AbstractGameEntity entity = this.getEntityAt(position);
-
-                    if(entity.getType()==EntityType.WALL) break;
-
-                    if(entity.getType()==EntityType.UNIT){
-                        Unit x = (Unit)entity;
-
-                        x.receiveDamage(UnchangeableSettings.PROJECTILE_DAMAGE);
-                    }
+                    
+                    if(!this.projectileEffect(position)) break;
 
                     row--;
                     
@@ -379,18 +467,9 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 while(row > Math.max(maxDistance, this.getRows())){
                     Position position = new Position(row, col);
 
-                    AbstractGameEntity entity = this.getEntityAt(position);
+                    if(!this.projectileEffect(position)) break;
 
-                    if(entity.getType()==EntityType.WALL) break;
-
-                    if(entity.getType()==EntityType.UNIT){
-                        Unit x = (Unit)entity;
-
-                        x.receiveDamage(UnchangeableSettings.PROJECTILE_DAMAGE);
-                    }
-
-                    row++;
-                    
+                    row++;     
                 }
                 
             }
@@ -400,7 +479,9 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 break;
             
             case ACTIVATE_SHIELD:
-
+                unit.setShieldActivated(true);
+                unit.setShieldTimer(UnchangeableSettings.SHIELD_TIMER);
+                unit.receiveDamage(UnchangeableSettings.SHIELD_COST);
                 break;
 
             
@@ -417,18 +498,38 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     }
 
 
+    private boolean isValidMove(Position position){
+        if(!isValidPosition(position)) return false;
+
+        // Position occupée par une unité
+        if(entities.get(position) != null){
+            Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
+
+            for(AbstractGameEntity entity: positionEntities){
+                if(entity.getType() == EntityType.UNIT) return false;
+            }
+            
+        }
+
+        return true;
+    }
+
     private boolean isValidPosition(Position position){
         int r = position.getRow();
         int c = position.getCol();
 
         if(!((0 <= r &&  r < rows)  && (0 < c && c < cols))) return false;
 
-        // Position occupée;
+        // Position occupée par un mur;
         if(entities.get(position) != null){
-            AbstractGameEntity entity = entities.get(position);
+            Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
 
-            if(entity.getType() == EntityType.UNIT) return false;
+            for(AbstractGameEntity entity: positionEntities){
+                if(entity.getType() == EntityType.WALL) return false;
+            }
+            
         }
+
 
         return true;
     }
@@ -452,7 +553,167 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     }
 
     public void updateEntities(){
+
+        for(Position position: this.entities.keySet()){
+
+            Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
+
+            for(AbstractGameEntity entity: new HashSet<>(positionEntities)){
+
+                switch (entity.getType()) {
+                    case BOMB:{
+                        Bomb bomb = (Bomb)entity;
+                        if(bomb.getTimeBeforeExplosition()==0){
+                            detonateBombAt(position, bomb);
+                        }
+                        else{
+                            bomb.descreasedTime();
+                        }
+                        
+                        break;
+                    }
+                    case UNIT:{
+                        Unit unit = (Unit)entity;
+                        if(unit.getShieldActivated()){
+                            int shieldTimer = unit.getShieldTimer();
+                            if(shieldTimer>0){
+                                unit.setShieldTimer(shieldTimer-1);
+                            }
+                            else{
+                                unit.setShieldActivated(false);
+                            }
+                        }
+                        break;
+                    }
+                        
+
+                    default:
+                        break;
+                }
+                
+            }
+            
+        }
         
+    }
+
+    public void detonateBombAt(Position position, Bomb currentBomb){
+
+        Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
+        positionEntities.remove(currentBomb);
+
+        int[][] DELTAS_DIRECTIONS = {
+            {0, 1},
+            {0, -1},
+            {1, 0},
+            {-1, 0},
+            {-1, -1},
+            {-1, 1},
+            {1, -1},
+            {1, 1},
+            {0, 0}
+        };
+        
+        int row = position.getRow();
+        int col = position.getCol();
+        for(int i = 0; i < 9; i++){
+
+            int x = row + DELTAS_DIRECTIONS[i][0];
+            int y = col + DELTAS_DIRECTIONS[i][1];
+
+            if((x>=0 && x < this.getRows())  &&  (y>=0 && y < this.getCols())){
+                Position impactedPosition = new Position(x, y);
+
+                Set<AbstractGameEntity> impactedPositionEntities = this.getEntitiesAt(impactedPosition);
+
+                Set<AbstractGameEntity> copy = new HashSet<>(impactedPositionEntities);
+
+                for(AbstractGameEntity entity: copy){
+    
+                    switch (entity.getType()) {
+                        case BOMB:
+                            Bomb bomb = (Bomb)entity;
+                            detonateBombAt(impactedPosition, bomb);
+                            break;
+                        case MINE:
+                            detonateMineAt(impactedPosition, (Mine)entity);
+                            break;
+                        case UNIT:
+                            Unit unit = (Unit)entity;
+                            unit.receiveDamage(UnchangeableSettings.BOMB_DAMAGE);
+                            if(!unit.isAlive()) impactedPositionEntities.remove(entity);
+                            break;
+
+                        default:
+                            break;
+                    }
+    
+                }
+
+                impactedPositionsByBomb.add(impactedPosition);
+
+            }
+        }
+
+        
+
+        
+    }
+
+    public void detonateMineAt(Position position, Mine currentMine){
+
+        Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
+        positionEntities.remove(currentMine);
+
+        Set<AbstractGameEntity> copy = new HashSet<>(positionEntities);
+
+        for(AbstractGameEntity entity: copy){
+
+            switch (entity.getType()) {
+                case BOMB:
+                    detonateBombAt(position, (Bomb)entity);
+                    break;
+                case MINE:
+                    Mine mine = (Mine)entity;
+                    detonateMineAt(position, mine);
+                    break;
+                case UNIT:
+                    Unit unit = (Unit)entity;
+                    unit.receiveDamage(UnchangeableSettings.BOMB_DAMAGE);
+                    break;
+
+                default:
+                    break;
+            }
+
+        }
+
+        impactedPositionsByMine.add(position);
+
+        
+    }
+
+    public boolean projectileEffect(Position position){
+
+        impactedPositionsByProjectile.add(position);
+
+        Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
+
+        for(AbstractGameEntity entity: positionEntities){
+            if(entity.getType()==EntityType.WALL){
+                return false;
+            }
+
+            if(entity.getType()==EntityType.UNIT){
+                Unit x = (Unit)entity;
+
+                x.receiveDamage(UnchangeableSettings.PROJECTILE_DAMAGE);
+                if(!x.isAlive()) positionEntities.remove(entity);
+            }
+        }
+
+        return true;
+
     }
     
 }
