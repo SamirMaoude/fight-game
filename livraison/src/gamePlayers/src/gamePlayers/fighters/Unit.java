@@ -58,6 +58,7 @@ public class Unit extends AbstractGameEntity {
         } else {
             this.energy -= damage;
         }
+
     }
 
     public void setShieldActivated(boolean shieldActivated) {

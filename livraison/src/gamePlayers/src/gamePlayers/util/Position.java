@@ -1,5 +1,7 @@
 package gamePlayers.util;
 
+import java.util.Objects;
+
 public class Position implements Cloneable {
     private int row;
     private int col;
@@ -33,9 +35,7 @@ public class Position implements Cloneable {
     }
 
     public void moveLeft() {
-        if (this.col - 1 < 0) {
-            throw new IllegalArgumentException("Position coordonate can not be negative");
-        }
+
         this.col -= 1;
     }
 
@@ -44,9 +44,6 @@ public class Position implements Cloneable {
     }
 
     public void moveTop() {
-        if (this.row - 1 < 0) {
-            throw new IllegalArgumentException("Position coordonate can not be negative");
-        }
 
         this.row -= 1;
     }
@@ -59,6 +56,11 @@ public class Position implements Cloneable {
     public boolean equals(Object obj) {
         Position p = (Position) obj;
         return this.row == p.getRow() && this.col == p.getCol();
+    }
+
+    @Override
+    public int hashCode(){
+        return Objects.hash(this.row, this.col);
     }
 
     @Override

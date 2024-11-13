@@ -8,5 +8,11 @@ public class FightGameAction implements Action {
     public FightGameAction(FightGameActionType type){
         this.TYPE = type;
     }
+    @Override
+    public String toString() {
+        return "Action [TYPE=" + TYPE + "]";
+    }
+
+    
 
 }

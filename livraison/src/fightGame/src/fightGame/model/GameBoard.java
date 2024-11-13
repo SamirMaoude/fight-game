@@ -43,6 +43,10 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         this.players = players;
     }
 
+    public void setPlayers(List<FightGamePlayer> players) {
+        this.players = players;
+    }
+
     public GameBoard(GameBoard gameBoard, List<FightGamePlayer> players){
         this(gameBoard.getRows(), gameBoard.getCols(), players);
     }
@@ -85,9 +89,9 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     @Override
     public boolean moveUnit(Position oldPosition, Direction direction) {
         
-        Set<AbstractGameEntity> positionEntities = entities.getOrDefault(oldPosition, new HashSet<>());
+        Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(oldPosition);
 
-        if(positionEntities.isEmpty()) return false;
+        if(positionEntities.isEmpty())return false;
 
         Position newPosition = new Position(oldPosition);
 
@@ -135,7 +139,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
         unit.setPosition(newPosition);
 
-        for(AbstractGameEntity entity: newPositionEntities){
+        for(AbstractGameEntity entity: new HashSet<>(newPositionEntities)){
 
             switch (entity.getType()) {
                 case MINE:
@@ -254,7 +258,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
         switch (action.TYPE) {
             case MOVE_UNIT_TO_RIGHT:
-                if(!this.moveUnit(unitPosition, Direction.RIGHT)) return false;
+                if(!this.moveUnit(unitPosition, Direction.RIGHT))return false;
                 break;
 
             case MOVE_UNIT_TO_LEFT:
@@ -447,7 +451,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 int maxDistance = row - UnchangeableSettings.PROJECTILE_SCOPE;
 
                 row--;
-                while(col > Math.max(maxDistance, -1)){
+                while(row > Math.max(maxDistance, -1)){
                     Position position = new Position(row, col);
                     
                     if(!this.projectileEffect(position)) break;
@@ -464,7 +468,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 int maxDistance = row + UnchangeableSettings.PROJECTILE_SCOPE;
 
                 row++;
-                while(row > Math.max(maxDistance, this.getRows())){
+                while(row < Math.min(maxDistance, this.getRows())){
                     Position position = new Position(row, col);
 
                     if(!this.projectileEffect(position)) break;
@@ -479,9 +483,9 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 break;
             
             case ACTIVATE_SHIELD:
+                unit.receiveDamage(UnchangeableSettings.SHIELD_COST);
                 unit.setShieldActivated(true);
                 unit.setShieldTimer(UnchangeableSettings.SHIELD_TIMER);
-                unit.receiveDamage(UnchangeableSettings.SHIELD_COST);
                 break;
 
             
@@ -492,7 +496,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         }
 
         this.updateEntities();
-        getNextPlayer();
+        getNextPlayerIndex();
 
         return true;
     }
@@ -502,7 +506,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         if(!isValidPosition(position)) return false;
 
         // Position occupée par une unité
-        if(entities.get(position) != null){
+        if(!this.getEntitiesAt(position).isEmpty()){
             Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
 
             for(AbstractGameEntity entity: positionEntities){
@@ -518,10 +522,10 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         int r = position.getRow();
         int c = position.getCol();
 
-        if(!((0 <= r &&  r < rows)  && (0 < c && c < cols))) return false;
+        if(!((0 <= r &&  r < rows)  && (0 <= c && c < cols))) return false;
 
         // Position occupée par un mur;
-        if(entities.get(position) != null){
+        if(!this.getEntitiesAt(position).isEmpty()){
             Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
 
             for(AbstractGameEntity entity: positionEntities){
@@ -529,7 +533,6 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             }
             
         }
-
 
         return true;
     }
@@ -544,7 +547,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     @Override
     public int getNextPlayerIndex() {
-
+        nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
         while(!players.get(nextPlayerIndex).getUnit().isAlive()){
             nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
         }
@@ -714,6 +717,34 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
         return true;
 
+    }
+
+    public void run(){
+        int i=0;
+        while(playersRemaining()>1){
+            FightGamePlayer player = this.getNextPlayer();
+
+            Action action = player.play();
+            System.out.println(player+" played "+action);
+            performAction((FightGameAction) action, player);
+            i++;
+            
+        }
+    }
+
+    public int playersRemaining(){
+        
+        int nb = 0;
+        for(FightGamePlayer player: players){
+            if(player.getUnit().isAlive()){
+                nb++;
+                System.out.println(player+" has "+player.getUnit().getEnergy()+" energy");
+            }
+            else{
+                System.out.println(player+" is dead");
+            }
+        }
+        return nb;
     }
     
 }

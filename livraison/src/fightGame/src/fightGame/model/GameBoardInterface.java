@@ -13,3 +13,4 @@ public interface GameBoardInterface {
     boolean moveUnit(Position oldPosition, Direction direction);
     int getNextPlayerIndex();
 }
+    
