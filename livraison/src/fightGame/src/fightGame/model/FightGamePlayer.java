@@ -20,4 +20,9 @@ public abstract class FightGamePlayer implements Player {
         this.gameBoardProxy = gameBoardProxy;
     }
 
+    @Override
+    public Player clone() throws CloneNotSupportedException{
+        return (Player) super.clone();
+    }
+
 }

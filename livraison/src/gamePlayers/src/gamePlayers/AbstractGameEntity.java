@@ -39,5 +39,10 @@ public abstract class AbstractGameEntity extends AbtractListenableModel implemen
         return this.owner;
     }
 
+    @Override
+    public AbstractGameEntity clone() throws CloneNotSupportedException {
+        return (AbstractGameEntity) super.clone();
+    }
+
     
 }

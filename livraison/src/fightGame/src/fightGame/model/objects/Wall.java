@@ -1,27 +1,25 @@
 package fightGame.model.objects;
 
-import gamePlayers.GameEntity;
+import gamePlayers.AbstractGameEntity;
 import gamePlayers.util.EntityType;
 import gamePlayers.util.Position;
 
-public class Wall implements GameEntity {
+public class Wall extends AbstractGameEntity {
 
-    @Override
-    public Position getPosition() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getPosition'");
+    public Wall(Position position){
+        super(EntityType.WALL, position, null);
     }
 
-    @Override
-    public EntityType getType() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getType'");
-    }
-
+    /**
+     * TODO: Définir destroy
+     */
     @Override
     public void destroy() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'destroy'");
     }
+
+
+    
     
 }

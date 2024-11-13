@@ -117,7 +117,13 @@ public class GameBoardProxy implements GameBoardInterface{
             Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
             Set<AbstractGameEntity> copy = new HashSet<>();
             for(AbstractGameEntity entity: positionEntities){
-                copy.add(entity.clone());
+                try {
+                    copy.add(entity.clone());
+                } catch (Exception e) {
+
+                }
+                
+                
             }
             entities.put(position, copy);
         }
