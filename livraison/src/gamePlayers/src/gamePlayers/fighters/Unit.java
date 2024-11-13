@@ -178,7 +178,7 @@ public class Unit extends AbstractGameEntity {
     }
 
     @Override
-    public Unit clone() {
+    public Unit clone() throws CloneNotSupportedException {
         Unit clone = null;
         try {
             clone = (Unit) super.clone();
