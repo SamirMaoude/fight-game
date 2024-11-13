@@ -32,7 +32,7 @@ public class GameBoardTable extends JTable {
             TableColumn column = this.getColumnModel().getColumn(i);
             column.setPreferredWidth(WIDTH/this.getColumnCount());
         }
-        this.setDefaultRenderer(Object.class,new BombCellRenderer());  
+        this.setDefaultRenderer(Object.class,new CellRenderer());  
     }
 
     public GameBoard getGameBoard(){
