@@ -40,9 +40,18 @@ public abstract class AbstractGameEntity extends AbtractListenableModel implemen
     }
 
     @Override
+<<<<<<< HEAD
     public AbstractGameEntity clone() throws CloneNotSupportedException {
         return (AbstractGameEntity) super.clone();
     }
 
+=======
+    public void destroy(){
+        
+    }
+
+
+
+>>>>>>> 59fa2d6 (Debut demo affichage graphique)
     
 }

@@ -178,7 +178,11 @@ public class Unit extends AbstractGameEntity {
     }
 
     @Override
+<<<<<<< HEAD
     public Unit clone() throws CloneNotSupportedException {
+=======
+    public Unit clone()throws CloneNotSupportedException{
+>>>>>>> 59fa2d6 (Debut demo affichage graphique)
         Unit clone = null;
         try {
             clone = (Unit) super.clone();
