@@ -47,7 +47,12 @@ public abstract class AbstractGameEntity extends AbtractListenableModel implemen
 
 =======
     public void destroy(){
-        
+
+    }
+
+    @Override
+    public String toString() {
+        return this.type.toString();
     }
 
 

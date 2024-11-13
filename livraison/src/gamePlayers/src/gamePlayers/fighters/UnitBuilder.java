@@ -52,28 +52,28 @@ public class UnitBuilder {
         return this;
     }
 
-    public UnitBuilder withBombs(){
+    public UnitBuilder withBombs(int nbBombs, int damage,int timeBeforeExplosition){
         LinkedList<Bomb> bombs = new LinkedList<>();
-        for(int i=0; i<10; i++){
-            bombs.add(new Bomb(null, 50,this.owner, 3));
+        for(int i=0; i<nbBombs; i++){
+            bombs.add(new Bomb(null, damage,this.owner, timeBeforeExplosition));
         }
         this.bombs = bombs;
         return this;
     }
 
-    public UnitBuilder withMines(){
+    public UnitBuilder withMines(int nbMines, int damage){
         LinkedList<Mine> mines = new LinkedList<>();
-        for(int i=0; i<10; i++){
-            mines.add(new Mine(null, 50,this.owner));
+        for(int i=0; i<nbMines; i++){
+            mines.add(new Mine(null, damage,this.owner));
         }
         this.mines = mines;
         return this;
     }
 
-    public UnitBuilder withProjectiles(){
+    public UnitBuilder withProjectiles(int scope, int damage ){
         LinkedList<Projectile> projectiles = new LinkedList<>();
         for(int i=0; i<10; i++){
-            projectiles.add(new Projectile(null, 10, 20,this.owner));
+            projectiles.add(new Projectile(null, scope, damage,this.owner));
         }
         this.projectiles = projectiles;
         return this;

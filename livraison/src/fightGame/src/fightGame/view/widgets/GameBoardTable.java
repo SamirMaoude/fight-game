@@ -21,11 +21,6 @@ public class GameBoardTable extends JTable {
     public static int WIDTH = (InterfaceSetting.WIDTH*2) / 3;
     public static int HEIGHT = InterfaceSetting.HEIGHT-300;
 
-    public GameBoardTable( Object[][] data, String[] columnNames){
-        super(data, columnNames);
-        build();
-    }
-
     public GameBoardTable(TableModel model){
         super(model);
         build();

@@ -19,21 +19,11 @@ public class GameView extends JFrame{
     private GameButton saveButton;
     private GameBoardTable gameBoardTable;
 
-    public GameView(String name){
+    public GameView(String name, GameBoardTable gameBoardTable){
         super(name);
-        String[] columnNames = { "ID", "Name", "Status" ,"Lol"};
-        Object[][] data = {
-                { "loplp", "Alice", "Active","loplp" },
-                { "loplp", "Bob", "Inactive" ,"loplp"},
-                { "loplp", "Charlie", "Active","loplp" },
-                { "loplp", "Alice", "Active","loplp" },
-                { "loplp", "Alice", "Active","loplp" },
-        };
-
-
+        this.gameBoardTable = gameBoardTable;
         this.nextButton = new GameButton("Next", 300, 200);
         this.saveButton = new GameButton("Save", 300, 200);
-        this.gameBoardTable = new GameBoardTable(data, columnNames);
         this.setSize(InterfaceSetting.WIDTH, InterfaceSetting.HEIGHT);
         this.setResizable(false);
         buildContainer();
