@@ -23,7 +23,7 @@ public class Projectile extends Weapon{
     }
 
     @Override
-    public Projectile clone(){
+    public Projectile clone()  throws CloneNotSupportedException{
         Projectile clone = null;
         try {
             clone = (Projectile)super.clone();

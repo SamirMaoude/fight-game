@@ -13,7 +13,7 @@ public class Mine extends Weapon{
     }
 
     @Override
-    public Mine clone(){
+    public Mine clone()  throws CloneNotSupportedException{
         Mine clone = null;
         try {
             clone = (Mine)super.clone();

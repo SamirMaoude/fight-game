@@ -23,7 +23,7 @@ public class Pellet extends AbstractGameEntity{
     }
 
     @Override
-    public Pellet clone(){
+    public Pellet clone()  throws CloneNotSupportedException{
         Pellet clone = null;
         try {
             clone = (Pellet)super.clone();

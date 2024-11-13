@@ -24,7 +24,7 @@ public class Bomb extends Weapon{
     
     
     @Override
-    public Bomb clone(){
+    public Bomb clone() throws CloneNotSupportedException{
         Bomb clone = null;
         try {
             clone = (Bomb)super.clone();

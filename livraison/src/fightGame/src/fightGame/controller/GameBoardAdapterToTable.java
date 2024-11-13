@@ -25,7 +25,7 @@ public class GameBoardAdapterToTable extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         GameBoardProxy proxy = this.gameBoard.getNextPlayer().getGameBoardProxy();
-        return  proxy.getEntityAt(new Position(rowIndex,columnIndex)).toString();
+        return  proxy.getEntitiesAt(new Position(rowIndex,columnIndex)).toString();
     }
     
 }
