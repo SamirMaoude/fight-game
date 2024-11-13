@@ -13,7 +13,7 @@ public class Mine extends Weapon{
     }
 
     @Override
-    public Object clone(){
+    public Mine clone(){
         Mine clone = null;
         try {
             clone = (Mine)super.clone();

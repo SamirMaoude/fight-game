@@ -24,7 +24,7 @@ public class Bomb extends Weapon{
     
     
     @Override
-    public Object clone(){
+    public Bomb clone(){
         Bomb clone = null;
         try {
             clone = (Bomb)super.clone();
@@ -36,7 +36,7 @@ public class Bomb extends Weapon{
         clone.damage = this.damage;
         clone.owner = (Player)this.owner.clone();
         clone.type = EntityType.BOMB;
-        return clone;
+        return (Bomb)clone;
     }
 
     public void descreasedTime(){

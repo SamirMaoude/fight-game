@@ -62,7 +62,7 @@ public class Position implements Cloneable {
     }
 
     @Override
-    public Object clone() {
+    public Position clone() {
         Position clone = null;
         try {
             clone = (Position) super.clone();

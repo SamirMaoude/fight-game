@@ -2,7 +2,7 @@ package gamePlayers;
 
 import gamePlayers.util.*;
 
-public abstract class AbstractGameEntity extends AbtractListenableModel implements GameEntity {
+public abstract class AbstractGameEntity extends AbtractListenableModel implements GameEntity, Cloneable {
 
     protected EntityType type;
     protected Position position;

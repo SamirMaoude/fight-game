@@ -7,5 +7,4 @@ public interface Player{
     public Action play();
     @Override
     public boolean equals(Object obj);
-    public Player clone();
 }
