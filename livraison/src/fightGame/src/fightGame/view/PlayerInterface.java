@@ -4,15 +4,15 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class PlayerInterface{
+public class PlayerInterface extends JFrame{
     public PlayerInterface(){
         setTitle("Interface Joueurs");
-        setZize(800,400);
+        this.setZize(800,400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
     
-        Jpanel toPanel = new JPanel()(new BorderLayout());
+        Jpanel toPanel = new JPanel(new BorderLayout());
         JButton closeButton = new JButton("close");
         closeButton.setPreferredSize(new Dimension(100,40));
         toPanel.add(closeButton,BorderLayout.EAST);

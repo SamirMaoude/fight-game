@@ -3,6 +3,7 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
@@ -10,6 +11,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import fightGame.UnchangeableSettings;
+import fightGame.model.FightGamePlayer;
+import fightGame.view.DashBordView;
 import fightGame.view.InterfaceSetting;
 import fightGame.view.PlayerView;
 
@@ -18,10 +22,12 @@ public class GameView extends JFrame{
     private GameButton nextButton;
     private GameButton saveButton;
     private GameBoardTable gameBoardTable;
+    private DashBordView dashBordView;
 
-    public GameView(String name, GameBoardTable gameBoardTable){
+    public GameView(String name, GameBoardTable gameBoardTable, DashBordView dashBordView){
         super(name);
         this.gameBoardTable = gameBoardTable;
+        this.dashBordView = dashBordView;
         this.nextButton = new GameButton("Next", 300, 200);
         this.saveButton = new GameButton("Save", 300, 200);
         this.setSize(InterfaceSetting.WIDTH, InterfaceSetting.HEIGHT);
@@ -41,19 +47,9 @@ public class GameView extends JFrame{
         southPanel.add(this.saveButton);
 
 
-        JPanel playerInfoPanel = new JPanel();
-        playerInfoPanel.setLayout(new BoxLayout(playerInfoPanel, BoxLayout.Y_AXIS));
-
-
-        JLabel infoLabel = new JLabel("Infos about players");
-        infoLabel.setFont(InterfaceSetting.TEXT_FONT);
-        playerInfoPanel.add(infoLabel);
-        for(int i=0; i<10; i++){
-            PlayerView player = new PlayerView("Player "+i, 100, i*4+50);
-            playerInfoPanel.add(player);
-        }
-        
-        JScrollPane scrollPane = new JScrollPane(playerInfoPanel);
+       
+      
+        JScrollPane scrollPane = new JScrollPane(this.dashBordView);
 
         container.add(this.gameBoardTable, BorderLayout.WEST);
         container.add(scrollPane, BorderLayout.EAST);

@@ -17,11 +17,9 @@ import gamePlayers.util.AbtractListenableModel;
 import gamePlayers.util.Action;
 import gamePlayers.util.Direction;
 import gamePlayers.util.EntityType;
-import gamePlayers.util.ListenableModel;
-import gamePlayers.util.ModelListener;
 import gamePlayers.util.Position;
 
-public class GameBoard extends AbtractListenableModel implements GameBoardInterface, ModelListener {
+public class GameBoard extends AbtractListenableModel implements GameBoardInterface {
 
     private int rows;
     private int cols;
@@ -69,17 +67,11 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
         positionEntities.add(entity);
         entities.put(position, positionEntities);
+        this.notifyModelListeners();
 
         return true;
     }
 
-    @Override
-    public void update(ListenableModel source) {
-
-        notifyModelListeners();
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
-    }
 
     @Override
     public Set<AbstractGameEntity> getEntitiesAt(Position position) {
@@ -154,10 +146,9 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             
 
         }
+        this.notifyModelListeners();
 
         return true;
-
-
     }
 
     public FightGamePlayer getNextPlayer() {
@@ -173,11 +164,9 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         Unit unit = player.getUnit();
         Position position = unit.getPosition();
         
-        
         Position copyPosition = new Position(position);
         copyPosition.moveRight();
         if(isValidPosition(copyPosition)){
-
             //MOVE_UNIT_TO_RIGHT,
             if(isValidMove(copyPosition))actions.add(new FightGameAction(FightGameActionType.MOVE_UNIT_TO_RIGHT));
 
@@ -588,8 +577,6 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                         }
                         break;
                     }
-                        
-
                     default:
                         break;
                 }
@@ -597,6 +584,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             }
             
         }
+        this.notifyModelListeners();
         
     }
 
@@ -654,6 +642,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 }
 
                 impactedPositionsByBomb.add(impactedPosition);
+                this.notifyModelListeners();
 
             }
         }
@@ -692,7 +681,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         }
 
         impactedPositionsByMine.add(position);
-
+        
         
     }
 
@@ -746,5 +735,11 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         }
         return nb;
     }
+
+    public List<FightGamePlayer> getPlayers() {
+        return players;
+    }
+
+    
     
 }

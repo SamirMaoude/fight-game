@@ -8,13 +8,9 @@ import javax.swing.JTable;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableModel;
 
-import fightGame.UnchangeableSettings;
 import fightGame.model.GameBoard;
 import fightGame.view.InterfaceSetting;
-import fightGame.view.utils.BombCellRenderer;
 import fightGame.view.utils.CellRenderer;
-import fightGame.view.utils.IconCellRenderer;
-import gamePlayers.objects.Bomb;
 
 public class GameBoardTable extends JTable {
     private GameBoard gameBoard;

@@ -5,7 +5,7 @@ import javax.xml.parsers.SAXParserFactory;
 import java.awt.*;
 public class UnchangeableSettings {
 
-    public static String SETTINGS_FILE = "./gameSettings.xml";
+    public static String SETTINGS_FILE = "livraison/src/fightGame/gameSettings.xml";
     
     // Déclaration des constantes de jeu
     public static int NB_ROWS;
