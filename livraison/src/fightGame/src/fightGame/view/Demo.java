@@ -6,51 +6,56 @@ import java.lang.Thread;
 
 import fightGame.UnchangeableSettings;
 import fightGame.controller.GameBoardAdapterToTable;
+import fightGame.model.FightGameAction;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
 import fightGame.model.aiAlgorithms.FightGameRandomPlayer;
 import fightGame.model.objects.Wall;
+import fightGame.view.widgets.DashBordView;
 import fightGame.view.widgets.GameBoardTable;
 import fightGame.view.widgets.GameView;
-import gamePlayers.fighters.Unit;
-import gamePlayers.fighters.UnitBuilder;
-import gamePlayers.objects.Bomb;
-import gamePlayers.objects.Mine;
-import gamePlayers.util.Direction;
-import gamePlayers.util.Player;
 import gamePlayers.util.Position;
 
 public class Demo {
     public static void main(String[] args) {
         UnchangeableSettings.loadSettings();
-        List<Player> players = new ArrayList<>();
-        GameBoard gameBoard = new GameBoard(4, 4);
-
+        List<FightGamePlayer> players = new ArrayList<>();
+        GameBoard gameBoard = new GameBoard(5, 5);
 
         //players.add(new FightGamePlayer(null, null, 0, null))
         FightGameRandomPlayer randomPlayer1 = new FightGameRandomPlayer(gameBoard,"Zade",1,new Position(0,0));
-        FightGameRandomPlayer randomPlayer2 = new FightGameRandomPlayer(gameBoard,"Patrice",2,new Position(3,3));
+        FightGameRandomPlayer randomPlayer2 = new FightGameRandomPlayer(gameBoard,"Patrice",2,new Position(0,1));
+        FightGameRandomPlayer randomPlayer3 = new FightGameRandomPlayer(gameBoard,"Rico",2,new Position(1,1));
+        FightGameRandomPlayer randomPlayer4 = new FightGameRandomPlayer(gameBoard,"Manu",2,new Position(2,2));
+        FightGameRandomPlayer randomPlayer5 = new FightGameRandomPlayer(gameBoard,"Padre",2,new Position(1,2));
+        FightGameRandomPlayer randomPlayer6 = new FightGameRandomPlayer(gameBoard,"Mum",2,new Position(4,3));
+        FightGameRandomPlayer randomPlayer7 = new FightGameRandomPlayer(gameBoard,"Mich",2,new Position(2,0));
+        FightGameRandomPlayer randomPlayer8 = new FightGameRandomPlayer(gameBoard,"Sonia",2,new Position(3,3));
+
         players.add(randomPlayer1);
         players.add(randomPlayer2);
+        players.add(randomPlayer3);
+        players.add(randomPlayer4);
+        players.add(randomPlayer5);
+        players.add(randomPlayer6);
+        players.add(randomPlayer7);
+        players.add(randomPlayer8);
 
-        //gameBoard.setPlayers();
-        Bomb bomb = new Bomb(new Position(1,1), 10, null, 4);
-        gameBoard.addEntity(bomb, bomb.getPosition());
-        Mine mine = new Mine(new Position(1,2), 14, null);
-        gameBoard.addEntity(mine, mine.getPosition());
-        Wall wall = new Wall(new Position(3,1));
-        gameBoard.addEntity(wall, wall.getPosition());
-        Unit unit3 = new Unit(new Position(1,3), "Patrice", null, 10, null, null, null, 5);
-        gameBoard.addEntity(unit3, unit3.getPosition());
-
-        //
+        gameBoard.setPlayers(players);
 
         GameBoardAdapterToTable adapterToTable = new GameBoardAdapterToTable(gameBoard);
         GameBoardTable gameBoardTable = new GameBoardTable(adapterToTable);
         DashBordView dashBordView = new DashBordView(gameBoard);
         GameView view = new GameView("Interface du jeu", gameBoardTable,dashBordView);
+        try {
+            gameBoard.run();
 
-        //Thread.sleep(5000);
-        gameBoard.moveUnit(new Position(0,0), Direction.LEFT);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        
+            
+        
+        
     }
 }
