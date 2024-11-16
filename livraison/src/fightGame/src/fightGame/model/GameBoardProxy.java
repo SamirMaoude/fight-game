@@ -81,8 +81,7 @@ public class GameBoardProxy implements GameBoardInterface{
     }
 
     public FightGamePlayer getNextPlayer() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getNextPlayer'");
+        return gameBoard.getNextPlayer();
     }
 
     public List<Action> getActions() {
