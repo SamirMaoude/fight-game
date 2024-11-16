@@ -7,13 +7,15 @@ import fightGame.model.GameBoard;
 import gamePlayers.*;
 import gamePlayers.fighters.Unit;
 import gamePlayers.util.*;
-public class GameBoardAdapterToTable extends AbstractTableModel implements ModelListener{
+
+public class GameBoardAdapterToTable extends AbstractTableModel implements ModelListener {
     private GameBoard gameBoard;
 
-    public GameBoardAdapterToTable(GameBoard gameBoard){
+    public GameBoardAdapterToTable(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
         this.gameBoard.addModelListerner(this);
     }
+
     @Override
     public int getColumnCount() {
         return this.gameBoard.getCols();
@@ -26,8 +28,11 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Set<AbstractGameEntity> entities = gameBoard.getEntitiesAt(new Position(rowIndex,columnIndex));
-        String chaine = "";
+        Set<AbstractGameEntity> entities = gameBoard.getEntitiesAt(new Position(rowIndex, columnIndex));
+        List<Position> bombsPositions = gameBoard.getImpactedPositionsByBomb();
+        if(bombsPositions.contains(new Position(rowIndex,columnIndex))){
+            return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/explosion.jpg");
+        }
         if (entities.size() == 1) {
             Iterator<AbstractGameEntity> iterator = entities.iterator();
             AbstractGameEntity entity = iterator.next();
@@ -47,23 +52,35 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
                 default:
                     break;
             }
-        }else{
-            for (AbstractGameEntity abstractGameEntity : entities) {
-                if(abstractGameEntity.getType().equals(EntityType.UNIT)){
-                    chaine += ((Unit)abstractGameEntity).getName()+"_";
-
-                }else{
-                    chaine += abstractGameEntity.getType().toString()+"_";
-
+        } else if (entities.size()>1){
+            List<ImageIcon> imageIcons = new ArrayList<>();
+            for (AbstractGameEntity entity : entities) {
+                switch (entity.getType()) {
+                    case BOMB:
+                        imageIcons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/bomb.png"));
+                    case WALL:
+                        imageIcons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/wall.png"));
+                    case MINE:
+                        imageIcons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/mines.jpg"));
+                    case UNIT:
+                        imageIcons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.jpg"));
+                    case PELLET:
+                        imageIcons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/pellet.png"));
+                    case PROJECTILE:
+                        imageIcons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/projectile.png"));
+                    default:
+                        break;
                 }
             }
+            return imageIcons;
+
         }
-        return chaine;
-       
+        return "";
     }
+
     @Override
     public void update(ListenableModel source) {
         super.fireTableDataChanged();
     }
-    
+
 }

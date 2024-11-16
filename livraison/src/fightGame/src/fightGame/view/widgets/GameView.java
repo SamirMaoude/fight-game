@@ -1,21 +1,13 @@
 package fightGame.view.widgets;
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.util.List;
 
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import fightGame.UnchangeableSettings;
-import fightGame.model.FightGamePlayer;
-import fightGame.view.DashBordView;
 import fightGame.view.InterfaceSetting;
-import fightGame.view.PlayerView;
 
 
 public class GameView extends JFrame{
@@ -28,10 +20,6 @@ public class GameView extends JFrame{
         super(name);
         this.gameBoardTable = gameBoardTable;
         this.dashBordView = dashBordView;
-        this.nextButton = new GameButton("Next", 300, 200);
-        this.saveButton = new GameButton("Save", 300, 200);
-        this.setSize(InterfaceSetting.WIDTH, InterfaceSetting.HEIGHT);
-        this.setResizable(false);
         buildContainer();
         this.setVisible(true);
     }
@@ -40,6 +28,11 @@ public class GameView extends JFrame{
         Container container = this.getContentPane();
         container.setLayout(new BorderLayout());
 
+        this.nextButton = new GameButton("Next", 150, 60);
+        this.saveButton = new GameButton("Save", 150, 60);
+        this.setSize(InterfaceSetting.WIDTH, InterfaceSetting.HEIGHT);
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
         JPanel southPanel = new JPanel();
         southPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 20));
         southPanel.setSize(InterfaceSetting.WIDTH, 300);
@@ -47,7 +40,7 @@ public class GameView extends JFrame{
         southPanel.add(this.saveButton);
 
 
-       
+       this.dashBordView.setSize(500,500);
       
         JScrollPane scrollPane = new JScrollPane(this.dashBordView);
 
