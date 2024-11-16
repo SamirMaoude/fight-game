@@ -131,6 +131,22 @@ public class GameBoardProxy implements GameBoardInterface{
         return new GameBoard(gameBoard, players, entities);
     }
 
+    public List<Position> getImpactedPositionsByBomb() {
+        return gameBoard.getImpactedPositionsByBomb();
+    }
+
+    public List<Position> getImpactedPositionsByMine() {
+        return gameBoard.getImpactedPositionsByMine();
+    }
+
+    public List<Position> getLastMove() {
+        return gameBoard.getLastMove();
+    }
+
+    public List<Position> getImpactedPositionsByProjectile() {
+        return gameBoard.getImpactedPositionsByProjectile();
+    }
+
     
 
 }
