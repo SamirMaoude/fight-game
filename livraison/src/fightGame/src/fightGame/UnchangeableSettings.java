@@ -26,7 +26,7 @@ public class UnchangeableSettings {
     public static int SHIELD_COST;
     public static int SHIELD_ABSORPTION;
     public static int SHIELD_TIMER;
-    public static int NB_PLAYERS;
+    public static int NB_PLAYERS = 2;
     //public static int SCREEN_WIDTH = Toolkit.getDefaultToolkit().getScreenSize().width;
     //public static int SCREEN_HEIGHT = Toolkit.getDefaultToolkit().getScreenSize().height;
 

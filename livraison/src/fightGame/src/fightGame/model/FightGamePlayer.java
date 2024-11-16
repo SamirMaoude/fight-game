@@ -26,6 +26,8 @@ public abstract class FightGamePlayer implements Player {
                                 .withEnergy(UnchangeableSettings.STARTING_ENERGY)
                                 .build();
         gameBoard.addEntity(unit, startingposition);
+        this.gameBoardProxy = new GameBoardProxy(gameBoard, this);
+
     }
 
     public GameBoardProxy getGameBoardProxy() {
@@ -51,6 +53,11 @@ public abstract class FightGamePlayer implements Player {
         return name;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    
     
 
 }

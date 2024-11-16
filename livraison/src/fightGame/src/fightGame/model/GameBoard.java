@@ -60,6 +60,9 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         return entities;
     }
 
+    public void addPlayer(FightGamePlayer player){
+        this.players.add(player);
+    }
     public boolean addEntity(AbstractGameEntity entity, Position position) {
 
         if (!isValidMove(position)) {

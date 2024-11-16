@@ -7,21 +7,34 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import fightGame.controller.GameBoardAdapterToTable;
+import fightGame.model.GameBoard;
+import fightGame.model.GameBoardProxy;
 import fightGame.view.InterfaceSetting;
+import gamePlayers.util.ListenableModel;
+import gamePlayers.util.ModelListener;
 
 
-public class GameView extends JFrame{
+public class GameView extends JFrame implements ModelListener{
     private GameButton nextButton;
     private GameButton saveButton;
+    private GameBoard gameBoard;
     private GameBoardTable gameBoardTable;
     private DashBordView dashBordView;
+    private GameBoardProxy proxy;
+    
 
-    public GameView(String name, GameBoardTable gameBoardTable, DashBordView dashBordView){
+    public GameView(String name, GameBoard gameBoard, GameBoardProxy proxy){
         super(name);
-        this.gameBoardTable = gameBoardTable;
-        this.dashBordView = dashBordView;
+        this.gameBoard = gameBoard;
+        this.proxy = proxy;
+        this.gameBoard.addModelListerner(this);
+        GameBoardAdapterToTable gameBoardAdapterToTable = new GameBoardAdapterToTable(gameBoard,proxy);
+        this.gameBoardTable = new GameBoardTable(gameBoardAdapterToTable);
+        this.dashBordView = new DashBordView(gameBoard);
         buildContainer();
         this.setVisible(true);
+        //gameBoard.run();
     }
 
     private void buildContainer(){
@@ -48,6 +61,12 @@ public class GameView extends JFrame{
         container.add(scrollPane, BorderLayout.EAST);
 
         container.add(southPanel, BorderLayout.SOUTH);
-        //this.pack();
+        this.pack();
+    }
+
+    @Override
+    public void update(ListenableModel source) {
+        this.revalidate();
+        this.repaint();
     }
 }

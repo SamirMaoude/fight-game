@@ -4,15 +4,18 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
 import fightGame.model.GameBoard;
+import fightGame.model.GameBoardProxy;
 import gamePlayers.*;
 import gamePlayers.fighters.Unit;
 import gamePlayers.util.*;
 
 public class GameBoardAdapterToTable extends AbstractTableModel implements ModelListener {
     private GameBoard gameBoard;
+    private GameBoardProxy proxy;
 
-    public GameBoardAdapterToTable(GameBoard gameBoard) {
+    public GameBoardAdapterToTable(GameBoard gameBoard, GameBoardProxy proxy) {
         this.gameBoard = gameBoard;
+        this.proxy = proxy;
         this.gameBoard.addModelListerner(this);
     }
 
@@ -28,7 +31,8 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Set<AbstractGameEntity> entities = gameBoard.getEntitiesAt(new Position(rowIndex, columnIndex));
+        //gameBoard.getNextPlayer()
+        Set<AbstractGameEntity> entities = this.proxy.getEntitiesAt(new Position(rowIndex, columnIndex));
         List<Position> bombsPositions = gameBoard.getImpactedPositionsByBomb();
         if(bombsPositions.contains(new Position(rowIndex,columnIndex))){
             return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/explosion.jpg");
