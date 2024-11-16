@@ -30,6 +30,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     private List<Position> impactedPositionsByBomb = new ArrayList<>();
     private List<Position> impactedPositionsByMine = new ArrayList<>();
     private List<Position> impactedPositionsByProjectile = new ArrayList<>();
+    private List<Position> lastMove = new ArrayList<>();
 
     public GameBoard(int rows, int cols){
         this.rows = rows;
@@ -67,7 +68,6 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
         positionEntities.add(entity);
         entities.put(position, positionEntities);
-        this.notifyModelListeners();
 
         return true;
     }
@@ -146,7 +146,8 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             
 
         }
-        this.notifyModelListeners();
+        lastMove.add(oldPosition);
+        lastMove.add(newPosition);
 
         return true;
     }
@@ -243,7 +244,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
         Unit unit = player.getUnit();
         Position unitPosition = unit.getPosition();
-        impactedPositionsByProjectile = new ArrayList<>();
+        reinitializeFromLastAction();
 
         switch (action.TYPE) {
             case MOVE_UNIT_TO_RIGHT:
@@ -485,7 +486,10 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         }
 
         this.updateEntities();
+        
         getNextPlayerIndex();
+
+        this.notifyModelListeners();
 
         return true;
     }
@@ -584,7 +588,6 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             }
             
         }
-        this.notifyModelListeners();
         
     }
 
@@ -642,7 +645,6 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 }
 
                 impactedPositionsByBomb.add(impactedPosition);
-                this.notifyModelListeners();
 
             }
         }
@@ -740,6 +742,11 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         return players;
     }
 
-    
+    public void reinitializeFromLastAction(){
+        impactedPositionsByProjectile.clear();
+        impactedPositionsByBomb.clear();
+        impactedPositionsByMine.clear();
+        lastMove.clear();
+    }
     
 }
