@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.*;
+
+import fightGame.UnchangeableSettings;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
 import fightGame.view.InterfaceSetting;
@@ -27,8 +29,9 @@ public class DashBordView extends JPanel implements ModelListener {
         infoLabel.setFont(InterfaceSetting.TITLE_FONT);
         this.add(infoLabel);
         List<FightGamePlayer> players = this.gameBoard.getPlayers();
+        System.out.println("Nombre de joueur = "+players.size());
         for (FightGamePlayer fightGamePlayer : players) {
-            PlayerView view = new PlayerView(fightGamePlayer.getUnit().getName(), 100,
+            PlayerView view = new PlayerView(fightGamePlayer.getUnit().getName(), UnchangeableSettings.STARTING_ENERGY,
                     fightGamePlayer.getUnit().getEnergy());
             playersViews.put(fightGamePlayer, view);
             this.add(view);

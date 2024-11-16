@@ -10,11 +10,9 @@ import gamePlayers.util.Action;
 import gamePlayers.util.Position;
 
 public class FightGameRandomPlayer extends FightGamePlayer{
-    private GameBoardProxy gameBoardProxy;
-    
+
     public FightGameRandomPlayer(GameBoard gameBoard, String name, int playerIndex, Position startingposition){
         super(gameBoard, name, playerIndex, startingposition);
-        this.gameBoardProxy = new GameBoardProxy(gameBoard, this);
     }
 
     @Override
@@ -27,11 +25,5 @@ public class FightGameRandomPlayer extends FightGamePlayer{
 
         return randomAction;
     }
-
-    public GameBoardProxy getGameBoardProxy() {
-        return gameBoardProxy;
-    }
-
-    
 
 }
