@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
+import fightGame.model.FightGamePlayer;
 import fightGame.view.InterfaceSetting;
 
 public class PlayerView extends JPanel {
@@ -18,12 +19,12 @@ public class PlayerView extends JPanel {
     private JLabel nameLabel;
     private GameProgressBar energyProgressBar;
     
-    public PlayerView(String name, int maxEnergy, int energy){
+    public PlayerView(FightGamePlayer player, int maxEnergy){
         super();
-        this.nameLabel = new JLabel(name);
+        this.nameLabel = new JLabel(player.getName());
         this.nameLabel.setFont(InterfaceSetting.TEXT_FONT);
         this.energyProgressBar = new GameProgressBar(0, maxEnergy);
-        this.energyProgressBar.setValue(energy);
+        this.energyProgressBar.setValue(player.getUnit().getEnergy());
     
         this.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();

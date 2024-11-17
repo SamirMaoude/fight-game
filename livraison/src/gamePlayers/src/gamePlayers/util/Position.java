@@ -1,8 +1,9 @@
 package gamePlayers.util;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Position implements Cloneable {
+public class Position implements Cloneable, Serializable {
     private int row;
     private int col;
 

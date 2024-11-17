@@ -1,6 +1,7 @@
 {
     "java.project.referencedLibraries": [
-        "lib/**/*.jar"
+        "lib/**/*.jar",
+        "livraison/src/fightGame/lib/gamePlayers-0.1.jar"
     ],
     "java.debug.settings.onBuildFailureProceed": true
 }

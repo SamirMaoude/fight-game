@@ -1,8 +1,10 @@
 package gamePlayers;
 
+import java.io.Serializable;
+
 import gamePlayers.util.*;
 
-public abstract class AbstractGameEntity extends AbtractListenableModel implements GameEntity, Cloneable {
+public abstract class AbstractGameEntity extends AbtractListenableModel implements GameEntity, Cloneable, Serializable {
 
     protected EntityType type;
     protected Position position;

@@ -1,5 +1,6 @@
 package fightGame.model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 import fightGame.UnchangeableSettings;
@@ -11,24 +12,13 @@ import gamePlayers.util.Action;
 import gamePlayers.util.Player;
 import gamePlayers.util.Position;
 
-public class FightGamePlayer implements Player {
-    private GameBoardProxy gameBoardProxy;
-    private int playerIndex;
-    private Unit unit;
-    private String name;
+public class FightGamePlayer implements Player, Serializable {
+    protected GameBoardProxy gameBoardProxy;
+    protected int playerIndex;
+    protected Unit unit;
+    protected String name;
     private FightGamePlayerStrategy strategy;
-
-
-    public FightGamePlayer(FightGamePlayer player){
-        try {
-            this.playerIndex = player.getPlayerIndex();
-            this.unit = player.getUnit().clone();
-        } catch (Exception e) {
-           System.out.print(e.getMessage());
-        }
-        
-    }
-
+    
     public FightGamePlayer(GameBoard gameBoard, String name, int playerIndex, Position startingposition){
         this.playerIndex = playerIndex;
         this.name = name;
@@ -45,6 +35,16 @@ public class FightGamePlayer implements Player {
         gameBoard.addEntity(unit, startingposition);
         this.gameBoardProxy = new GameBoardProxy(gameBoard, this);
 
+    }
+
+    public FightGamePlayer(FightGamePlayer player){
+        try {
+            this.playerIndex = player.getPlayerIndex();
+            this.unit = player.getUnit().clone();
+        } catch (Exception e) {
+           System.out.print(e.getMessage());
+        }
+        
     }
 
     public FightGamePlayer(GameBoard gameBoard, int playerIndex){
@@ -68,7 +68,7 @@ public class FightGamePlayer implements Player {
 
     @Override
     public Unit getUnit() {
-       return this.unit;
+        return this.unit;
     }
 
     @Override

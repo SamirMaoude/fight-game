@@ -1,13 +1,7 @@
 package fightGame.view.widgets;
 
-import java.awt.*;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
-import javax.swing.JTable;
-import javax.swing.table.TableColumn;
-import javax.swing.table.TableModel;
-
+import javax.swing.*;
+import javax.swing.table.*;
 import fightGame.model.GameBoard;
 import fightGame.view.InterfaceSetting;
 import fightGame.view.utils.CellRenderer;

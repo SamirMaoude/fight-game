@@ -1,10 +1,6 @@
 package fightGame.view.widgets;
 
-import java.awt.FlowLayout;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import java.util.*;
 import javax.swing.*;
 
 import fightGame.UnchangeableSettings;
@@ -28,11 +24,10 @@ public class DashBordView extends JPanel implements ModelListener {
         infoLabel.setAlignmentX(CENTER_ALIGNMENT);
         infoLabel.setFont(InterfaceSetting.TITLE_FONT);
         this.add(infoLabel);
+
         List<FightGamePlayer> players = this.gameBoard.getPlayers();
-        System.out.println("Nombre de joueur = "+players.size());
         for (FightGamePlayer fightGamePlayer : players) {
-            PlayerView view = new PlayerView(fightGamePlayer.getUnit().getName(), UnchangeableSettings.STARTING_ENERGY,
-                    fightGamePlayer.getUnit().getEnergy());
+            PlayerView view = new PlayerView(fightGamePlayer, UnchangeableSettings.STARTING_ENERGY);
             playersViews.put(fightGamePlayer, view);
             this.add(view);
 
