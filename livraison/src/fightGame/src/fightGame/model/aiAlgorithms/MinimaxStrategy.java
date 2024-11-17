@@ -1,5 +1,6 @@
 package fightGame.model.aiAlgorithms;
 
+import java.io.Serializable;
 import java.util.List;
 
 import fightGame.UnchangeableSettings;
@@ -13,7 +14,7 @@ import gamePlayers.util.Player;
 
 
 
-public class MinimaxStrategy implements FightGamePlayerStrategy {
+public class MinimaxStrategy implements FightGamePlayerStrategy,Serializable {
 
     private int nbPlayers;
     private List<FightGamePlayer> players;

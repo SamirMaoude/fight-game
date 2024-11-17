@@ -5,19 +5,16 @@ import javax.swing.*;
 import fightGame.UnchangeableSettings;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
+import fightGame.model.aiAlgorithms.MinimaxStrategy;
+import fightGame.model.aiAlgorithms.RandaomFillStrategy;
 import fightGame.model.aiAlgorithms.RandomStrategy;
+import fightGame.model.io.GameBoardIO;
 import fightGame.view.widgets.GameButton;
 import fightGame.view.widgets.GameView;
-import gamePlayers.util.Position;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.util.Random;
-
 public class HomeView extends JFrame implements ActionListener {
     private GameButton loadButton;
     private GameButton newGameButton;
@@ -85,21 +82,26 @@ public class HomeView extends JFrame implements ActionListener {
     }
 
     private void newGame() {
-        GameBoard gameBoard = new GameBoard(UnchangeableSettings.NB_ROWS, UnchangeableSettings.NB_COLS);
-        Random random = new Random();
-        for (int i = 0; i < UnchangeableSettings.NB_PLAYERS; i++) {
-            int x = random.nextInt(0, UnchangeableSettings.NB_ROWS);
-            int y = random.nextInt(0, UnchangeableSettings.NB_COLS);
-            FightGamePlayer player = new RandomStrategy(gameBoard, "RP_" + (i + 1), i, new Position(x, y));
+        GameBoard gameBoard = new GameBoard(UnchangeableSettings.NB_ROWS, UnchangeableSettings.NB_COLS,new RandaomFillStrategy());
+
+        for (int i = 0; i < UnchangeableSettings.NB_RANDOM_PLAYERS; i++) {
+            FightGamePlayer player = new FightGamePlayer(gameBoard,"RP_" + (i + 1), i);
+            player.setStrategy(new RandomStrategy());
             gameBoard.addPlayer(player);
         }
-
-        for (int i = 0; i < UnchangeableSettings.NB_PLAYERS; i++) {
+        for (int i = 0; i < UnchangeableSettings.NB_MINIMAX_PLAYERS; i++) {
+            FightGamePlayer player = new FightGamePlayer(gameBoard,"MINIMAX_" + (i+1), (i+UnchangeableSettings.NB_RANDOM_PLAYERS));//new RandomStrategy(gameBoard, "RP_" + (i + 1), i, new Position(x, y));
+            player.setStrategy(new MinimaxStrategy());
+            gameBoard.addPlayer(player);
+        }
+        gameBoard.fillGameBoard();
+        int nbPlayers = UnchangeableSettings.NB_MINIMAX_PLAYERS + UnchangeableSettings.NB_RANDOM_PLAYERS;
+        for (int i = 0; i < nbPlayers; i++) {
             FightGamePlayer player = gameBoard.getPlayers().get(i);
             new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy());
         }
 
-       play(gameBoard);
+       //play(gameBoard);
     }
 
     private void play(GameBoard gameBoard){
@@ -119,31 +121,6 @@ public class HomeView extends JFrame implements ActionListener {
         worker.execute();
     }
     private void loadGame() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Load Game File");
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Game Files", "game", "txt"));
-        int userSelection = fileChooser.showOpenDialog(this);
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            java.io.File fileToLoad = fileChooser.getSelectedFile();
-            System.out.println("Fichier sélectionné : " + fileToLoad.getAbsolutePath());
-            loadGameFromFile(fileToLoad.getAbsolutePath());
-        }
-    }
-
-    private void loadGameFromFile(String filePath) {
-        try (FileInputStream fileIn = new FileInputStream(filePath);
-                ObjectInputStream in = new ObjectInputStream(fileIn)) {
-            GameBoard gameBoard = (GameBoard) in.readObject();
-            System.out.println("GameBoard chargé depuis le fichier : " + filePath);
-            int nbPlayers = gameBoard.getPlayers().size();
-            for (int i = 0; i <nbPlayers; i++) {
-                FightGamePlayer player = gameBoard.getPlayers().get(i);
-                new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy());
-            }
-            play(gameBoard);
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Erreur lors du chargement : " + e.getMessage());
-            return;
-        }
+       GameBoardIO.chooseFile(this);
     }
 }

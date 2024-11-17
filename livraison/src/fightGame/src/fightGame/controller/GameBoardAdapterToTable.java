@@ -30,34 +30,47 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        Set<AbstractGameEntity> entities = this.proxy.getEntitiesAt(new Position(rowIndex, columnIndex));
-        List<Position> bombsPositions = gameBoard.getImpactedPositionsByBomb();
-        if(bombsPositions.contains(new Position(rowIndex,columnIndex))){
-            return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/explosion.jpg");
+        Position position = new Position(rowIndex, columnIndex);
+        Set<AbstractGameEntity> entities = this.proxy.getEntitiesAt(position);
+        List<Position> positionsImpactedByBombs = gameBoard.getImpactedPositionsByBomb();
+        List<Position> positionsImpactedByMines = gameBoard.getImpactedPositionsByMine();
+        List<Position> positionsImpactedByProjectils = gameBoard.getImpactedPositionsByProjectile();
+        List<ImageIcon> icons = new ArrayList<>();
+        if (positionsImpactedByBombs.contains(position)) {
+            icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/bombexplosion.jpg"));
         }
-        if (entities.size() == 1) {
-            Iterator<AbstractGameEntity> iterator = entities.iterator();
-            AbstractGameEntity entity = iterator.next();
+        if (positionsImpactedByMines.contains(position)) {
+            icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/minesexplosion.jpg"));
+        }
+        if (positionsImpactedByProjectils.contains(position)) {
+            icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/projectiles.jpg"));
+        }
+        for (AbstractGameEntity entity : entities) {
             switch (entity.getType()) {
                 case BOMB:
-                    return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/bomb.png");
+                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/bomb.png"));
+                    break;
                 case WALL:
-                    return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/wall.png");
+                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/wall.png"));
+                    break;
                 case MINE:
-                    return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/mines.jpg");
+                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/mines.jpg"));
+                    break;
                 case UNIT:
-                    return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.png");
+                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.png"));
+                    break;
                 case PELLET:
-                    return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/pellet.png");
-                case PROJECTILE:
-                    return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/projectile.png");
+                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/pellet.jpg"));
+                    break;
+               
                 default:
                     break;
             }
-        } else if (entities.size()>1){
-            return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/multiUnit.png");
         }
-        return "";
+        if (icons.size() == 0) {
+            icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/univers.png"));
+        }
+        return icons;
     }
 
     @Override

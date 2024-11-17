@@ -1,6 +1,9 @@
 package fightGame.view.widgets;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicProgressBarUI;
+
+import fightGame.view.InterfaceSetting;
+
 import java.awt.*;
 
 public class GameProgressBar extends JProgressBar {
@@ -11,7 +14,7 @@ public class GameProgressBar extends JProgressBar {
         // Configurez les dimensions de base
         setPreferredSize(new Dimension(200, 40)); 
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); 
-        setForeground(new Color(76, 175, 80)); 
+        setForeground(InterfaceSetting.COLOR); 
         setBackground(new Color(224, 224, 224)); 
         setStringPainted(true); 
         setFont(new Font("Arial", Font.BOLD, 14)); 

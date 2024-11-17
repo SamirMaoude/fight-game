@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import fightGame.UnchangeableSettings;
+import fightGame.model.aiAlgorithms.GameBordInitFillStrategy;
 import gamePlayers.AbstractGameEntity;
 import gamePlayers.fighters.Unit;
 import gamePlayers.objects.Bomb;
@@ -27,6 +28,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     private int cols;
     private int nextPlayerIndex = 0;
 
+    private GameBordInitFillStrategy strategy;
     private Map<Position, Set<AbstractGameEntity>> entities = new HashMap<>();
     private List<FightGamePlayer> players = new ArrayList<>();
     private List<Position> impactedPositionsByBomb = new ArrayList<>();
@@ -37,6 +39,11 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     public GameBoard(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
+    }
+
+    public GameBoard (int rows, int cols, GameBordInitFillStrategy strategy){
+        this(rows, cols);
+        this.strategy = strategy;
     }
 
     public GameBoard(int rows, int cols, List<FightGamePlayer> players) {
@@ -103,6 +110,12 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     public Map<Position, Set<AbstractGameEntity>> getEntities() {
         return entities;
+    }
+    public void setStrategy(GameBordInitFillStrategy strategy){
+        this.strategy = strategy;
+    }
+    public void fillGameBoard(){
+        this.strategy.fillGrid(this);
     }
 
     public void addPlayer(FightGamePlayer player){
