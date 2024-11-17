@@ -1,6 +1,7 @@
 package fightGame.model;
 
 import java.util.HashSet;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,8 +20,8 @@ import gamePlayers.util.Direction;
 import gamePlayers.util.EntityType;
 import gamePlayers.util.Position;
 
-public class GameBoard extends AbtractListenableModel implements GameBoardInterface {
-
+public class GameBoard extends AbtractListenableModel implements GameBoardInterface, Serializable{
+    private static final long serialVersionUID = 1L; 
     private int rows;
     private int cols;
     private int nextPlayerIndex = 0;

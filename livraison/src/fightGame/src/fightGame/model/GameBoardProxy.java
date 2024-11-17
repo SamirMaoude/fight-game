@@ -1,5 +1,6 @@
 package fightGame.model;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -14,7 +15,7 @@ import gamePlayers.util.Direction;
 import gamePlayers.util.EntityType;
 import gamePlayers.util.Position;
 
-public class GameBoardProxy implements GameBoardInterface{
+public class GameBoardProxy implements GameBoardInterface, Serializable{
 
     private GameBoard gameBoard;
     private FightGamePlayer player;

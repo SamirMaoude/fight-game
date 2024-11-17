@@ -31,7 +31,6 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
 
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
-        //gameBoard.getNextPlayer()
         Set<AbstractGameEntity> entities = this.proxy.getEntitiesAt(new Position(rowIndex, columnIndex));
         List<Position> bombsPositions = gameBoard.getImpactedPositionsByBomb();
         if(bombsPositions.contains(new Position(rowIndex,columnIndex))){
@@ -48,7 +47,7 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
                 case MINE:
                     return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/mines.jpg");
                 case UNIT:
-                    return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.jpg");
+                    return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.png");
                 case PELLET:
                     return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/pellet.png");
                 case PROJECTILE:
@@ -57,27 +56,7 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
                     break;
             }
         } else if (entities.size()>1){
-            List<ImageIcon> imageIcons = new ArrayList<>();
-            for (AbstractGameEntity entity : entities) {
-                switch (entity.getType()) {
-                    case BOMB:
-                        imageIcons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/bomb.png"));
-                    case WALL:
-                        imageIcons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/wall.png"));
-                    case MINE:
-                        imageIcons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/mines.jpg"));
-                    case UNIT:
-                        imageIcons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.jpg"));
-                    case PELLET:
-                        imageIcons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/pellet.png"));
-                    case PROJECTILE:
-                        imageIcons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/projectile.png"));
-                    default:
-                        break;
-                }
-            }
-            return imageIcons;
-
+            return new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/multiUnit.png");
         }
         return "";
     }

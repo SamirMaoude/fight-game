@@ -1,12 +1,14 @@
 package fightGame.model;
 
+import java.io.Serializable;
+
 import fightGame.UnchangeableSettings;
 import gamePlayers.fighters.Unit;
 import gamePlayers.fighters.UnitBuilder;
 import gamePlayers.util.Player;
 import gamePlayers.util.Position;
 
-public abstract class FightGamePlayer implements Player {
+public abstract class FightGamePlayer implements Player, Serializable {
     protected GameBoardProxy gameBoardProxy;
     protected int playerIndex;
     protected Unit unit;

@@ -13,6 +13,9 @@ import gamePlayers.util.Position;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Random;
 
 public class HomeView extends JFrame implements ActionListener {
@@ -24,10 +27,9 @@ public class HomeView extends JFrame implements ActionListener {
         UnchangeableSettings.loadSettings();
         setTitle("Home View");
         buildView();
-        this.setVisible(true);
     }
 
-    public void buildView(){
+    public void buildView() {
         setSize(500, 400);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
@@ -64,6 +66,9 @@ public class HomeView extends JFrame implements ActionListener {
         buttonPanel.add(exitButton, gbc);
 
         add(buttonPanel, BorderLayout.CENTER);
+        this.setLocationRelativeTo(null);
+        this.setVisible(true);
+
     }
 
     @Override
@@ -72,7 +77,7 @@ public class HomeView extends JFrame implements ActionListener {
             this.newGame();
         }
         if (e.getSource().equals(this.loadButton)) {
-            System.out.println("TO DO");
+            this.loadGame();
         }
         if (e.getSource().equals(this.exitButton)) {
             System.exit(0);
@@ -87,22 +92,58 @@ public class HomeView extends JFrame implements ActionListener {
             int y = random.nextInt(0, UnchangeableSettings.NB_COLS);
             FightGamePlayer player = new FightGameRandomPlayer(gameBoard, "RP_" + (i + 1), i, new Position(x, y));
             gameBoard.addPlayer(player);
-            new GameView("View for Player " +player.getName(), gameBoard, player.getGameBoardProxy());
         }
 
+        for (int i = 0; i < UnchangeableSettings.NB_PLAYERS; i++) {
+            FightGamePlayer player = gameBoard.getPlayers().get(i);
+            new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy());
+        }
+
+       play(gameBoard);
+    }
+
+    private void play(GameBoard gameBoard){
         SwingWorker<Void, Void> worker = new SwingWorker<>() {
             @Override
             protected Void doInBackground() throws Exception {
-                gameBoard.run(); // Tâche longue ici
+                gameBoard.run();
                 return null;
             }
-    
+
             @Override
             protected void done() {
                 System.out.println("Game loop finished.");
             }
         };
-    
+
         worker.execute();
+    }
+    private void loadGame() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Load Game File");
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Game Files", "game", "txt"));
+        int userSelection = fileChooser.showOpenDialog(this);
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            java.io.File fileToLoad = fileChooser.getSelectedFile();
+            System.out.println("Fichier sélectionné : " + fileToLoad.getAbsolutePath());
+            loadGameFromFile(fileToLoad.getAbsolutePath());
+        }
+    }
+
+    private void loadGameFromFile(String filePath) {
+        try (FileInputStream fileIn = new FileInputStream(filePath);
+                ObjectInputStream in = new ObjectInputStream(fileIn)) {
+            GameBoard gameBoard = (GameBoard) in.readObject();
+            System.out.println("GameBoard chargé depuis le fichier : " + filePath);
+            int nbPlayers = gameBoard.getPlayers().size();
+            for (int i = 0; i <nbPlayers; i++) {
+                FightGamePlayer player = gameBoard.getPlayers().get(i);
+                new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy());
+            }
+            play(gameBoard);
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Erreur lors du chargement : " + e.getMessage());
+            return;
+        }
     }
 }

@@ -1,7 +1,6 @@
 package fightGame.view.utils;
 
 import java.awt.*;
-import java.util.List;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -12,7 +11,7 @@ public class CellRenderer extends DefaultTableCellRenderer {
     boolean hasFocus, int row, int column)  {
         
         // Si la valeur est une instance de List<ImageIcon>, on crée un panneau pour afficher les images côte à côte
-        if (value instanceof List<?>) {
+      /*   if (value instanceof List<?>) {
             List<?> iconList = (List<?>) value;
             JPanel panel = new JPanel() {
                 @Override
@@ -43,7 +42,8 @@ public class CellRenderer extends DefaultTableCellRenderer {
             panel.setBorder(BorderFactory.createLineBorder(Color.RED, 2));
             return panel;
 
-        }else if (value instanceof ImageIcon) {
+        }else*/
+         if (value instanceof ImageIcon) {
             ImageIcon icon = (ImageIcon) value;
             
             JPanel panel = new JPanel() {

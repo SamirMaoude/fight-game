@@ -2,7 +2,6 @@ package fightGame.view.widgets;
 
 import java.awt.*;
 import javax.swing.*;
-import javax.swing.border.Border;
 
 import fightGame.view.InterfaceSetting;
 
@@ -29,11 +28,10 @@ public class GameButton extends JButton {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // Définir les couleurs en fonction de l'état du bouton
         if (getModel().isPressed()) {
             g2.setColor(getBackground().darker());
         } else if (getModel().isRollover()) {
-            g2.setColor(getBackground().brighter());
+            g2.setColor(InterfaceSetting.BTN_OVER_COLOR);
         } else {
             g2.setColor(getBackground());
         }
