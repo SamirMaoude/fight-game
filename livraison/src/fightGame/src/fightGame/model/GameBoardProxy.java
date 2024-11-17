@@ -1,5 +1,6 @@
 package fightGame.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -92,10 +93,6 @@ public class GameBoardProxy implements GameBoardInterface{
         return this.gameBoard.performAction(action, player);
     }
 
-    public GameBoard getGameBoard() {
-        return gameBoard;
-    }
-
     public void setGameBoard(GameBoard gameBoard) {
         this.gameBoard = gameBoard;
     }
@@ -109,17 +106,30 @@ public class GameBoardProxy implements GameBoardInterface{
         return gameBoard.getNextPlayerIndex();
     }
 
-    public GameBoard getGameBoard(List<FightGamePlayer> players){
+    public GameBoard getGameBoard(){
+
+        List<FightGamePlayer> players = new ArrayList<>();
+        for(int playerIndex = 0; playerIndex < gameBoard.getNbPlayers(); playerIndex++){
+            players.add(new FightGamePlayer(null, playerIndex));
+        }
 
         Map<Position, Set<AbstractGameEntity>> entities = new HashMap<>();
         for(Position position: gameBoard.getEntities().keySet()){
+            
             Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
             Set<AbstractGameEntity> copy = new HashSet<>();
             for(AbstractGameEntity entity: positionEntities){
-                try {
-                    copy.add(entity.clone());
+                try {  
+                    AbstractGameEntity clone = entity.clone();
+                    copy.add(clone);
+                    if(clone.getType()==EntityType.UNIT){
+                        Unit unit = (Unit)clone;
+                        int playerIndex = unit.getOwner().getPlayerIndex();
+                        players.get(playerIndex).setUnit(unit);
+                        unit.setOwner(players.get(playerIndex));
+                    }
                 } catch (Exception e) {
-
+                    System.out.println(e.getMessage());
                 }
                 
                 
@@ -127,7 +137,14 @@ public class GameBoardProxy implements GameBoardInterface{
             entities.put(position, copy);
         }
 
-        return new GameBoard(gameBoard, players, entities);
+        GameBoard clone = new GameBoard(gameBoard, players, entities);
+
+        for(int playerIndex = 0; playerIndex < gameBoard.getNbPlayers(); playerIndex++){
+            FightGamePlayer player =  players.get(playerIndex);
+            player.setGameBoardProxy(new GameBoardProxy(clone, player));;
+        }
+
+        return clone;
     }
 
     public List<Position> getImpactedPositionsByBomb() {
@@ -144,6 +161,10 @@ public class GameBoardProxy implements GameBoardInterface{
 
     public List<Position> getImpactedPositionsByProjectile() {
         return gameBoard.getImpactedPositionsByProjectile();
+    }
+
+    public boolean isGameOver(){
+        return gameBoard.isGameOver();
     }
 
     

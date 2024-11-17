@@ -5,7 +5,7 @@ import javax.swing.*;
 import fightGame.UnchangeableSettings;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
-import fightGame.model.aiAlgorithms.FightGameRandomPlayer;
+import fightGame.model.aiAlgorithms.RandomStrategy;
 import fightGame.view.widgets.GameButton;
 import fightGame.view.widgets.GameView;
 import gamePlayers.util.Position;
@@ -85,7 +85,7 @@ public class HomeView extends JFrame implements ActionListener {
         for (int i = 0; i < UnchangeableSettings.NB_PLAYERS; i++) {
             int x = random.nextInt(0, UnchangeableSettings.NB_ROWS);
             int y = random.nextInt(0, UnchangeableSettings.NB_COLS);
-            FightGamePlayer player = new FightGameRandomPlayer(gameBoard, "RP_" + (i + 1), i, new Position(x, y));
+            FightGamePlayer player = new RandomStrategy(gameBoard, "RP_" + (i + 1), i, new Position(x, y));
             gameBoard.addPlayer(player);
             new GameView("View for Player " +player.getName(), gameBoard, player.getGameBoardProxy());
         }

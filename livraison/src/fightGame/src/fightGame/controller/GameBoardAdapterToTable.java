@@ -6,7 +6,6 @@ import javax.swing.table.AbstractTableModel;
 import fightGame.model.GameBoard;
 import fightGame.model.GameBoardProxy;
 import gamePlayers.*;
-import gamePlayers.fighters.Unit;
 import gamePlayers.util.*;
 
 public class GameBoardAdapterToTable extends AbstractTableModel implements ModelListener {

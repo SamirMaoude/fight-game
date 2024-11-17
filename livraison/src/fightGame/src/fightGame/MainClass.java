@@ -5,7 +5,9 @@ import java.util.List;
 
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
-import fightGame.model.aiAlgorithms.FightGameRandomPlayer;
+import fightGame.model.aiAlgorithms.FightGamePlayerStrategy;
+import fightGame.model.aiAlgorithms.MinimaxStrategy;
+import fightGame.model.aiAlgorithms.RandomStrategy;
 import gamePlayers.fighters.Unit;
 import gamePlayers.util.Position;
 
@@ -19,8 +21,13 @@ public class MainClass {
 
         List<FightGamePlayer> players = new ArrayList<>();
 
-        FightGamePlayer player1 = new FightGameRandomPlayer(gameBoard, "Player 1", 0, new Position(0, 0));
-        FightGamePlayer player2 = new FightGameRandomPlayer(gameBoard, "Player 2", 1, new Position(9, 9));
+        FightGamePlayerStrategy randomStrategy = new RandomStrategy();
+        FightGamePlayerStrategy minimaxStrategy = new MinimaxStrategy();
+
+        FightGamePlayer player1 = new FightGamePlayer(gameBoard, "Player 1", 0, new Position(0, 0));
+        player1.setStrategy(minimaxStrategy);
+        FightGamePlayer player2 = new FightGamePlayer(gameBoard, "Player 2", 1, new Position(9, 9));
+        player2.setStrategy(randomStrategy);
 
         players.add(player1);
         players.add(player2);
