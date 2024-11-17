@@ -52,10 +52,10 @@ public class UnitBuilder {
         return this;
     }
 
-    public UnitBuilder withBombs(int nbBombs, int damage,int timeBeforeExplosition){
+    public UnitBuilder withBombs(int nbBombs, int damage,int timeBeforeExplosion){
         LinkedList<Bomb> bombs = new LinkedList<>();
         for(int i=0; i<nbBombs; i++){
-            bombs.add(new Bomb(null, damage,this.owner, timeBeforeExplosition));
+            bombs.add(new Bomb(null, damage,this.owner, timeBeforeExplosion));
         }
         this.bombs = bombs;
         return this;
@@ -70,9 +70,9 @@ public class UnitBuilder {
         return this;
     }
 
-    public UnitBuilder withProjectiles(int scope, int damage ){
+    public UnitBuilder withProjectiles(int nbProjectiles, int scope, int damage ){
         LinkedList<Projectile> projectiles = new LinkedList<>();
-        for(int i=0; i<10; i++){
+        for(int i=0; i<nbProjectiles; i++){
             projectiles.add(new Projectile(null, scope, damage,this.owner));
         }
         this.projectiles = projectiles;

@@ -8,4 +8,5 @@ public interface Player extends Cloneable{
     @Override
     public boolean equals(Object obj);
     public Player clone() throws CloneNotSupportedException;
+    public int getPlayerIndex();
 }

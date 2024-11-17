@@ -1,6 +1,7 @@
 package gamePlayers.fighters;
 
 import java.util.LinkedList;
+import java.util.stream.Collectors;
 
 import gamePlayers.AbstractGameEntity;
 import gamePlayers.objects.*;
@@ -38,6 +39,8 @@ public class Unit extends AbstractGameEntity {
         this.projectiles = projectiles;
         this.shieldRetention = shieldRetention;
     }
+
+    
 
     /**
      * Retrieves the current name of the unit.
@@ -180,21 +183,56 @@ public class Unit extends AbstractGameEntity {
 
     @Override
     public Unit clone()throws CloneNotSupportedException{
-        Unit clone = null;
         try {
-            clone = (Unit) super.clone();
-        } catch (CloneNotSupportedException cnse) {
-            cnse.printStackTrace(System.err);
+            LinkedList<Bomb> clonedBombs = new LinkedList<>();
+            for (Bomb bomb : bombs) {
+                clonedBombs.add(bomb.clone());
+            }
+    
+            LinkedList<Mine> clonedMines = new LinkedList<>();
+            for (Mine mine : mines) {
+                clonedMines.add(mine.clone());
+            }
+    
+            LinkedList<Projectile> clonedProjectiles = new LinkedList<>();
+            for (Projectile projectile : projectiles) {
+                clonedProjectiles.add(projectile.clone());
+            }
+
+            Position clonedPosition = this.getPosition()!=null?new Position(this.getPosition()):null;
+    
+            Unit clonedUnit = new Unit(clonedPosition, this.name, this.owner.clone(), this.energy,
+                                       clonedBombs, clonedMines, clonedProjectiles, this.shieldRetention);
+            clonedUnit.setShieldTimer(this.shieldTimer);
+            clonedUnit.setShieldActivated(this.shieldActivated);
+    
+            return clonedUnit;
+        } catch (CloneNotSupportedException e) {
+            throw new CloneNotSupportedException("Clone not supported");
         }
-        clone.name = this.name;
-        clone.energy = this.energy;
-        clone.bombs = (LinkedList<Bomb>) this.bombs.clone();
-        clone.mines = (LinkedList<Mine>) this.mines.clone();
-        clone.projectiles = (LinkedList<Projectile>) this.projectiles.clone();
-        clone.position = (Position) this.position;
-        clone.owner = (Player) this.owner.clone();
-        clone.type = EntityType.UNIT;
-        return clone;
     }
 
+    public void setBombs(LinkedList<Bomb> bombs) {
+        this.bombs = bombs;
+    }
+
+    public void setMines(LinkedList<Mine> mines) {
+        this.mines = mines;
+    }
+
+    public void setProjectiles(LinkedList<Projectile> projectiles) {
+        this.projectiles = projectiles;
+    }
+
+    public void setEnergy(int energy) {
+        this.energy = energy;
+    }
+
+    public void setShieldRetention(int shieldRetention) {
+        this.shieldRetention = shieldRetention;
+    }
+    
+    
+
+    
 }

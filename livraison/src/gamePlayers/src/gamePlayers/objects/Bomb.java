@@ -3,18 +3,18 @@ package gamePlayers.objects;
 import gamePlayers.util.*;
 public class Bomb extends Weapon{
 
-    private int timeBeforeExplosition;
+    private int timeBeforeExplosion;
 
-    public Bomb(Position position, int damage, Player palyer, int timeBeforeExplosition) {
+    public Bomb(Position position, int damage, Player palyer, int timeBeforeExplosion) {
         super(EntityType.BOMB, position,palyer, damage);
-        if(timeBeforeExplosition<1){
-            throw new IllegalArgumentException("You can not provide a value under 1 as boom time");
+        if(timeBeforeExplosion<0){
+            throw new IllegalArgumentException("You can not provide a value under 0 as boom time");
         }
-        this.timeBeforeExplosition = timeBeforeExplosition;
+        this.timeBeforeExplosion = timeBeforeExplosion;
     }
 
-    public int getTimeBeforeExplosition() {
-        return timeBeforeExplosition;
+    public int getTimeBeforetimeBeforeExplosion() {
+        return timeBeforeExplosion;
     }
 
     public void detonate(){
@@ -24,27 +24,20 @@ public class Bomb extends Weapon{
     
     
     @Override
-    public Bomb clone() throws CloneNotSupportedException{
-        Bomb clone = null;
-        try {
-            clone = (Bomb)super.clone();
-        } catch(CloneNotSupportedException cnse) {
-            cnse.printStackTrace(System.err);
-        }
-        clone.timeBeforeExplosition = this.timeBeforeExplosition;
-        clone.position = (Position)this.position.clone();
-        clone.damage = this.damage;
-        clone.owner = (Player)this.owner.clone();
-        clone.type = EntityType.BOMB;
-        return (Bomb)clone;
+    public Bomb clone() throws CloneNotSupportedException {
+
+        Position clonedPosition = this.getPosition()!=null?new Position(this.getPosition()):null;
+        Player clonedPlayer = this.getOwner().clone();
+
+        return new Bomb(clonedPosition, this.getDamage(), clonedPlayer, this.timeBeforeExplosion);
     }
 
     public void descreasedTime(){
-        this.timeBeforeExplosition--;
+        this.timeBeforeExplosion--;
     }
 
-    public void setTimeBeforeExplosition(int timeBeforeExplosition) {
-        this.timeBeforeExplosition = timeBeforeExplosition;
+    public void setTimeBeforetimeBeforeExplosion(int timeBeforeExplosion) {
+        this.timeBeforeExplosion = timeBeforeExplosion;
     }
 
    

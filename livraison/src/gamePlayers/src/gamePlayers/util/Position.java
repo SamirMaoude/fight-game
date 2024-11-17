@@ -81,5 +81,10 @@ public class Position implements Cloneable {
         return "Ligne " + this.row + " Colonne " + this.col;
     }
 
+    public double distanceTo(Position position){
+        int dx = this.row - position.getRow();
+        int dy = this.col - position.getCol();
+        return Math.sqrt(dx * dx + dy * dy);
+    }
  
 }

@@ -24,18 +24,11 @@ public class Projectile extends Weapon{
 
     @Override
     public Projectile clone()  throws CloneNotSupportedException{
-        Projectile clone = null;
-        try {
-            clone = (Projectile)super.clone();
-        } catch(CloneNotSupportedException cnse) {
-            cnse.printStackTrace(System.err);
-        }
-        clone.scope = this.scope;
-        clone.position = (Position)this.position.clone();
-        clone.damage = this.damage;
-        clone.owner = (Player)this.owner.clone();
-        clone.type = EntityType.PROJECTILE;
-        return clone;
+
+        Position clonedPosition = this.getPosition()!=null?new Position(this.getPosition()):null;
+        Player clonedPlayer = this.getOwner().clone();
+
+        return new Projectile(clonedPosition, this.getScope(), this.getDamage(), clonedPlayer);
     }
 
 }
