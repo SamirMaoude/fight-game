@@ -242,7 +242,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 actions.add(new FightGameAction(FightGameActionType.USE_BOMB_AT_RIGHT));
 
             // USE_PROJECTILE_AT_RIGHT,
-            if (unit.hasBombs())
+            if (unit.hasProjectiles())
                 actions.add(new FightGameAction(FightGameActionType.USE_PROJECTILE_AT_RIGHT));
 
         }
@@ -264,7 +264,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 actions.add(new FightGameAction(FightGameActionType.USE_BOMB_AT_LEFT));
 
             // USE_PROJECTILE_AT_LEFT,
-            if (unit.hasBombs())
+            if (unit.hasProjectiles())
                 actions.add(new FightGameAction(FightGameActionType.USE_PROJECTILE_AT_LEFT));
         }
 
@@ -285,7 +285,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 actions.add(new FightGameAction(FightGameActionType.USE_BOMB_AT_BOTTOM));
 
             // USE_PROJECTILE_AT_BOTTOM,
-            if (unit.hasBombs())
+            if (unit.hasProjectiles())
                 actions.add(new FightGameAction(FightGameActionType.USE_PROJECTILE_AT_BOTTOM));
         }
 
@@ -306,7 +306,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 actions.add(new FightGameAction(FightGameActionType.USE_BOMB_AT_TOP));
 
             // USE_PROJECTILE_AT_TOP,
-            if (unit.hasBombs())
+            if (unit.hasProjectiles())
                 actions.add(new FightGameAction(FightGameActionType.USE_PROJECTILE_AT_TOP));
         }
 
@@ -504,7 +504,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 int maxDistance = col - UnchangeableSettings.PROJECTILE_SCOPE;
 
                 col--;
-                while (col > Math.max(maxDistance, -1)) {
+                while (col >= Math.max(maxDistance, 0)) {
                     Position position = new Position(row, col);
 
                     if (!this.projectileEffect(position))
@@ -522,7 +522,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 int maxDistance = row - UnchangeableSettings.PROJECTILE_SCOPE;
 
                 row--;
-                while (row > Math.max(maxDistance, -1)) {
+                while (row >= Math.max(maxDistance, 0)) {
                     Position position = new Position(row, col);
 
                     if (!this.projectileEffect(position))
@@ -768,7 +768,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     public boolean projectileEffect(Position position) {
 
-        impactedPositionsByProjectile.add(position);
+        
 
         Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
 
@@ -785,7 +785,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                     positionEntities.remove(entity);
             }
         }
-
+        impactedPositionsByProjectile.add(position);
         return true;
 
     }
