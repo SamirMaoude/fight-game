@@ -30,8 +30,8 @@ public class MinimaxStrategy implements FightGamePlayerStrategy {
     }
 
 
-    private static final double WEAPONS_WEIGHT = -1.5;
-    private static final double PROXIMITY_WEIGHT = 2.3;
+    private static final double WEAPONS_WEIGHT = 200;
+    private static final double PROXIMITY_WEIGHT = 50;
 
     // Other properties and methods...
 
@@ -46,7 +46,7 @@ public class MinimaxStrategy implements FightGamePlayerStrategy {
 
         // 2. Weapons count: Stimulate player to use weapon
         int totalWeapons = currentUnit.getBombs().size() + currentUnit.getMines().size() + currentUnit.getProjectiles().size();
-        score += totalWeapons * WEAPONS_WEIGHT;
+        score += WEAPONS_WEIGHT / (totalWeapons + 1 );
 
         // 3. Simulate players to move to each other
         double totalDistance = 0.0;

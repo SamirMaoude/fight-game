@@ -27,7 +27,7 @@ public class MainClass {
         FightGamePlayer player1 = new FightGamePlayer(gameBoard, "Player 1", 0, new Position(0, 0));
         player1.setStrategy(minimaxStrategy);
         FightGamePlayer player2 = new FightGamePlayer(gameBoard, "Player 2", 1, new Position(9, 9));
-        player2.setStrategy(randomStrategy);
+        player2.setStrategy(minimaxStrategy);
 
         players.add(player1);
         players.add(player2);
