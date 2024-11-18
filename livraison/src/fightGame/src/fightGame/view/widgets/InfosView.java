@@ -43,7 +43,7 @@ public class InfosView extends JDialog implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.closeButton)) {
             this.dispose();
-            System.exit(0);
+           // System.exit(0);
         }
     }
 }

@@ -7,15 +7,22 @@ import java.io.*;
 import javax.swing.*;
 
 import fightGame.controller.GameBoardAdapterToTable;
+import fightGame.model.FightGameAction;
+import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
 import fightGame.model.GameBoardProxy;
+import fightGame.model.io.*;
 import fightGame.view.InterfaceSetting;
+import gamePlayers.util.Action;
 import gamePlayers.util.ListenableModel;
 import gamePlayers.util.ModelListener;
+import gamePlayers.util.Player;
 
 public class GameView extends JFrame implements ModelListener, ActionListener {
     private GameButton nextButton;
     private GameButton saveButton;
+    private GameButton exitButton;
+
     private GameBoard gameBoard;
     private GameBoardTable gameBoardTable;
     private DashBordView dashBordView;
@@ -39,8 +46,12 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
 
         this.nextButton = new GameButton("Next", 150, 60);
         this.saveButton = new GameButton("Save", 150, 60);
+        this.exitButton = new GameButton("Exit", 150, 60);
+
         this.nextButton.addActionListener(this);
         this.saveButton.addActionListener(this);
+        this.exitButton.addActionListener(this);
+
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel southPanel = new JPanel();
@@ -48,6 +59,7 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
         southPanel.setSize(InterfaceSetting.WIDTH, 300);
         southPanel.add(this.nextButton);
         southPanel.add(this.saveButton);
+        southPanel.add(this.exitButton);
 
         this.dashBordView.setSize(500, 500);
 
@@ -72,28 +84,22 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.saveButton)) {
-            this.saveGame();
+            GameBoardIO.saveGame(this,gameBoard);
         }
-    }
-
-    private void saveGame() {
-        JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Sauvegarder la partie");
-        int userSelection = fileChooser.showSaveDialog(this);
-
-        if (userSelection == JFileChooser.APPROVE_OPTION) {
-            java.io.File fileToSave = fileChooser.getSelectedFile();
-            String filePath = fileToSave.getAbsolutePath();
-
-            try (FileOutputStream fileOut = new FileOutputStream(filePath);
-                    ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
-                out.writeObject(this.gameBoard);
-                new InfosView(this, "Sauvegarde", "Votre jeu a été bien sauvegardé dans le fichier " + filePath, true);
-            } catch (IOException e) {
-                new InfosView(this, "Sauvegarde", "Erreur lors de la sauvegarde : " + e.getMessage(), false);
+        
+        if (e.getSource().equals(this.nextButton)) {
+            if (!this.gameBoard.isGameOver()) {
+                FightGamePlayer player = this.gameBoard.getNextPlayer();
+                Action action = player.play();
+                new InfosView(this, "Action", player + " play " + action, true);
+                this.gameBoard.performAction((FightGameAction) action, player);
+            } else {
+                new InfosView(this, "Information", "Game is over!!", true);
             }
-        } else {
-            System.out.println("L'utilisateur a annulé la sauvegarde.");
+        }
+
+        if(e.getSource().equals(this.exitButton)){
+            System.exit(0);
         }
     }
 }

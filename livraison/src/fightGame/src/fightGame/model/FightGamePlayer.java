@@ -19,20 +19,19 @@ public class FightGamePlayer implements Player, Serializable {
     protected String name;
     private FightGamePlayerStrategy strategy;
     
-    public FightGamePlayer(GameBoard gameBoard, String name, int playerIndex, Position startingposition){
+    public FightGamePlayer(GameBoard gameBoard, String name, int playerIndex){
         this.playerIndex = playerIndex;
         this.name = name;
         this.unit = new UnitBuilder()
                                 .withName(name)
                                 .withOwner(this)
-                                .withPosition(startingposition)
                                 .withBombs(UnchangeableSettings.NB_BOMBS, UnchangeableSettings.BOMB_DAMAGE, UnchangeableSettings.BOMB_TIMER)
                                 .withMines(UnchangeableSettings.NB_MINES, UnchangeableSettings.MINE_DAMAGE)
                                 .withProjectiles(UnchangeableSettings.NB_PROJECTILES, UnchangeableSettings.PROJECTILE_SCOPE, UnchangeableSettings.PROJECTILE_DAMAGE)
                                 .withShieldRetention(UnchangeableSettings.SHIELD_ABSORPTION)
                                 .withEnergy(UnchangeableSettings.STARTING_ENERGY)
                                 .build();
-        gameBoard.addEntity(unit, startingposition);
+       // gameBoard.addEntity(unit, startingposition);
         this.gameBoardProxy = new GameBoardProxy(gameBoard, this);
 
     }

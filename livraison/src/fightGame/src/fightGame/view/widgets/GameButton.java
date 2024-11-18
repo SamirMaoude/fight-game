@@ -31,7 +31,7 @@ public class GameButton extends JButton {
         if (getModel().isPressed()) {
             g2.setColor(getBackground().darker());
         } else if (getModel().isRollover()) {
-            g2.setColor(InterfaceSetting.BTN_OVER_COLOR);
+            g2.setColor(InterfaceSetting.COLOR);
         } else {
             g2.setColor(getBackground());
         }

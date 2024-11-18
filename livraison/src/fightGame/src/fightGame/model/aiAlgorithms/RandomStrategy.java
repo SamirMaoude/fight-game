@@ -1,5 +1,6 @@
 package fightGame.model.aiAlgorithms;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
@@ -7,7 +8,7 @@ import fightGame.model.GameBoardProxy;
 import gamePlayers.util.Action;
 import gamePlayers.util.Player;
 
-public class RandomStrategy implements FightGamePlayerStrategy{
+public class RandomStrategy implements FightGamePlayerStrategy, Serializable{
 
 
     @Override
