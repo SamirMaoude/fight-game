@@ -109,6 +109,10 @@ public class Unit extends AbstractGameEntity {
         this.shieldTimer = time;
     }
 
+    public boolean isShieldActivated(){
+        return this.shieldActivated;
+    }
+
     public int getShieldTimer() {
         return this.shieldTimer;
     }

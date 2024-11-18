@@ -2,6 +2,6 @@ package fightGame.model;
 
 import junit.framework.TestCase;
 
-public class TestGameBoard extends TestCase {
+public class GameBoardTest extends TestCase {
 
 }

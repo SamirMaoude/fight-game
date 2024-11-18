@@ -6,6 +6,7 @@ import javax.swing.table.AbstractTableModel;
 import fightGame.model.GameBoard;
 import fightGame.model.GameBoardProxy;
 import gamePlayers.*;
+import gamePlayers.fighters.Unit;
 import gamePlayers.util.*;
 
 public class GameBoardAdapterToTable extends AbstractTableModel implements ModelListener {
@@ -65,6 +66,10 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
                     break;
                 case UNIT:
                     icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.png"));
+                    Unit u = (Unit)entity;
+                    if (u.isShieldActivated()){
+                        icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/shield.jpg"));
+                    }
                     break;
                 case PELLET:
                     icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/pellet.jpg"));

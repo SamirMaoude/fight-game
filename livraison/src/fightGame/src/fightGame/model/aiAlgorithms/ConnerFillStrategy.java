@@ -22,30 +22,37 @@ public class ConnerFillStrategy implements GameBordInitFillStrategy, Serializabl
 
         // Positions des coins
         List<Position> corners = Arrays.asList(
-            new Position(0, 0), // Coin haut-gauche
-            new Position(0, UnchangeableSettings.NB_COLS - 1), // Coin haut-droit
-            new Position(UnchangeableSettings.NB_ROWS - 1, 0), // Coin bas-gauche
-            new Position(UnchangeableSettings.NB_ROWS - 1, UnchangeableSettings.NB_COLS - 1) // Coin bas-droit
+                new Position(0, 0), // Coin haut-gauche
+                new Position(0, UnchangeableSettings.NB_COLS - 1), // Coin haut-droit
+                new Position(UnchangeableSettings.NB_ROWS - 1, 0), // Coin bas-gauche
+                new Position(UnchangeableSettings.NB_ROWS - 1, UnchangeableSettings.NB_COLS - 1) // Coin bas-droit
         );
 
         // Associer les joueurs aux coins
-        for (int i = 0; i < players.size(); i++) {
-            if (i < corners.size()) {
-                Position position = corners.get(i);
-                used.add(position);
-                FightGamePlayer player = players.get(i);
-                System.out.println(player + " ajouté à la position " + position);
-                player.getUnit().setPosition(position);
-                gameBoard.addEntity(player.getUnit(), position);
+        if (players.size() <= 4) {
+            for (int i = 0; i < players.size(); i++) {
+                if (i < corners.size()) {
+                    Position position = corners.get(i);
+                    used.add(position);
+                    FightGamePlayer player = players.get(i);
+                    System.out.println(player + " ajouté à la position " + position);
+                    player.getUnit().setPosition(position);
+                    gameBoard.addEntity(player.getUnit(), position);
+                }
             }
+
+        }else{
+            int diff = players.size()-4;
+            //TO DO
         }
 
         // Ajouter les pellet sur des positions aléatoires
-        if (UnchangeableSettings.NB_INIT_PELLET > 0 && UnchangeableSettings.NB_INIT_PELLET < UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS) {
+        if (UnchangeableSettings.NB_INIT_PELLET > 0
+                && UnchangeableSettings.NB_INIT_PELLET < UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS) {
             int i = UnchangeableSettings.NB_INIT_PELLET;
             do {
-                int row = random.nextInt(0, UnchangeableSettings.NB_ROWS);
-                int col = random.nextInt(0, UnchangeableSettings.NB_COLS);
+                int row = random.nextInt(UnchangeableSettings.NB_ROWS);
+                int col = random.nextInt(UnchangeableSettings.NB_COLS);
                 Position position = new Position(row, col);
                 if (!used.contains(position)) {
                     i--;
@@ -58,11 +65,12 @@ public class ConnerFillStrategy implements GameBordInitFillStrategy, Serializabl
         }
 
         // Ajouter les murs sur des positions aléatoires
-        if (UnchangeableSettings.NB_WALL > 0 && UnchangeableSettings.NB_WALL < UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS) {
+        if (UnchangeableSettings.NB_WALL > 0
+                && UnchangeableSettings.NB_WALL < UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS) {
             int i = UnchangeableSettings.NB_WALL;
             do {
-                int row = random.nextInt(0, UnchangeableSettings.NB_ROWS);
-                int col = random.nextInt(0, UnchangeableSettings.NB_COLS);
+                int row = random.nextInt(UnchangeableSettings.NB_ROWS);
+                int col = random.nextInt(UnchangeableSettings.NB_COLS);
                 Position position = new Position(row, col);
                 if (!used.contains(position)) {
                     i--;

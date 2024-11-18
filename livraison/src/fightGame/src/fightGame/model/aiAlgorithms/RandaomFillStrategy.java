@@ -19,20 +19,35 @@ public class RandaomFillStrategy implements GameBordInitFillStrategy, Serializab
         Random random = new Random();
         List<Position> used = new ArrayList<>();
         List<FightGamePlayer> players = gameBoard.getPlayers();
+        int nbPlayers = players.size();
+        int i = nbPlayers;
+        //On cherche une position de départ pour chaque player
+        if (players.size() > 0 && players.size()  < UnchangeableSettings.NB_ROWS*UnchangeableSettings.NB_COLS+1) {  
+            do {
+                int row = random.nextInt(UnchangeableSettings.NB_ROWS);
+                int col = random.nextInt(UnchangeableSettings.NB_COLS);
+                Position position = new Position(row, col);
+                if(!used.contains(position)) {
+                    i--;
+                    used.add(position);
+                }
+            } while (i != 0);
+        }
+
+        i=0;
         for (FightGamePlayer player : players) {
-            int row = random.nextInt(0, UnchangeableSettings.NB_ROWS);
-            int col = random.nextInt(0, UnchangeableSettings.NB_COLS);
-            Position position = new Position(row, col);
-            used.add(position);
+            Position position = used.get(i);
+            i++;
             System.out.println(player + " add at position" + position);
             player.getUnit().setPosition(position);
             System.out.println(gameBoard.addEntity(player.getUnit(), position));
         }
+        
         if (UnchangeableSettings.NB_INIT_PELLET > 0 && UnchangeableSettings.NB_INIT_PELLET < UnchangeableSettings.NB_ROWS*UnchangeableSettings.NB_COLS) {
-            int i = UnchangeableSettings.NB_INIT_PELLET;
+            i = UnchangeableSettings.NB_INIT_PELLET;
             do {
-                int row = random.nextInt(0, UnchangeableSettings.NB_ROWS);
-                int col = random.nextInt(0, UnchangeableSettings.NB_COLS);
+                int row = random.nextInt(UnchangeableSettings.NB_ROWS);
+                int col = random.nextInt(UnchangeableSettings.NB_COLS);
                 Position position = new Position(row, col);
                 if (!used.contains(position)) {
                     i--;
@@ -46,10 +61,10 @@ public class RandaomFillStrategy implements GameBordInitFillStrategy, Serializab
         }
 
         if (UnchangeableSettings.NB_WALL > 0 && UnchangeableSettings.NB_WALL< UnchangeableSettings.NB_ROWS*UnchangeableSettings.NB_COLS) {
-            int i = UnchangeableSettings.NB_WALL;
+            i = UnchangeableSettings.NB_WALL;
             do {
-                int row = random.nextInt(0, UnchangeableSettings.NB_ROWS);
-                int col = random.nextInt(0, UnchangeableSettings.NB_COLS);
+                int row = random.nextInt(UnchangeableSettings.NB_ROWS);
+            int col = random.nextInt(UnchangeableSettings.NB_COLS);
                 Position position = new Position(row, col);
                 if (!used.contains(position)) {
                     i--;

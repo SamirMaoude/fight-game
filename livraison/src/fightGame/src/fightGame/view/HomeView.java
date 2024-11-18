@@ -5,10 +5,7 @@ import javax.swing.*;
 import fightGame.UnchangeableSettings;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
-import fightGame.model.aiAlgorithms.ConnerFillStrategy;
-import fightGame.model.aiAlgorithms.MinimaxStrategy;
-import fightGame.model.aiAlgorithms.RandaomFillStrategy;
-import fightGame.model.aiAlgorithms.RandomStrategy;
+import fightGame.model.aiAlgorithms.*;
 import fightGame.model.io.GameBoardIO;
 import fightGame.view.widgets.GameButton;
 import fightGame.view.widgets.GameView;
@@ -83,7 +80,7 @@ public class HomeView extends JFrame implements ActionListener {
     }
 
     private void newGame() {
-        GameBoard gameBoard = new GameBoard(UnchangeableSettings.NB_ROWS, UnchangeableSettings.NB_COLS,new ConnerFillStrategy());
+        GameBoard gameBoard = new GameBoard(UnchangeableSettings.NB_ROWS, UnchangeableSettings.NB_COLS, new ConnerFillStrategy());
 
         for (int i = 0; i < UnchangeableSettings.NB_RANDOM_PLAYERS; i++) {
             FightGamePlayer player = new FightGamePlayer(gameBoard,"RP_" + (i + 1), i);

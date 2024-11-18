@@ -1,4 +1,4 @@
-package gamePlayers.objects;
+package gamePlayers.fighters;
 
 import gamePlayers.fighters.Unit;
 import gamePlayers.fighters.UnitBuilder;
