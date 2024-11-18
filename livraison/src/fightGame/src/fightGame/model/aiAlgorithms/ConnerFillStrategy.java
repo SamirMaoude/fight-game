@@ -41,14 +41,38 @@ public class ConnerFillStrategy implements GameBordInitFillStrategy, Serializabl
                 }
             }
 
-        }else{
-            int diff = players.size()-4;
-            //TO DO
+        } else {
+            int diff = players.size() - 4;
+            for (int i = 0; i < 4; i++) {
+                Position position = corners.get(i);
+                used.add(position);
+                FightGamePlayer player = players.get(i);
+                //System.out.println(player + " ajouté à la position " + position);
+                player.getUnit().setPosition(position);
+                gameBoard.addEntity(player.getUnit(), position);
+            }
+            int i = players.size()-4;
+            int j=0;
+            do {
+                int row = random.nextInt(UnchangeableSettings.NB_ROWS);
+                int col = random.nextInt(UnchangeableSettings.NB_COLS);
+                Position position = new Position(row, col);
+                if (!used.contains(position)) {
+                    i--;
+                    used.add(position);
+                    FightGamePlayer player = players.get(4+j);
+                    j++;
+                    player.getUnit().setPosition(position);
+                    gameBoard.addEntity(player.getUnit(), position);
+                }
+            } while (i != 0);
         }
 
         // Ajouter les pellet sur des positions aléatoires
         if (UnchangeableSettings.NB_INIT_PELLET > 0
-                && UnchangeableSettings.NB_INIT_PELLET < UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS) {
+                && UnchangeableSettings.NB_INIT_PELLET < UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS)
+
+        {
             int i = UnchangeableSettings.NB_INIT_PELLET;
             do {
                 int row = random.nextInt(UnchangeableSettings.NB_ROWS);
