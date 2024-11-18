@@ -28,7 +28,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     private int cols;
     private int nextPlayerIndex = 0;
 
-    private GameBordInitFillStrategy strategy;
+    private GameBordInitFillStrategy fillStrategy;
     private Map<Position, Set<AbstractGameEntity>> entities = new HashMap<>();
     private List<FightGamePlayer> players = new ArrayList<>();
     private List<Position> impactedPositionsByBomb = new ArrayList<>();
@@ -43,7 +43,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     public GameBoard (int rows, int cols, GameBordInitFillStrategy strategy){
         this(rows, cols);
-        this.strategy = strategy;
+        this.fillStrategy = strategy;
     }
 
     public GameBoard(int rows, int cols, List<FightGamePlayer> players) {
@@ -112,10 +112,10 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         return entities;
     }
     public void setStrategy(GameBordInitFillStrategy strategy){
-        this.strategy = strategy;
+        this.fillStrategy = strategy;
     }
     public void fillGameBoard(){
-        this.strategy.fillGrid(this);
+        this.fillStrategy.fillGrid(this);
     }
 
     public void addPlayer(FightGamePlayer player){

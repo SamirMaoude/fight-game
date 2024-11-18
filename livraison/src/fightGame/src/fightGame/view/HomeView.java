@@ -96,10 +96,12 @@ public class HomeView extends JFrame implements ActionListener {
         }
         gameBoard.fillGameBoard();
         int nbPlayers = UnchangeableSettings.NB_MINIMAX_PLAYERS + UnchangeableSettings.NB_RANDOM_PLAYERS;
+        new GameView("View", gameBoard, null);
         for (int i = 0; i < nbPlayers; i++) {
             FightGamePlayer player = gameBoard.getPlayers().get(i);
             new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy());
         }
+        
 
        //play(gameBoard);
     }

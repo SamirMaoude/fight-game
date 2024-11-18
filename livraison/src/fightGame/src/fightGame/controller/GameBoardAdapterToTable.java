@@ -31,11 +31,18 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         Position position = new Position(rowIndex, columnIndex);
-        Set<AbstractGameEntity> entities = this.proxy.getEntitiesAt(position);
         List<Position> positionsImpactedByBombs = gameBoard.getImpactedPositionsByBomb();
         List<Position> positionsImpactedByMines = gameBoard.getImpactedPositionsByMine();
         List<Position> positionsImpactedByProjectils = gameBoard.getImpactedPositionsByProjectile();
         List<ImageIcon> icons = new ArrayList<>();
+
+        Set<AbstractGameEntity> entities;
+        if(this.proxy==null){
+            entities = this.gameBoard.getEntitiesAt(position);
+        }else{
+            entities = this.proxy.getEntitiesAt(position);
+        }
+
         if (positionsImpactedByBombs.contains(position)) {
             icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/bombexplosion.jpg"));
         }
@@ -68,7 +75,7 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
             }
         }
         if (icons.size() == 0) {
-            icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/univers.png"));
+            icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/blanc.png"));
         }
         return icons;
     }

@@ -28,8 +28,8 @@ public class UnchangeableSettings {
     public static int SHIELD_TIMER;
     public static int NB_RANDOM_PLAYERS = 1;
     public static int NB_MINIMAX_PLAYERS = 1;
-    public static int NB_INIT_PELLET = 1;
-    public static int NB_WALL = 1;
+    public static int NB_INIT_PELLET = 0;
+    public static int NB_WALL = 0;
 
 
 
