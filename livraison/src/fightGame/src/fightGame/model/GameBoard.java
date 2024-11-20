@@ -633,8 +633,20 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     public int getNextPlayerIndex() {
         nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
         if(playersRemaining()==0) return nextPlayerIndex;
-        while (!players.get(nextPlayerIndex).getUnit().isAlive()) {
-            nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
+        boolean ok = false;
+        while (!ok) {
+            Unit nextUnit = players.get(nextPlayerIndex).getUnit();
+            if(nextUnit == null){
+                nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
+                continue;
+            }
+            else if(!nextUnit.isAlive()){
+                nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
+                continue;
+            }
+
+            ok = true;
+            
         }
         
         return nextPlayerIndex;
@@ -803,7 +815,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             try {
                 FightGamePlayer player = this.getNextPlayer();
 
-                Thread.sleep(3000);
+                Thread.sleep(5000);
                 Action action = player.play();
                 System.out.println(player + " played " + action);
                 performAction((FightGameAction) action, player);
@@ -825,6 +837,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
         int nb = 0;
         for (FightGamePlayer player : players) {
+            if(player.getUnit() == null) continue;
             if (player.getUnit().isAlive()) {
                 nb++;
             }

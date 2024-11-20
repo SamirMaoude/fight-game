@@ -10,6 +10,7 @@ import fightGame.model.GameBoard;
 import fightGame.model.GameBoardProxy;
 import gamePlayers.fighters.Unit;
 import gamePlayers.util.Action;
+import gamePlayers.util.Direction;
 import gamePlayers.util.Player;
 
 
@@ -31,8 +32,8 @@ public class MinimaxStrategy implements FightGamePlayerStrategy,Serializable {
     }
 
 
-    private static final double WEAPONS_WEIGHT = 200;
-    private static final double PROXIMITY_WEIGHT = 50;
+    private static final double WEAPONS_WEIGHT = -0.1;
+    private static final double PROXIMITY_WEIGHT = 30;
 
     // Other properties and methods...
 
@@ -42,24 +43,27 @@ public class MinimaxStrategy implements FightGamePlayerStrategy,Serializable {
         FightGamePlayer currentPlayer = players.get(playerIndex);
         Unit currentUnit = currentPlayer.getUnit();
 
+        if(currentUnit == null) return Double.NEGATIVE_INFINITY;
+
         // 1. Health/Energy metric: Higher energy is better
-        // score += currentUnit.getEnergy();
+        score += currentUnit.getEnergy();
 
         // 2. Weapons count: Stimulate player to use weapon
         int totalWeapons = currentUnit.getBombs().size() + currentUnit.getMines().size() + currentUnit.getProjectiles().size();
-        score += WEAPONS_WEIGHT / (totalWeapons + 1 );
+        score += WEAPONS_WEIGHT * (totalWeapons);
 
         // 3. Simulate players to move to each other
         double totalDistance = 0.0;
         int nbOpponents = 0;
         for (FightGamePlayer opponent : players) {
             if(opponent.equals(currentPlayer))continue;
+            if(opponent.getUnit() == null) continue;
             if(opponent.getUnit().isAlive()){
                 double distance = currentUnit.getPosition().distanceTo(opponent.getUnit().getPosition());
                 totalDistance += distance;
                 nbOpponents++;
 
-                if(currentUnit.getEnergy() < opponent.getUnit().getEnergy()) score-=500;
+                if(currentUnit.getEnergy() < opponent.getUnit().getEnergy()) score += opponent.getUnit().getEnergy() - currentUnit.getEnergy()  ;
             }
 
             
@@ -86,7 +90,7 @@ public class MinimaxStrategy implements FightGamePlayerStrategy,Serializable {
         nbPlayers = gameBoard.getNbPlayers();
         
         
-        Result result = minimax(gameBoard, 7, players.get(playerIndex), Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        Result result = minimax(gameBoard, 5, players.get(playerIndex), Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 
         return result.action;
     }
