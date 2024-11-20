@@ -43,7 +43,7 @@ public class MinimaxStrategy implements FightGamePlayerStrategy,Serializable {
         Unit currentUnit = currentPlayer.getUnit();
 
         // 1. Health/Energy metric: Higher energy is better
-        score += currentUnit.getEnergy();
+        // score += currentUnit.getEnergy();
 
         // 2. Weapons count: Stimulate player to use weapon
         int totalWeapons = currentUnit.getBombs().size() + currentUnit.getMines().size() + currentUnit.getProjectiles().size();
@@ -58,7 +58,11 @@ public class MinimaxStrategy implements FightGamePlayerStrategy,Serializable {
                 double distance = currentUnit.getPosition().distanceTo(opponent.getUnit().getPosition());
                 totalDistance += distance;
                 nbOpponents++;
+
+                if(currentUnit.getEnergy() < opponent.getUnit().getEnergy()) score-=500;
             }
+
+            
             
         }
         double averageDistance = 0;
@@ -82,7 +86,7 @@ public class MinimaxStrategy implements FightGamePlayerStrategy,Serializable {
         nbPlayers = gameBoard.getNbPlayers();
         
         
-        Result result = minimax(gameBoard, 5, players.get(playerIndex), Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
+        Result result = minimax(gameBoard, 7, players.get(playerIndex), Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 
         return result.action;
     }
