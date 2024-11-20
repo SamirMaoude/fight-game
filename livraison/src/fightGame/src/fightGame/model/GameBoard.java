@@ -35,6 +35,8 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     private List<Position> impactedPositionsByMine = new ArrayList<>();
     private List<Position> impactedPositionsByProjectile = new ArrayList<>();
     private List<Position> lastMove = new ArrayList<>();
+    private FightGameAction lastActionPlayed = null;
+    private FightGamePlayer precedentPlayer = null;
 
     public GameBoard(int rows, int cols) {
         this.rows = rows;
@@ -572,6 +574,9 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         
         getNextPlayerIndex();
 
+        lastActionPlayed = action;
+        precedentPlayer = player;
+
         this.notifyModelListeners();
 
         return true;
@@ -861,5 +866,15 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     public int getNbPlayers(){
         return this.players.size();
     }
+
+    public FightGameAction getLastActionPlayed() {
+        return lastActionPlayed;
+    }
+
+    public FightGamePlayer getPrecedentPlayer() {
+        return precedentPlayer;
+    }
+
+    
 
 }
