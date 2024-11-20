@@ -12,7 +12,8 @@ public class FightGameAction implements Action {
     public String toString() {
         return "Action [TYPE=" + TYPE + "]";
     }
-
-    
+    public FightGameActionType getTYPE() {
+        return TYPE;
+    }
 
 }
