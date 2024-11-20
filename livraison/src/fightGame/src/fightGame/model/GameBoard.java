@@ -780,7 +780,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
         Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
 
-        for (AbstractGameEntity entity : positionEntities) {
+        for (AbstractGameEntity entity : new HashSet<>(positionEntities)) {
             if (entity.getType() == EntityType.WALL) {
                 return false;
             }
