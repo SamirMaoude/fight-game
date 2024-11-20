@@ -3,11 +3,14 @@ package fightGame.controller;
 import java.util.*;
 import javax.swing.*;
 import javax.swing.table.AbstractTableModel;
+
 import fightGame.model.GameBoard;
 import fightGame.model.GameBoardProxy;
 import gamePlayers.*;
 import gamePlayers.fighters.Unit;
-import gamePlayers.util.*;
+import gamePlayers.util.ListenableModel;
+import gamePlayers.util.ModelListener;
+import gamePlayers.util.Position;
 
 public class GameBoardAdapterToTable extends AbstractTableModel implements ModelListener {
     private GameBoard gameBoard;
@@ -38,9 +41,9 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
         List<ImageIcon> icons = new ArrayList<>();
 
         Set<AbstractGameEntity> entities;
-        if(this.proxy==null){
+        if (this.proxy == null) {
             entities = this.gameBoard.getEntitiesAt(position);
-        }else{
+        } else {
             entities = this.proxy.getEntitiesAt(position);
         }
 
@@ -50,9 +53,28 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
         if (positionsImpactedByMines.contains(position)) {
             icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/minesexplosion.jpg"));
         }
+
         if (positionsImpactedByProjectils.contains(position)) {
-            icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/projectiles.jpg"));
+            // System.out.println(this.gameBoard.getLastActionPlayed().getTYPE());
+            switch (this.gameBoard.getLastActionPlayed().getTYPE()) {
+                case USE_PROJECTILE_AT_RIGHT:
+                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/right.jpg"));
+                    break;
+                case USE_PROJECTILE_AT_LEFT:
+                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/left.jpg"));
+                    break;
+                case USE_PROJECTILE_AT_TOP:
+                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/top.jpg"));
+                    break;
+                case USE_PROJECTILE_AT_BOTTOM:
+                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/bottom.jpg"));
+                    break;
+                default:
+                    break;
+            }
+
         }
+
         for (AbstractGameEntity entity : entities) {
             switch (entity.getType()) {
                 case BOMB:
@@ -66,15 +88,15 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
                     break;
                 case UNIT:
                     icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.png"));
-                    Unit u = (Unit)entity;
-                    if (u.isShieldActivated()){
+                    Unit u = (Unit) entity;
+                    if (u.isShieldActivated()) {
                         icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/shield.jpg"));
                     }
                     break;
                 case PELLET:
                     icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/pellet.jpg"));
                     break;
-               
+
                 default:
                     break;
             }

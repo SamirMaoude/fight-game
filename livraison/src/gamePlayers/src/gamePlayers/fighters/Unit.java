@@ -25,9 +25,7 @@ public class Unit extends AbstractGameEntity {
             LinkedList<Mine> mines,
             LinkedList<Projectile> projectiles, int shieldRetention) {
         super(EntityType.UNIT, position, owner);
-        if (energy <= 0) {
-            throw new IllegalArgumentException("Unit energy must be higher than 0 during creation");
-        }
+    
         if (name.isEmpty()) {
             throw new IllegalArgumentException("You cannot provide an empty string as unit name!");
         }

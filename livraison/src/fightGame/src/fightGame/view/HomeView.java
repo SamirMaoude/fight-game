@@ -6,17 +6,24 @@ import fightGame.UnchangeableSettings;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
 import fightGame.model.aiAlgorithms.*;
+import fightGame.model.aiAlgorithms.strategy.ConnerFillStrategy;
 import fightGame.model.io.GameBoardIO;
 import fightGame.view.widgets.GameButton;
 import fightGame.view.widgets.GameView;
+import fightGame.view.widgets.InfosView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 public class HomeView extends JFrame implements ActionListener {
     private GameButton loadButton;
     private GameButton newGameButton;
+    private GameButton robotButton;
     private GameButton exitButton;
+    public static List<GameView> gameViews;
+    private GameBoard gameBoard;
 
     public HomeView() {
         UnchangeableSettings.loadSettings();
@@ -25,7 +32,7 @@ public class HomeView extends JFrame implements ActionListener {
     }
 
     public void buildView() {
-        setSize(500, 400);
+        setSize(600, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -42,10 +49,12 @@ public class HomeView extends JFrame implements ActionListener {
         loadButton = new GameButton("Load", 150, 50);
         newGameButton = new GameButton("New", 150, 50);
         exitButton = new GameButton("Exit", 150, 50);
+        robotButton = new GameButton("Robot", 150, 50);
 
         loadButton.addActionListener(this);
         newGameButton.addActionListener(this);
         exitButton.addActionListener(this);
+        robotButton.addActionListener(this);
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -58,7 +67,11 @@ public class HomeView extends JFrame implements ActionListener {
         buttonPanel.add(newGameButton, gbc);
 
         gbc.gridy = 2;
+        buttonPanel.add(robotButton, gbc);
+
+        gbc.gridy = 3;
         buttonPanel.add(exitButton, gbc);
+
 
         add(buttonPanel, BorderLayout.CENTER);
         this.setLocationRelativeTo(null);
@@ -77,10 +90,19 @@ public class HomeView extends JFrame implements ActionListener {
         if (e.getSource().equals(this.exitButton)) {
             System.exit(0);
         }
+        if(e.getSource().equals(this.robotButton)){
+            showRobotPlay();
+        }
     }
 
-    private void newGame() {
-        GameBoard gameBoard = new GameBoard(UnchangeableSettings.NB_ROWS, UnchangeableSettings.NB_COLS, new ConnerFillStrategy());
+    public void showRobotPlay(){
+        newGame();
+        play(this.gameBoard);
+    }
+
+    public void newGame() {
+        this.gameViews = new ArrayList<>();
+        this.gameBoard = new GameBoard(UnchangeableSettings.NB_ROWS, UnchangeableSettings.NB_COLS, new ConnerFillStrategy());
 
         for (int i = 0; i < UnchangeableSettings.NB_RANDOM_PLAYERS; i++) {
             FightGamePlayer player = new FightGamePlayer(gameBoard,"RP_" + (i + 1), i);
@@ -94,14 +116,12 @@ public class HomeView extends JFrame implements ActionListener {
         }
         gameBoard.fillGameBoard();
         int nbPlayers = UnchangeableSettings.NB_MINIMAX_PLAYERS + UnchangeableSettings.NB_RANDOM_PLAYERS;
-        new GameView("View", gameBoard, null);
+        this.gameViews.add(new GameView("View", gameBoard, null));
         for (int i = 0; i < nbPlayers; i++) {
             FightGamePlayer player = gameBoard.getPlayers().get(i);
-            new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy());
+            this.gameViews.add(new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy()));
         }
-        
-
-       //play(gameBoard);
+        this.dispose();
     }
 
     private void play(GameBoard gameBoard){
@@ -115,6 +135,7 @@ public class HomeView extends JFrame implements ActionListener {
             @Override
             protected void done() {
                 System.out.println("Game loop finished.");
+                new InfosView(null, "Game Over", "We have a winner", true);
             }
         };
 

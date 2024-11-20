@@ -5,13 +5,14 @@ import java.awt.event.*;
 import java.io.*;
 
 import javax.swing.*;
-
+import java.util.List;
 import fightGame.controller.GameBoardAdapterToTable;
 import fightGame.model.FightGameAction;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
 import fightGame.model.GameBoardProxy;
 import fightGame.model.io.*;
+import fightGame.view.HomeView;
 import fightGame.view.InterfaceSetting;
 import gamePlayers.util.Action;
 import gamePlayers.util.ListenableModel;
@@ -22,6 +23,7 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
     private GameButton nextButton;
     private GameButton saveButton;
     private GameButton exitButton;
+    private GameButton homeButton;
 
     private GameBoard gameBoard;
     private GameBoardTable gameBoardTable;
@@ -47,10 +49,13 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
         this.nextButton = new GameButton("Next", 150, 60);
         this.saveButton = new GameButton("Save", 150, 60);
         this.exitButton = new GameButton("Exit", 150, 60);
+        this.homeButton = new GameButton("Home", 150, 60);
+
 
         this.nextButton.addActionListener(this);
         this.saveButton.addActionListener(this);
         this.exitButton.addActionListener(this);
+        this.homeButton.addActionListener(this);
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -60,6 +65,8 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
         southPanel.add(this.nextButton);
         southPanel.add(this.saveButton);
         southPanel.add(this.exitButton);
+        southPanel.add(this.homeButton);
+
 
         this.dashBordView.setSize(500, 500);
 
@@ -91,7 +98,7 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
             if (!this.gameBoard.isGameOver()) {
                 FightGamePlayer player = this.gameBoard.getNextPlayer();
                 Action action = player.play();
-                new InfosView(this, "Action", player + " play " + action, true);
+                //new InfosView(this, "Action", player + " play " + action, true);
                 this.gameBoard.performAction((FightGameAction) action, player);
             } else {
                 new InfosView(this, "Information", "Game is over!!", true);
@@ -100,6 +107,14 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
 
         if(e.getSource().equals(this.exitButton)){
             System.exit(0);
+        }
+        if(e.getSource().equals(this.homeButton)){
+            List<GameView> views = HomeView.gameViews;
+            for (GameView gameView : views) {
+                gameView.dispose();
+            }
+            HomeView homeView = new HomeView();
+            
         }
     }
 }

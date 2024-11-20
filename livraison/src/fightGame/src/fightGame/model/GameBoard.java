@@ -803,7 +803,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             try {
                 FightGamePlayer player = this.getNextPlayer();
 
-                Thread.sleep(5000);
+                Thread.sleep(3000);
                 Action action = player.play();
                 System.out.println(player + " played " + action);
                 performAction((FightGameAction) action, player);

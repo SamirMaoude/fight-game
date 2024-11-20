@@ -7,10 +7,8 @@ import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
 import fightGame.model.aiAlgorithms.FightGamePlayerStrategy;
 import fightGame.model.aiAlgorithms.MinimaxStrategy;
-import fightGame.model.aiAlgorithms.RandaomFillStrategy;
 import fightGame.model.aiAlgorithms.RandomStrategy;
-import gamePlayers.fighters.Unit;
-import gamePlayers.util.Position;
+import fightGame.model.aiAlgorithms.strategy.RandaomFillStrategy;
 
 public class MainClass {
     public static void main(String[] args) {

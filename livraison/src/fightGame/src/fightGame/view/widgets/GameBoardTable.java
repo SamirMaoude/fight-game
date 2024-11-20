@@ -17,7 +17,7 @@ public class GameBoardTable extends JTable {
     }
 
     private void build() {
-        this.setRowHeight(HEIGHT/this.getRowCount()+30);
+        this.setRowHeight(HEIGHT/this.getRowCount());
         for (int i = 0; i < this.getColumnModel().getColumnCount(); i++) {
             TableColumn column = this.getColumnModel().getColumn(i);
             column.setPreferredWidth(WIDTH/this.getColumnCount());

@@ -35,7 +35,7 @@ public class InfosView extends JDialog implements ActionListener {
 
         this.add(buttonPanel, BorderLayout.SOUTH);
 
-        this.pack(); 
+        this.setMinimumSize(new Dimension(300, 300));; 
         this.setVisible(true);
     }
 

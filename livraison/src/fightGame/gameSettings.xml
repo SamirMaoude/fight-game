@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gameSettings>
-    <nbRows>3</nbRows>
-    <nbCols>3</nbCols>
+    <nbRows>4</nbRows>
+    <nbCols>4</nbCols>
     <nbBombs>5</nbBombs>
     <nbProjectiles>10</nbProjectiles>
     <nbMines>3</nbMines>

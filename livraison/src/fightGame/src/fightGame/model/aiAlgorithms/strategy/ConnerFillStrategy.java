@@ -1,4 +1,4 @@
-package fightGame.model.aiAlgorithms;
+package fightGame.model.aiAlgorithms.strategy;
 
 import java.io.Serializable;
 import java.util.*;
@@ -6,6 +6,7 @@ import java.util.*;
 import fightGame.UnchangeableSettings;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
+import fightGame.model.aiAlgorithms.GameBordInitFillStrategy;
 import fightGame.model.objects.Wall;
 import gamePlayers.objects.Pellet;
 import gamePlayers.util.Position;
@@ -23,9 +24,10 @@ public class ConnerFillStrategy implements GameBordInitFillStrategy, Serializabl
         // Positions des coins
         List<Position> corners = Arrays.asList(
                 new Position(0, 0), // Coin haut-gauche
+                new Position(UnchangeableSettings.NB_ROWS - 1, UnchangeableSettings.NB_COLS - 1), // Coin bas-droit
+
                 new Position(0, UnchangeableSettings.NB_COLS - 1), // Coin haut-droit
-                new Position(UnchangeableSettings.NB_ROWS - 1, 0), // Coin bas-gauche
-                new Position(UnchangeableSettings.NB_ROWS - 1, UnchangeableSettings.NB_COLS - 1) // Coin bas-droit
+                new Position(UnchangeableSettings.NB_ROWS - 1, 0) // Coin bas-gauche
         );
 
         // Associer les joueurs aux coins
