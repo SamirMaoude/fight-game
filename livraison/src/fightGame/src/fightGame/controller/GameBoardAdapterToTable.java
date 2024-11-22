@@ -78,7 +78,7 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
         for (AbstractGameEntity entity : entities) {
             switch (entity.getType()) {
                 case BOMB:
-                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/bomb.png"));
+                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/bombicon.png"));
                     break;
                 case WALL:
                     icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/wall.png"));

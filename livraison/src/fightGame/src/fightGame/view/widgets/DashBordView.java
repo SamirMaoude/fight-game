@@ -27,10 +27,9 @@ public class DashBordView extends JPanel implements ModelListener {
 
         List<FightGamePlayer> players = this.gameBoard.getPlayers();
         for (FightGamePlayer fightGamePlayer : players) {
-            PlayerView view = new PlayerView(fightGamePlayer, UnchangeableSettings.STARTING_ENERGY);
+            PlayerView view = new PlayerView(fightGamePlayer);
             playersViews.put(fightGamePlayer, view);
             this.add(view);
-
         }
     }
 
@@ -41,6 +40,9 @@ public class DashBordView extends JPanel implements ModelListener {
                 PlayerView view = playersViews.get(player);
                 if (view != null) {
                     view.setEnergy(player.getUnit().getEnergy()); // Mise à jour de l'énergie
+                    view.setNbBombLabel(String.valueOf(player.getUnit().getBombs().size()));
+                    view.setNbMineLabel(String.valueOf(player.getUnit().getMines().size()));
+                    view.setNbProjectilLabel(String.valueOf(player.getUnit().getProjectiles().size()));
                 }
             }
         }
