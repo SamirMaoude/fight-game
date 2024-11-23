@@ -76,6 +76,11 @@ public class PlayerView extends JPanel {
     }
 
     public void setEnergy(int energy){
+        if(energy<=60 && energy>30){
+            this.energyProgressBar.setForeground(InterfaceSetting.WARNING_COLOR);
+        }else if(energy<=30){
+            this.energyProgressBar.setForeground(InterfaceSetting.DANGER_COLOR);
+        }
         this.energyProgressBar.setValue(energy);
     }
 

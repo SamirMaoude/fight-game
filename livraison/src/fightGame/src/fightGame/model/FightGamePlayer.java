@@ -10,7 +10,6 @@ import gamePlayers.fighters.Unit;
 import gamePlayers.fighters.UnitBuilder;
 import gamePlayers.util.Action;
 import gamePlayers.util.Player;
-import gamePlayers.util.Position;
 
 public class FightGamePlayer implements Player, Serializable {
     protected GameBoardProxy gameBoardProxy;

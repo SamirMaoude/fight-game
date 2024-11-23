@@ -14,7 +14,7 @@ public class GameProgressBar extends JProgressBar {
         // Configurez les dimensions de base
         setPreferredSize(new Dimension(200, 40)); 
         setBorder(BorderFactory.createLineBorder(Color.BLACK, 2)); 
-        setForeground(InterfaceSetting.COLOR); 
+        setForeground(InterfaceSetting.OK_COLOR); 
         setBackground(new Color(224, 224, 224)); 
         setStringPainted(true); 
         setFont(new Font("Arial", Font.BOLD, 14)); 

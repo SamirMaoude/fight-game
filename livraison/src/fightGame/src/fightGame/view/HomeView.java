@@ -5,6 +5,7 @@ import javax.swing.*;
 import fightGame.UnchangeableSettings;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
+import fightGame.model.GameThreadManager;
 import fightGame.model.aiAlgorithms.*;
 import fightGame.model.io.GameBoardIO;
 import fightGame.model.strategy.ConnerFillStrategy;
@@ -84,7 +85,7 @@ public class HomeView extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.newGameButton)) {
-            this.newGame();
+            this.newGame(false);
         }
         if (e.getSource().equals(this.loadButton)) {
             this.loadGame();
@@ -98,11 +99,11 @@ public class HomeView extends JFrame implements ActionListener {
     }
 
     public void showRobotPlay(){
-        newGame();
-        play(this.gameBoard);
+        newGame(true);
+       // play(this.gameBoard);
     }
 
-    public void newGame() {
+    public void newGame(boolean withRobot) {
         this.gameViews = new ArrayList<>();
         GameBordInitFillStrategy fillStrategy;
         
@@ -129,10 +130,17 @@ public class HomeView extends JFrame implements ActionListener {
         }
         gameBoard.fillGameBoard();
         int nbPlayers = UnchangeableSettings.NB_MINIMAX_PLAYERS + UnchangeableSettings.NB_RANDOM_PLAYERS;
-        this.gameViews.add(new GameView("View", gameBoard, null));
+        GameThreadManager threadManager = null;
+        if(withRobot){
+            threadManager = new GameThreadManager(gameBoard);
+        }
+        this.gameViews.add(new GameView("View", gameBoard, null,withRobot, threadManager));
         for (int i = 0; i < nbPlayers; i++) {
             FightGamePlayer player = gameBoard.getPlayers().get(i);
-            this.gameViews.add(new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy()));
+            this.gameViews.add(new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy(),withRobot,threadManager));
+        }
+        if(withRobot){
+            threadManager.playGame();
         }
         this.dispose();
     }

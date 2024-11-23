@@ -12,16 +12,8 @@ import fightGame.UnchangeableSettings;
 import fightGame.model.strategy.GameBordInitFillStrategy;
 import gamePlayers.AbstractGameEntity;
 import gamePlayers.fighters.Unit;
-import gamePlayers.objects.Bomb;
-import gamePlayers.objects.Mine;
-import gamePlayers.objects.Pellet;
-import gamePlayers.util.AbtractListenableModel;
-import gamePlayers.util.Action;
-import gamePlayers.util.Direction;
-import gamePlayers.util.EntityType;
-import gamePlayers.util.Player;
-import gamePlayers.util.Position;
-
+import gamePlayers.objects.*;
+import gamePlayers.util.*;
 public class GameBoard extends AbtractListenableModel implements GameBoardInterface, Cloneable, Serializable{
     private static final long serialVersionUID = 1L; 
     private int rows;

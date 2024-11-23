@@ -87,8 +87,7 @@ public class MinimaxStrategy implements FightGamePlayerStrategy,Serializable {
         GameBoard gameBoard = proxy.getGameBoard();
         players = gameBoard.getPlayers();
 
-        nbPlayers = gameBoard.getNbPlayers();
-        
+        nbPlayers = gameBoard.getNbPlayers();   
         
         Result result = minimax(gameBoard, 5, players.get(playerIndex), Double.NEGATIVE_INFINITY, Double.POSITIVE_INFINITY);
 

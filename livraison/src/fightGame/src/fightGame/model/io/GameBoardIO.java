@@ -41,7 +41,7 @@ public class GameBoardIO {
             int nbPlayers = gameBoard.getPlayers().size();
             for (int i = 0; i < nbPlayers; i++) {
                 FightGamePlayer player = gameBoard.getPlayers().get(i);
-                new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy());
+                new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy(),false,null);
             }
             //play(gameBoard);
         } catch (IOException | ClassNotFoundException e) {

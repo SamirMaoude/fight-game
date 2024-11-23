@@ -20,13 +20,11 @@ public class ConnerFillStrategy implements GameBordInitFillStrategy, Serializabl
         List<Position> used = new ArrayList<>();
         List<FightGamePlayer> players = gameBoard.getPlayers();
 
-        // Positions des coins
         List<Position> corners = Arrays.asList(
-                new Position(0, 0), // Coin haut-gauche
-                new Position(UnchangeableSettings.NB_ROWS - 1, UnchangeableSettings.NB_COLS - 1), // Coin bas-droit
-
-                new Position(0, UnchangeableSettings.NB_COLS - 1), // Coin haut-droit
-                new Position(UnchangeableSettings.NB_ROWS - 1, 0) // Coin bas-gauche
+                new Position(0, 0), 
+                new Position(UnchangeableSettings.NB_ROWS - 1, UnchangeableSettings.NB_COLS - 1), 
+                new Position(0, UnchangeableSettings.NB_COLS - 1), 
+                new Position(UnchangeableSettings.NB_ROWS - 1, 0) 
         );
 
         // Associer les joueurs aux coins
@@ -43,12 +41,10 @@ public class ConnerFillStrategy implements GameBordInitFillStrategy, Serializabl
             }
 
         } else {
-            int diff = players.size() - 4;
             for (int i = 0; i < 4; i++) {
                 Position position = corners.get(i);
                 used.add(position);
                 FightGamePlayer player = players.get(i);
-                //System.out.println(player + " ajouté à la position " + position);
                 player.getUnit().setPosition(position);
                 gameBoard.addEntity(player.getUnit(), position);
             }

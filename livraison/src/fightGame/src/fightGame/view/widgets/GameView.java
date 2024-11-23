@@ -11,6 +11,7 @@ import fightGame.model.FightGameAction;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
 import fightGame.model.GameBoardProxy;
+import fightGame.model.GameThreadManager;
 import fightGame.model.io.*;
 import fightGame.view.HomeView;
 import fightGame.view.InterfaceSetting;
@@ -24,17 +25,24 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
     private GameButton saveButton;
     private GameButton exitButton;
     private GameButton homeButton;
+    private GameButton pauseButton;
+    private GameButton resumeButton;
+
+    private boolean robotPlay;
 
     private GameBoard gameBoard;
     private GameBoardTable gameBoardTable;
     private DashBordView dashBordView;
     private GameBoardProxy proxy;
+    private GameThreadManager threadManager;
 
-    public GameView(String name, GameBoard gameBoard, GameBoardProxy proxy) {
+    public GameView(String name, GameBoard gameBoard, GameBoardProxy proxy, boolean robotPlay, GameThreadManager threadManager) {
         super(name);
         this.gameBoard = gameBoard;
         this.proxy = proxy;
         this.gameBoard.addModelListener(this);
+        this.robotPlay = robotPlay;
+        this.threadManager = threadManager;
         GameBoardAdapterToTable gameBoardAdapterToTable = new GameBoardAdapterToTable(gameBoard, this.proxy);
         this.gameBoardTable = new GameBoardTable(gameBoardAdapterToTable);
         this.dashBordView = new DashBordView(gameBoard);
@@ -46,14 +54,9 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
         Container container = this.getContentPane();
         container.setLayout(new BorderLayout());
 
-        this.nextButton = new GameButton("Next", 150, 60);
-        this.saveButton = new GameButton("Save", 150, 60);
         this.exitButton = new GameButton("Exit", 150, 60);
         this.homeButton = new GameButton("Home", 150, 60);
 
-
-        this.nextButton.addActionListener(this);
-        this.saveButton.addActionListener(this);
         this.exitButton.addActionListener(this);
         this.homeButton.addActionListener(this);
 
@@ -62,11 +65,26 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
         JPanel southPanel = new JPanel();
         southPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 40, 20));
         southPanel.setSize(InterfaceSetting.WIDTH, 300);
-        southPanel.add(this.nextButton);
-        southPanel.add(this.saveButton);
         southPanel.add(this.exitButton);
         southPanel.add(this.homeButton);
 
+        if(this.robotPlay){
+            this.pauseButton = new GameButton("Pause", 150, 60);
+            this.pauseButton.addActionListener(this);
+            this.resumeButton = new GameButton("Resume", 150, 60);
+            this.resumeButton.addActionListener(this);
+            southPanel.add(this.pauseButton);
+            southPanel.add(this.resumeButton);
+        }else{
+            this.saveButton = new GameButton("Save", 150, 60);
+            this.saveButton.addActionListener(this);
+
+
+            this.nextButton = new GameButton("Next", 150, 60);
+            this.nextButton.addActionListener(this);
+            southPanel.add(this.saveButton);
+            southPanel.add(this.nextButton);
+        }
 
         this.dashBordView.setSize(500, 500);
 
@@ -115,6 +133,12 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
             }
             HomeView homeView = new HomeView();
             
+        }
+        if(e.getSource().equals(this.pauseButton)){
+            this.threadManager.pause();
+        }
+        if(e.getSource().equals(this.resumeButton)){
+            this.threadManager.resume();
         }
     }
 }
