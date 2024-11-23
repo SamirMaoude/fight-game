@@ -483,6 +483,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             }
 
             case USE_PROJECTILE_AT_RIGHT: {
+                unit.useProjectile();
                 int row = unitPosition.getRow();
                 int col = unitPosition.getCol();
                 int maxDistance = col + UnchangeableSettings.PROJECTILE_SCOPE;
@@ -502,6 +503,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             }
 
             case USE_PROJECTILE_AT_LEFT: {
+                unit.useProjectile();
                 int row = unitPosition.getRow();
                 int col = unitPosition.getCol();
                 int maxDistance = col - UnchangeableSettings.PROJECTILE_SCOPE;
@@ -520,6 +522,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             }
 
             case USE_PROJECTILE_AT_TOP: {
+                unit.useProjectile();
                 int row = unitPosition.getRow();
                 int col = unitPosition.getCol();
                 int maxDistance = row - UnchangeableSettings.PROJECTILE_SCOPE;
@@ -538,6 +541,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             }
 
             case USE_PROJECTILE_AT_BOTTOM: {
+                unit.useProjectile();
                 int row = unitPosition.getRow();
                 int col = unitPosition.getCol();
                 int maxDistance = row + UnchangeableSettings.PROJECTILE_SCOPE;
