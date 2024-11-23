@@ -19,6 +19,12 @@ public class Wall extends AbstractGameEntity {
         throw new UnsupportedOperationException("Unimplemented method 'destroy'");
     }
 
+    public Wall clone() throws CloneNotSupportedException {
+        
+        Wall clonedWall = new Wall(new Position(position));
+
+        return clonedWall;
+    }
 
     
     
