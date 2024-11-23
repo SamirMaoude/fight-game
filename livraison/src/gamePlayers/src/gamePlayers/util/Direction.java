@@ -1,5 +1,26 @@
 package gamePlayers.util;
 
+/**
+ * Enum representing possible movement directions.
+ */
 public enum Direction {
-    LEFT,RIGHT,TOP,BOTTOM
+    /**
+     * Move to the left.
+     */
+    LEFT,
+
+    /**
+     * Move to the right.
+     */
+    RIGHT,
+
+    /**
+     * Move upwards.
+     */
+    TOP,
+
+    /**
+     * Move downwards.
+     */
+    BOTTOM
 }

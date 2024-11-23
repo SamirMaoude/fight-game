@@ -21,13 +21,9 @@ import fightGame.model.FightGamePlayer;
 import fightGame.view.InterfaceSetting;
 
 public class PlayerView extends JPanel {
-    private final String BOMB_URL = "livraison/src/fightGame/src/fightGame/view/img/bombicon.png";
-   // private final String BOMB_URL = "livraison/src/fightGame/src/fightGame/view/img/bombicon.png";
-   // private final String BOMB_URL = "livraison/src/fightGame/src/fightGame/view/img/bombicon.png";
-
+  
     public static int WIDTH = (InterfaceSetting.WIDTH) / 3 -50;
     private GameProgressBar energyProgressBar;
-    private ImageIcon bombIcon;
     JLabel nbMineLabel;
     JLabel nbBombLabel;
     JLabel nbProjectilLabel;

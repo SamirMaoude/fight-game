@@ -2,8 +2,6 @@ package fightGame.view.widgets;
 
 import java.util.*;
 import javax.swing.*;
-
-import fightGame.UnchangeableSettings;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
 import fightGame.view.InterfaceSetting;
@@ -17,7 +15,7 @@ public class DashBordView extends JPanel implements ModelListener {
     public DashBordView(GameBoard gameBoard) {
         super();
         this.gameBoard = gameBoard;
-        this.gameBoard.addModelListerner(this);
+        this.gameBoard.addModelListener(this);
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.playersViews = new HashMap<>();
         JLabel infoLabel = new JLabel("Dashboard");

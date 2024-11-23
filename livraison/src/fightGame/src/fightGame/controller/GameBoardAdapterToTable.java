@@ -19,7 +19,7 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
     public GameBoardAdapterToTable(GameBoard gameBoard, GameBoardProxy proxy) {
         this.gameBoard = gameBoard;
         this.proxy = proxy;
-        this.gameBoard.addModelListerner(this);
+        this.gameBoard.addModelListener(this);
     }
 
     @Override

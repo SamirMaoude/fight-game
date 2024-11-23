@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import fightGame.UnchangeableSettings;
-import fightGame.model.aiAlgorithms.GameBordInitFillStrategy;
+import fightGame.model.strategy.GameBordInitFillStrategy;
 import gamePlayers.AbstractGameEntity;
 import gamePlayers.fighters.Unit;
 import gamePlayers.objects.Bomb;
@@ -663,10 +663,10 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 switch (entity.getType()) {
                     case BOMB: {
                         Bomb bomb = (Bomb) entity;
-                        if (bomb.getTimeBeforetimeBeforeExplosion() == 0) {
+                        if (bomb.getTimeBeforeExplosion() == 0) {
                             detonateBombAt(position, bomb);
                         } else {
-                            bomb.descreasedTime();
+                            bomb.decreaseTime();
                         }
 
                         break;

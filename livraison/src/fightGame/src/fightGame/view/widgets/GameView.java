@@ -34,7 +34,7 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
         super(name);
         this.gameBoard = gameBoard;
         this.proxy = proxy;
-        this.gameBoard.addModelListerner(this);
+        this.gameBoard.addModelListener(this);
         GameBoardAdapterToTable gameBoardAdapterToTable = new GameBoardAdapterToTable(gameBoard, this.proxy);
         this.gameBoardTable = new GameBoardTable(gameBoardAdapterToTable);
         this.dashBordView = new DashBordView(gameBoard);

@@ -1,4 +1,4 @@
-package fightGame.model.aiAlgorithms.strategy;
+package fightGame.model.strategy;
 
 import java.io.Serializable;
 import java.util.*;
@@ -6,7 +6,6 @@ import java.util.*;
 import fightGame.UnchangeableSettings;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
-import fightGame.model.aiAlgorithms.GameBordInitFillStrategy;
 import fightGame.model.objects.Wall;
 import gamePlayers.objects.Pellet;
 import gamePlayers.util.Position;
