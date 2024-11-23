@@ -204,6 +204,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                     break;
                 case PELLET:
                     unit.takePellet((Pellet) entity);
+                    newPositionEntities.remove(entity);
                     break;
                 default:
                     break;
