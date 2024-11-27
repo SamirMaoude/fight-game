@@ -9,7 +9,7 @@ import gamePlayers.util.Action;
 import gamePlayers.util.Player;
 
 public class RandomStrategy implements FightGamePlayerStrategy, Serializable{
-
+    
 
     @Override
     public Action play(Player player, GameBoardProxy proxy) {
@@ -17,8 +17,6 @@ public class RandomStrategy implements FightGamePlayerStrategy, Serializable{
 
         Random random = new Random();
         Action randomAction = actions.get(random.nextInt(actions.size()));
-        
-
         return randomAction;
     }
 

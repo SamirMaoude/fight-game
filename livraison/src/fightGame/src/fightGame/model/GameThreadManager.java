@@ -6,7 +6,7 @@ import gamePlayers.util.Player;
 
 public class GameThreadManager {
     private GameBoard gameBoard;
-    private volatile boolean paused = false;
+    private boolean paused = false;
     private final Object pauseLock = new Object();
 
     public GameThreadManager(GameBoard gameBoard) {

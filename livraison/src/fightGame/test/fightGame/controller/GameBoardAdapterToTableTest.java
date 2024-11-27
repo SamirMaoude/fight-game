@@ -2,6 +2,6 @@ package fightGame.controller;
 
 import junit.framework.TestCase;
 
-public class TestGameBoardAdapterToTable extends TestCase {
+public class GameBoardAdapterToTableTest extends TestCase {
     
 }

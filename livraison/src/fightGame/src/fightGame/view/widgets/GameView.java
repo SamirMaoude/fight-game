@@ -13,7 +13,7 @@ import fightGame.model.GameBoard;
 import fightGame.model.GameBoardProxy;
 import fightGame.model.GameThreadManager;
 import fightGame.model.io.*;
-import fightGame.view.HomeView;
+import fightGame.view.GUI;
 import fightGame.view.InterfaceSetting;
 import gamePlayers.util.Action;
 import gamePlayers.util.ListenableModel;
@@ -116,7 +116,7 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
             if (!this.gameBoard.isGameOver()) {
                 FightGamePlayer player = this.gameBoard.getNextPlayer();
                 Action action = player.play();
-                //new InfosView(this, "Action", player + " play " + action, true);
+                Logger.log(player, action.toString());
                 this.gameBoard.performAction((FightGameAction) action, player);
             } else {
                 new InfosView(this, "Information", "Game is over!!", true);
@@ -127,11 +127,11 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
             System.exit(0);
         }
         if(e.getSource().equals(this.homeButton)){
-            List<GameView> views = HomeView.gameViews;
+            List<GameView> views = GUI.gameViews;
             for (GameView gameView : views) {
                 gameView.dispose();
             }
-            HomeView homeView = new HomeView();
+            GUI homeView = new GUI();
             
         }
         if(e.getSource().equals(this.pauseButton)){

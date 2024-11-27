@@ -87,7 +87,13 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
                     icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/mines.jpg"));
                     break;
                 case UNIT:
-                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.png"));
+                    if(proxy==null){
+                        icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.png"));
+                    }else if (proxy.getPlayer().equals(entity.getOwner())) {
+                        icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit2.png"));
+                    }else{
+                        icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.png"));
+                    }
                     Unit u = (Unit) entity;
                     if (u.isShieldActivated()) {
                         icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/shield.jpg"));
