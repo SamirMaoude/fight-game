@@ -3,6 +3,7 @@ package fightGame.model.aiAlgorithms;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import fightGame.UnchangeableSettings;
 import fightGame.model.FightGameAction;
@@ -35,7 +36,7 @@ public class MinimaxStrategy implements FightGamePlayerStrategy,Serializable {
     }
 
 
-    private static final double PROXIMITY_WEIGHT = 1.5;
+    private static final double PROXIMITY_WEIGHT = 30;
 
     // Other properties and methods...
 
@@ -94,14 +95,17 @@ public class MinimaxStrategy implements FightGamePlayerStrategy,Serializable {
 
 
     private Result minimax(GameBoard gameBoard, int depth, FightGamePlayer currentPlayer, double alpha, double beta) {
-        if (gameBoard.isGameOver() || depth == 0) {
+
+        Unit currUnit = currentPlayer.getUnit();
+        
+        if (gameBoard.isGameOver() || depth == 0 || !currUnit.isAlive()) {
 
             double score = this.evaluate(gameBoard.getPlayers());
 
             return new Result(score, null);  // Terminal node, no move to return
         }
 
-        Unit currUnit = currentPlayer.getUnit();
+
         List<FightGamePlayer> players = gameBoard.getPlayers();
 
         // Get all possible moves for the current player
@@ -233,11 +237,14 @@ public class MinimaxStrategy implements FightGamePlayerStrategy,Serializable {
 
             // Prune branches where possible
             if (beta <= alpha) {
-                return new Result(bestScore, bestAction);
-                // break;
+                break;
             }
         }
         
+        if(bestAction == null){
+            Random random = new Random();
+            bestAction = possibleActions.get(random.nextInt(possibleActions.size()));
+        }
         // Return the best scores and the move that led to it
         return new Result(bestScore, bestAction);
     }
