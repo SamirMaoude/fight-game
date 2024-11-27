@@ -188,7 +188,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         Set<AbstractGameEntity> newPositionEntities = this.getEntitiesAt(newPosition);
 
         if(unit.isAlive())newPositionEntities.add(unit);
-        
+
         entities.put(newPosition, newPositionEntities);
 
         unit.setPosition(newPosition);
@@ -685,6 +685,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                                 unit.setShieldActivated(false);
                             }
                         }
+                        if (!unit.isAlive())positionEntities.remove(entity);
                         break;
                     }
                     default:
