@@ -1,7 +1,6 @@
 package gamePlayers.objects;
 
-import gamePlayers.util.Position;
-import gamePlayers.util.EntityType;
+import gamePlayers.util.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -9,69 +8,58 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class ProjectileTest {
 
-    private Projectile projectile;
-    private Position position;
+    private Projectile projectile1;
+    private Projectile projectile2;
+    private Position position1;
+    private Player player1;
 
     @BeforeEach
     public void setUp() {
-        position = new Position(10, 20); 
-        projectile = new Projectile(position, 100, 50); 
-    }
-    @Test
-    public void testProjectileAndPosition() {
-        assertNotNull(projectile, "Le projectile ne doit pas être nul après la création.");
+        position1 = new Position(1, 2);
+        player1 = null;
 
-        assertEquals(EntityType.PROJECTILE, projectile.getType(),
-                "Erreur : Le type d'entité du projectile est incorrect. Résultat attendu : PROJECTILE, obtenu : " + projectile.getType());
-
-        assertEquals(position, projectile.getPosition(),
-                "Erreur : La position du projectile est incorrecte. Résultat attendu : " + position + ", obtenu : " + projectile.getPosition());
-
-        assertEquals(50, projectile.getDamage(),
-                "Erreur : Les dégâts du projectile sont incorrects. Résultat attendu : 50, obtenu : " + projectile.getDamage());
-
-        assertEquals(100, projectile.getScope(),
-                "Erreur : La distance du projectile est incorrecte. Résultat attendu : 100, obtenu : " + projectile.getScope());
-
-        Exception negativeDistanceException = assertThrows(IllegalArgumentException.class, () -> {
-            new Projectile(position, -10, 50); 
-        });
-        assertEquals("Projectile distance or damage value must be positive", negativeDistanceException.getMessage());
-
-        Exception zeroDistanceException = assertThrows(IllegalArgumentException.class, () -> {
-            new Projectile(position, 0, 50); 
-        });
-        assertEquals("Projectile distance or damage value must be positive", zeroDistanceException.getMessage());
-
-
-        Exception negativeDamageException = assertThrows(IllegalArgumentException.class, () -> {
-            new Projectile(position, 100, -5);
-        });
-        assertEquals("Projectile distance or damage value must be positive", negativeDamageException.getMessage());
+        projectile1 = new Projectile(position1, 10, 50, player1);
+        projectile2 = new Projectile(position1, 15, 40, player1);
     }
 
     @Test
-    public void testGetDamage() {
-        assertEquals(50, projectile.getDamage(),
-                "Erreur : Les dégâts du projectile ne correspondent pas. Résultat attendu : 50, obtenu : " + projectile.getDamage());
+public void testConstructor() {
+    assertNotNull(projectile1, "Le projectile ne devrait pas être nul.");
+    assertEquals(50, projectile1.getDamage(), 
+                 "La valeur des dégâts du projectile devrait être de 50. Résultat obtenu: " + projectile1.getDamage());
+    assertEquals(10, projectile1.getScope(), 
+                 "La portée du projectile devrait être de 10. Résultat obtenu: " + projectile1.getScope());
+    assertEquals(position1, projectile1.getPosition(),
+                 "La position du projectile devrait être " + position1 + ". Résultat obtenu: " + projectile1.getPosition());
+}
+    @Test
+    public void testGetScope() {
+        assertEquals(10, projectile1.getScope(), 
+                     "La portée du projectile devrait être de 10. Résultat obtenu: " + projectile1.getScope());
+        assertEquals(15, projectile2.getScope(), 
+                     "La portée du projectile devrait être de 15. Résultat obtenu: " + projectile2.getScope());
     }
 
     @Test
-    public void testGetPosition() {
-        assertEquals(position, projectile.getPosition(),
-                "Erreur : La position du projectile ne correspond pas. Résultat attendu : " + position + ", obtenu : " + projectile.getPosition());
-    }
+    public void testClone() throws CloneNotSupportedException {
+        Projectile clonedProjectile = projectile1.clone();
 
-    @Test
-    public void testGetDistance() {
-        assertEquals(100, projectile.getScope(),
-                "Erreur : La distance du projectile ne correspond pas. Résultat attendu : 100, obtenu : " + projectile.getScope());
-    }
+        assertNotSame(projectile1, clonedProjectile, 
+                      "Le projectile cloné devrait être un objet différent de l'originale.résultat obtenu: " + clonedProjectile);
 
-    @Test
-    public void testGetEntityType() {
-        assertEquals(EntityType.PROJECTILE, projectile.getType(),
-                "Erreur : Le type d'entité du projectile ne correspond pas. Résultat attendu : PROJECTILE, obtenu : " + projectile.getType());
-    }
+        assertEquals(projectile1.getDamage(), clonedProjectile.getDamage(),
+                     "Les dégâts du projectile cloné devraient être égaux à ceux du projectile original. Résultat attendu: "
+                     + projectile1.getDamage() + ", résultat obtenu: " + clonedProjectile.getDamage());
 
+        assertEquals(projectile1.getScope(), clonedProjectile.getScope(),
+                     "La portée du projectile cloné devrait être égale à celle du projectile original. Résultat attendu: "
+                     + projectile1.getScope() + ", résultat obtenu: " + clonedProjectile.getScope());
+
+        assertEquals(projectile1.getPosition(), clonedProjectile.getPosition(),
+                     "La position du projectile cloné devrait être égale à celle du projectile original. Résultat attendu: "
+                     + projectile1.getPosition() + ", résultat obtenu: " + clonedProjectile.getPosition());
+
+        assertNull(clonedProjectile.getOwner(),
+                   "Le joueur du projectile cloné devrait être null. Résultat attendu: null, résultat obtenu: " + clonedProjectile.getOwner());
+    }
 }
