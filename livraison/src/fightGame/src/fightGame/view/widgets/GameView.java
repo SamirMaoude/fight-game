@@ -27,7 +27,7 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
     private GameButton homeButton;
     private GameButton pauseButton;
     private GameButton resumeButton;
-
+    private Logger logger;
     private boolean robotPlay;
 
     private GameBoard gameBoard;
@@ -42,6 +42,7 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
         this.proxy = proxy;
         this.gameBoard.addModelListener(this);
         this.robotPlay = robotPlay;
+        this.logger = new Logger();
         this.threadManager = threadManager;
         GameBoardAdapterToTable gameBoardAdapterToTable = new GameBoardAdapterToTable(gameBoard, this.proxy);
         this.gameBoardTable = new GameBoardTable(gameBoardAdapterToTable);
@@ -116,7 +117,7 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
             if (!this.gameBoard.isGameOver()) {
                 FightGamePlayer player = this.gameBoard.getNextPlayer();
                 Action action = player.play();
-                Logger.log(player, action.toString());
+                logger.log(player, action.toString());
                 this.gameBoard.performAction((FightGameAction) action, player);
             } else {
                 new InfosView(this, "Information", "Game is over!!", true);
