@@ -7,17 +7,12 @@ import javax.swing.ImageIcon;
 import org.junit.Before;
 import org.junit.Test;
 
-import fightGame.UnchangeableSettings;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
 import fightGame.model.GameBoardProxy;
 import fightGame.model.objects.Wall;
-import gamePlayers.fighters.Unit;
 import gamePlayers.util.*;
 import gamePlayers.objects.*;
-
-import gamePlayers.fighters.UnitBuilder;
-
 import junit.framework.TestCase;
 
 public class GameBoardAdapterToTableTest extends TestCase {

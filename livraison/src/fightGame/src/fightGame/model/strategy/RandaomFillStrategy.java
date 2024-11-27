@@ -9,41 +9,57 @@ import fightGame.model.GameBoard;
 import fightGame.model.objects.Wall;
 import gamePlayers.objects.Pellet;
 import gamePlayers.util.Position;
+/**
+ * Implementation of {@link GameBordInitFillStrategy} that randomly populates the game board with players, pellets, and walls.
+ * Ensures no two entities occupy the same position.
+ */
+public class RandaomFillStrategy implements GameBordInitFillStrategy, Serializable {
 
-public class RandaomFillStrategy implements GameBordInitFillStrategy, Serializable{
-    public RandaomFillStrategy(){
-
+    /**
+     * Default constructor.
+     */
+    public RandaomFillStrategy() {
     }
+
+    /**
+     * Fills the game board with players, pellets, and walls at random positions.
+     * Ensures each entity is placed on a unique, valid position.
+     *
+     * @param gameBoard the {@link GameBoard} to be filled
+     */
     @Override
     public void fillGrid(GameBoard gameBoard) {
         Random random = new Random();
         List<Position> used = new ArrayList<>();
         List<FightGamePlayer> players = gameBoard.getPlayers();
         int nbPlayers = players.size();
-        int i = nbPlayers;
-        //On cherche une position de départ pour chaque player
-        if (players.size() > 0 && players.size()  < UnchangeableSettings.NB_ROWS*UnchangeableSettings.NB_COLS+1) {  
+
+        // Assigns random starting positions for players.
+        if (nbPlayers > 0 && nbPlayers < UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS + 1) {
+            int i = nbPlayers;
             do {
                 int row = random.nextInt(UnchangeableSettings.NB_ROWS);
                 int col = random.nextInt(UnchangeableSettings.NB_COLS);
                 Position position = new Position(row, col);
-                if(!used.contains(position)) {
+                if (!used.contains(position)) {
                     i--;
                     used.add(position);
                 }
             } while (i != 0);
         }
 
-        i=0;
+        // Assigns players to their respective starting positions.
+        int i = 0;
         for (FightGamePlayer player : players) {
-            Position position = used.get(i);
-            i++;
-            System.out.println(player + " add at position" + position);
+            Position position = used.get(i++);
+            System.out.println(player + " added at position " + position);
             player.getUnit().setPosition(position);
             System.out.println(gameBoard.addEntity(player.getUnit(), position));
         }
-        
-        if (UnchangeableSettings.NB_INIT_PELLET > 0 && UnchangeableSettings.NB_INIT_PELLET < UnchangeableSettings.NB_ROWS*UnchangeableSettings.NB_COLS) {
+
+        // Adds pellets at random positions.
+        if (UnchangeableSettings.NB_INIT_PELLET > 0 &&
+            UnchangeableSettings.NB_INIT_PELLET < UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS) {
             i = UnchangeableSettings.NB_INIT_PELLET;
             do {
                 int row = random.nextInt(UnchangeableSettings.NB_ROWS);
@@ -54,30 +70,27 @@ public class RandaomFillStrategy implements GameBordInitFillStrategy, Serializab
                     used.add(position);
                     Pellet pellet = new Pellet(position, UnchangeableSettings.PELLET_BOOST);
                     gameBoard.addEntity(pellet, position);
-                    System.out.println(pellet + " add at position" + position);
-
+                    System.out.println(pellet + " added at position " + position);
                 }
             } while (i != 0);
         }
 
-        if (UnchangeableSettings.NB_WALL > 0 && UnchangeableSettings.NB_WALL< UnchangeableSettings.NB_ROWS*UnchangeableSettings.NB_COLS) {
+        // Adds walls at random positions.
+        if (UnchangeableSettings.NB_WALL > 0 &&
+            UnchangeableSettings.NB_WALL < UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS) {
             i = UnchangeableSettings.NB_WALL;
             do {
                 int row = random.nextInt(UnchangeableSettings.NB_ROWS);
-            int col = random.nextInt(UnchangeableSettings.NB_COLS);
+                int col = random.nextInt(UnchangeableSettings.NB_COLS);
                 Position position = new Position(row, col);
                 if (!used.contains(position)) {
                     i--;
                     used.add(position);
                     Wall wall = new Wall(position);
                     gameBoard.addEntity(wall, position);
-                    System.out.println(wall + " add at position" + position);
+                    System.out.println(wall + " added at position " + position);
                 }
             } while (i != 0);
         }
-
-       
-
     }
-
 }

@@ -10,36 +10,47 @@ import fightGame.model.objects.Wall;
 import gamePlayers.objects.Pellet;
 import gamePlayers.util.Position;
 
+/**
+ * Implementation of {@link GameBordInitFillStrategy} that initializes the game board by placing players in corners,
+ * and randomly positions pellets and walls on the grid.
+ */
 public class ConnerFillStrategy implements GameBordInitFillStrategy, Serializable {
+
+    /**
+     * Default constructor.
+     */
     public ConnerFillStrategy() {
     }
 
+    /**
+     * Fills the game board by placing players in corners or random positions and adds pellets and walls at random locations.
+     *
+     * @param gameBoard the {@link GameBoard} to be filled
+     */
     @Override
     public void fillGrid(GameBoard gameBoard) {
         Random random = new Random();
         List<Position> used = new ArrayList<>();
         List<FightGamePlayer> players = gameBoard.getPlayers();
 
+        // Define corner positions
         List<Position> corners = Arrays.asList(
-                new Position(0, 0), 
-                new Position(UnchangeableSettings.NB_ROWS - 1, UnchangeableSettings.NB_COLS - 1), 
-                new Position(0, UnchangeableSettings.NB_COLS - 1), 
-                new Position(UnchangeableSettings.NB_ROWS - 1, 0) 
+            new Position(0, 0), 
+            new Position(UnchangeableSettings.NB_ROWS - 1, UnchangeableSettings.NB_COLS - 1), 
+            new Position(0, UnchangeableSettings.NB_COLS - 1), 
+            new Position(UnchangeableSettings.NB_ROWS - 1, 0)
         );
 
-        // Associer les joueurs aux coins
+        // Place players in corners or random positions
         if (players.size() <= 4) {
             for (int i = 0; i < players.size(); i++) {
-                if (i < corners.size()) {
-                    Position position = corners.get(i);
-                    used.add(position);
-                    FightGamePlayer player = players.get(i);
-                    System.out.println(player + " ajouté à la position " + position);
-                    player.getUnit().setPosition(position);
-                    gameBoard.addEntity(player.getUnit(), position);
-                }
+                Position position = corners.get(i);
+                used.add(position);
+                FightGamePlayer player = players.get(i);
+                System.out.println(player + " added at position " + position);
+                player.getUnit().setPosition(position);
+                gameBoard.addEntity(player.getUnit(), position);
             }
-
         } else {
             for (int i = 0; i < 4; i++) {
                 Position position = corners.get(i);
@@ -48,59 +59,63 @@ public class ConnerFillStrategy implements GameBordInitFillStrategy, Serializabl
                 player.getUnit().setPosition(position);
                 gameBoard.addEntity(player.getUnit(), position);
             }
-            int i = players.size()-4;
-            int j=0;
-            do {
+
+            int remainingPlayers = players.size() - 4;
+            int index = 0;
+
+            while (remainingPlayers > 0) {
                 int row = random.nextInt(UnchangeableSettings.NB_ROWS);
                 int col = random.nextInt(UnchangeableSettings.NB_COLS);
                 Position position = new Position(row, col);
+
                 if (!used.contains(position)) {
-                    i--;
+                    remainingPlayers--;
                     used.add(position);
-                    FightGamePlayer player = players.get(4+j);
-                    j++;
+                    FightGamePlayer player = players.get(4 + index++);
                     player.getUnit().setPosition(position);
                     gameBoard.addEntity(player.getUnit(), position);
                 }
-            } while (i != 0);
+            }
         }
 
-        // Ajouter les pellet sur des positions aléatoires
-        if (UnchangeableSettings.NB_INIT_PELLET > 0
-                && UnchangeableSettings.NB_INIT_PELLET < UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS)
+        // Randomly place pellets
+        if (UnchangeableSettings.NB_INIT_PELLET > 0 && 
+            UnchangeableSettings.NB_INIT_PELLET < UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS) {
+            int remainingPellets = UnchangeableSettings.NB_INIT_PELLET;
 
-        {
-            int i = UnchangeableSettings.NB_INIT_PELLET;
-            do {
+            while (remainingPellets > 0) {
                 int row = random.nextInt(UnchangeableSettings.NB_ROWS);
                 int col = random.nextInt(UnchangeableSettings.NB_COLS);
                 Position position = new Position(row, col);
+
                 if (!used.contains(position)) {
-                    i--;
+                    remainingPellets--;
                     used.add(position);
                     Pellet pellet = new Pellet(position, UnchangeableSettings.PELLET_BOOST);
                     gameBoard.addEntity(pellet, position);
-                    System.out.println(pellet + " ajouté à la position " + position);
+                    System.out.println(pellet + " added at position " + position);
                 }
-            } while (i != 0);
+            }
         }
 
-        // Ajouter les murs sur des positions aléatoires
-        if (UnchangeableSettings.NB_WALL > 0
-                && UnchangeableSettings.NB_WALL < UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS) {
-            int i = UnchangeableSettings.NB_WALL;
-            do {
+        // Randomly place walls
+        if (UnchangeableSettings.NB_WALL > 0 && 
+            UnchangeableSettings.NB_WALL < UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS) {
+            int remainingWalls = UnchangeableSettings.NB_WALL;
+
+            while (remainingWalls > 0) {
                 int row = random.nextInt(UnchangeableSettings.NB_ROWS);
                 int col = random.nextInt(UnchangeableSettings.NB_COLS);
                 Position position = new Position(row, col);
+
                 if (!used.contains(position)) {
-                    i--;
+                    remainingWalls--;
                     used.add(position);
                     Wall wall = new Wall(position);
                     gameBoard.addEntity(wall, position);
-                    System.out.println(wall + " ajouté à la position " + position);
+                    System.out.println(wall + " added at position " + position);
                 }
-            } while (i != 0);
+            }
         }
     }
 }

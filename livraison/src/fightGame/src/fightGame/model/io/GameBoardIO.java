@@ -6,7 +6,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
@@ -15,12 +14,22 @@ import fightGame.model.GameBoard;
 import fightGame.view.widgets.GameView;
 import fightGame.view.widgets.InfosView;
 
+/**
+ * Utility class for saving and loading the state of the game board to and from files.
+ */
 public class GameBoardIO {
 
+    /**
+     * Default constructor.
+     */
     public GameBoardIO() {
-
     }
 
+    /**
+     * Opens a file chooser dialog to allow the user to select a file for loading a game state.
+     *
+     * @param component the parent frame for the dialog
+     */
     public static void chooseFile(JFrame component) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Load Game File");
@@ -33,25 +42,33 @@ public class GameBoardIO {
         }
     }
 
+    /**
+     * Loads a game state from a file and creates game views for all players.
+     *
+     * @param filePath the path to the file containing the serialized game state
+     */
     public static void loadGameFromFile(String filePath) {
         try (FileInputStream fileIn = new FileInputStream(filePath);
                 ObjectInputStream in = new ObjectInputStream(fileIn)) {
             GameBoard gameBoard = (GameBoard) in.readObject();
-            //System.out.println("GameBoard chargé depuis le fichier : " + filePath);
             int nbPlayers = gameBoard.getPlayers().size();
             Logger logger = new Logger();
             for (int i = 0; i < nbPlayers; i++) {
                 FightGamePlayer player = gameBoard.getPlayers().get(i);
-                new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy(),false,null,logger);
+                new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy(), false, null, logger);
             }
-            //play(gameBoard);
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Erreur lors du chargement : " + e.getMessage());
-            return;
         }
     }
 
-     public static void saveGame(JFrame frame, GameBoard gameBoard) {
+    /**
+     * Opens a file chooser dialog to save the current game state to a file.
+     *
+     * @param frame     the parent frame for the dialog
+     * @param gameBoard the game board to be serialized and saved
+     */
+    public static void saveGame(JFrame frame, GameBoard gameBoard) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Sauvegarder la partie");
         int userSelection = fileChooser.showSaveDialog(frame);
