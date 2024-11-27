@@ -876,10 +876,16 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     public boolean isGameOver(){
 
-        if(this.nbBoringMove > UnchangeableSettings.BORING_MOVE_LIMIT) return true;
+        if(this.nbBoringMove > UnchangeableSettings.BORING_MOVE_LIMIT){
+            this.notifyModelListeners();
+            return true;
+        }
+        if(playersRemaining() <= 1){
+            this.notifyModelListeners();
+            return true;
+        }
+        return false;
 
-        return playersRemaining() <= 1;
-        
     }
 
     public int getNbPlayers(){
