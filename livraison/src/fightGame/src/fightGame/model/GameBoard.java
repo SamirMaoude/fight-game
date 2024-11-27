@@ -60,6 +60,10 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         this.entities = entities;
     }
 
+    /**
+     * Clone The given gameboard
+     * @param gameBoard
+     */
     public GameBoard(GameBoard gameBoard){
         List<FightGamePlayer> players = new ArrayList<>();
         for(int playerIndex = 0; playerIndex < gameBoard.getNbPlayers(); playerIndex++){
@@ -103,19 +107,44 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     }
 
+    /**
+     * Return the grid
+     * @return
+     */
     public Map<Position, Set<AbstractGameEntity>> getEntities() {
         return entities;
     }
+
+    /**
+     * set the way to fill the grid
+     * @param strategy
+     */
     public void setStrategy(GameBordInitFillStrategy strategy){
         this.fillStrategy = strategy;
     }
+
+    /**
+     * Fill the grid based on strategy
+     */
     public void fillGameBoard(){
         this.fillStrategy.fillGrid(this);
     }
 
+    /**
+     * Add a player in the game
+     * @param player
+     */
+
     public void addPlayer(FightGamePlayer player){
         this.players.add(player);
     }
+
+    /**
+     * Add entity at the given position
+     * @param entity
+     * @param position
+     * @return true if entity is added; else false
+     */
     public boolean addEntity(AbstractGameEntity entity, Position position) {
 
         if (!isValidMove(position)) {
@@ -128,12 +157,19 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
         return true;
     }
-
+    
+    /**
+     * Return a set of entities at the given position
+     */
     @Override
     public Set<AbstractGameEntity> getEntitiesAt(Position position) {
         return entities.getOrDefault(position, new HashSet<>());
     }
 
+    /**
+     * move unit from one position to another
+     * @return true if one entity has been moved, else false
+     */
     @Override
     public boolean moveUnit(Position oldPosition, Direction direction) {
 
@@ -214,10 +250,19 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         return true;
     }
 
+    /**
+     * 
+     * @return The next player
+     */
     public FightGamePlayer getNextPlayer() {
         return players.get(nextPlayerIndex % players.size());
     }
 
+    /**
+     * Return possible actions that the next player can do
+     * @param player
+     * @return
+     */
     public List<Action> getActions(FightGamePlayer player) {
 
         List<Action> actions = new ArrayList<>();
@@ -317,6 +362,12 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         return actions;
     }
 
+    /**
+     * Execute en action given by the next player
+     * @param action
+     * @param player
+     * @return true if action is executed else false
+     */
     public boolean performAction(FightGameAction action, FightGamePlayer player) {
 
         Unit unit = player.getUnit();
@@ -586,11 +637,15 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         return true;
     }
 
+    /**
+     * @param position
+     * @return  true if one unit can move to given position; else false
+     */
     private boolean isValidMove(Position position) {
         if (!isValidPosition(position))
             return false;
 
-        // Position occupée par une unité
+        // Position occupied by another unit
         if (!this.getEntitiesAt(position).isEmpty()) {
             Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
 
@@ -604,6 +659,11 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         return true;
     }
 
+    /**
+     * 
+     * @param position
+     * @return true if a position coordinates are valid and there is no a wall; else false
+     */
     private boolean isValidPosition(Position position) {
         int r = position.getRow();
         int c = position.getCol();
@@ -611,7 +671,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         if (!((0 <= r && r < rows) && (0 <= c && c < cols)))
             return false;
 
-        // Position occupée par un mur;
+        // Position occupied by a wall;
         if (!this.getEntitiesAt(position).isEmpty()) {
             Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
 
@@ -625,14 +685,25 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         return true;
     }
 
+    /**
+     * 
+     * @return grid rows
+     */
     public int getRows() {
         return rows;
     }
 
+    /**
+     * 
+     * @return gride columns
+     */
     public int getCols() {
         return cols;
     }
 
+    /**
+     * Return the next player alived to play
+     */
     @Override
     public int getNextPlayerIndex() {
         nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
@@ -656,6 +727,9 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         return nextPlayerIndex;
     }
 
+    /**
+     * update entities after each action
+     */
     public void updateEntities() {
 
         for (Position position : this.entities.keySet()) {
@@ -698,6 +772,11 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         
     }
 
+    /**
+     * Bomb explosion effect
+     * @param position
+     * @param currentBomb
+     */
     public void detonateBombAt(Position position, Bomb currentBomb) {
 
         Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
@@ -759,6 +838,11 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     }
 
+    /**
+     * Mine effect
+     * @param position
+     * @param currentMine
+     */
     public void detonateMineAt(Position position, Mine currentMine) {
 
         Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
@@ -792,6 +876,11 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     }
 
+    /**
+     * projectile effect
+     * @param position
+     * @return
+     */
     public boolean projectileEffect(Position position) {
 
         
@@ -816,6 +905,9 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     }
 
+    /**
+     * Simulate a game
+     */
     public void run() {
         while (!isGameOver()) {
             try {
@@ -839,6 +931,10 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         
     }
 
+    /**
+     * count remaining players
+     * @return
+     */
     public int playersRemaining() {
 
         int nb = 0;
@@ -851,10 +947,17 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         return nb;
     }
 
+    /**
+     * Return all players
+     * @return
+     */
     public List<FightGamePlayer> getPlayers() {
         return players;
     }
 
+    /**
+     * Clear effect of last actions
+     */
     public void reinitializeFromLastAction(){
         impactedPositionsByProjectile.clear();
         impactedPositionsByBomb.clear();
@@ -862,44 +965,78 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         lastMove.clear();
     }
     
+    /**
+     * @return list of position impacted by bomb explosion
+     */
     public List<Position> getImpactedPositionsByBomb() {
         return impactedPositionsByBomb;
     }
 
+    /**
+     * 
+     * @return list of position impacted by mine explosion
+     */
     public List<Position> getImpactedPositionsByMine() {
         return impactedPositionsByMine;
     }
 
+    /**
+     * Return list of two cols
+     * First col: unit old position
+     * Second col: unit new position
+     */
     public List<Position> getLastMove() {
         return lastMove;
     }
 
+    /**
+     * 
+     * @return list of position impacted by projectiles bullets
+     */
     public List<Position> getImpactedPositionsByProjectile() {
         return impactedPositionsByProjectile;
     }
 
+    /**
+     * 
+     * @return true if the game is over
+     */
     public boolean isGameOver(){
 
         if(this.nbBoringMove > UnchangeableSettings.BORING_MOVE_LIMIT){
             this.notifyModelListeners();
             return true;
         }
+
         if(playersRemaining() <= 1){
             this.notifyModelListeners();
             return true;
         }
+
         return false;
 
     }
 
+    /**
+     * 
+     * @return number of players
+     */
     public int getNbPlayers(){
         return this.players.size();
     }
 
+    /**
+     * 
+     * @return last action played
+     */
     public FightGameAction getLastActionPlayed() {
         return lastActionPlayed;
     }
 
+    /**
+     * 
+     * @return last player
+     */
     public FightGamePlayer getPrecedentPlayer() {
         return precedentPlayer;
     }
