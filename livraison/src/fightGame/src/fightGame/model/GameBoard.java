@@ -180,6 +180,8 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             return false;
         }
 
+        unit.receiveDamage(UnchangeableSettings.MOVE_COST);
+        
         this.getEntitiesAt(oldPosition).remove(unit);
 
         Set<AbstractGameEntity> newPositionEntities = this.getEntitiesAt(newPosition);
