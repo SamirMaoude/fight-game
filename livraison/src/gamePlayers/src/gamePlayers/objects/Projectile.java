@@ -47,7 +47,8 @@ public class Projectile extends Weapon {
     @Override
     public Projectile clone() throws CloneNotSupportedException {
         Position clonedPosition = this.getPosition() != null ? new Position(this.getPosition()) : null;
-        Player clonedPlayer = this.getOwner().clone();
+        
+        Player clonedPlayer = this.getOwner() != null ?this.getOwner().clone(): null;
 
         return new Projectile(clonedPosition, this.getScope(), this.getDamage(), clonedPlayer);
     }

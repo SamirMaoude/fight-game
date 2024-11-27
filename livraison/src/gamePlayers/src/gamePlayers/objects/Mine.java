@@ -44,7 +44,7 @@ public class Mine extends Weapon {
     @Override
     public Mine clone() throws CloneNotSupportedException {
         Position clonedPosition = this.getPosition() != null ? new Position(this.getPosition()) : null;
-        Player clonedPlayer = this.getOwner().clone();
+        Player clonedPlayer = this.getOwner() != null ?this.getOwner().clone(): null;
 
         return new Mine(clonedPosition, this.getDamage(), clonedPlayer);
     }

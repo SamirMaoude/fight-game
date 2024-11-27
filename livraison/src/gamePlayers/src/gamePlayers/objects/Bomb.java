@@ -52,7 +52,7 @@ public class Bomb extends Weapon {
     @Override
     public Bomb clone() throws CloneNotSupportedException {
         Position clonedPosition = this.getPosition() != null ? new Position(this.getPosition()) : null;
-        Player clonedPlayer = this.getOwner().clone();
+        Player clonedPlayer = this.getOwner() != null ?this.getOwner().clone(): null;
 
         return new Bomb(clonedPosition, this.getDamage(), clonedPlayer, this.timeBeforeExplosion);
     }
