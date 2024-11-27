@@ -30,6 +30,7 @@ public class UnchangeableSettings {
     public static int NB_INIT_PELLET;
     public static int NB_WALL;
     public static int FILL_STRATEGIE;
+    public static int BORING_MOVE_LIMIT;
 
 
 

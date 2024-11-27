@@ -113,6 +113,14 @@ public class UnchangeableSettingsHandler extends DefaultHandler {
                     }
                     break;
                 }
+
+                case "boringAction":{
+                    int intVal = Integer.parseInt(value);
+                    if(intVal >=0){
+                        UnchangeableSettings.BORING_MOVE_LIMIT = intVal;
+                    }
+                    break;
+                }
                 
 
                 

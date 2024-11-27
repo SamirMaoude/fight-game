@@ -29,6 +29,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     private List<Position> lastMove = new ArrayList<>();
     private FightGameAction lastActionPlayed = null;
     private FightGamePlayer precedentPlayer = null;
+    private int nbBoringMove = 0;
 
     public GameBoard(int rows, int cols) {
         this.rows = rows;
@@ -181,7 +182,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         }
 
         unit.receiveDamage(UnchangeableSettings.MOVE_COST);
-        
+
         this.getEntitiesAt(oldPosition).remove(unit);
 
         Set<AbstractGameEntity> newPositionEntities = this.getEntitiesAt(newPosition);
@@ -556,7 +557,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             }
 
             case NOTHING:
-
+                this.nbBoringMove += 1;
                 break;
 
             case ACTIVATE_SHIELD:
@@ -568,6 +569,8 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             default:
                 break;
         }
+
+        if(action.TYPE != FightGameActionType.NOTHING) this.nbBoringMove += 0;
 
         this.updateEntities();
         
@@ -872,7 +875,11 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     }
 
     public boolean isGameOver(){
+
+        if(this.nbBoringMove > UnchangeableSettings.BORING_MOVE_LIMIT) return true;
+
         return playersRemaining() <= 1;
+        
     }
 
     public int getNbPlayers(){
