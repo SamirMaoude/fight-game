@@ -41,7 +41,7 @@ public class MinimaxStrategy implements FightGamePlayerStrategy,Serializable {
     // Other properties and methods...
 
     public double evaluate(List<FightGamePlayer> players) {
-        double score = 0.0;
+        double score = UnchangeableSettings.STARTING_ENERGY;
 
         FightGamePlayer currentPlayer = players.get(playerIndex);
         Unit currentUnit = currentPlayer.getUnit();
