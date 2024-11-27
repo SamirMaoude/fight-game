@@ -1,21 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gameSettings>
-    <nbRows>4</nbRows>
-    <nbCols>4</nbCols>
-    <nbBombs>5</nbBombs>
-    <nbProjectiles>10</nbProjectiles>
-    <nbMines>3</nbMines>
-    <bombVisibility>0</bombVisibility>
-    <mineVisibility>0</mineVisibility>
-    <startingEnergy>100</startingEnergy>
-    <projectileScope>5</projectileScope>
-    <bombDamage>50</bombDamage>
-    <bombTimer>3</bombTimer>
-    <mineDamage>30</mineDamage>
-    <projectileDamage>20</projectileDamage>
-    <pelletBoost>10</pelletBoost>
-    <moveCost>2</moveCost>
-    <shieldCost>5</shieldCost>
-    <shieldAbsorption>80</shieldAbsorption>
-    <shieldTimer>5</shieldTimer>
+    <nbRows>4</nbRows> <!-- Nombre de lignes pour la grille -->
+    <nbCols>4</nbCols> <!-- Nombre de colones pour la grille -->
+    <nbBombs>5</nbBombs> <!-- Nombre initial de bombes pour chaque joueurs -->
+    <nbProjectiles>10</nbProjectiles> <!-- Nombre initial de projectiles pour chaque joueurs -->
+    <nbMines>3</nbMines> <!-- Nombre initial de mines pour chaque joueurs -->
+    <bombVisibility>0</bombVisibility> <!-- 0 pour une visibilité publique et 1 pour une visibilité privée -->
+    <mineVisibility>0</mineVisibility> <!-- 0 pour une visibilité publique et 1 pour une visibilité privée -->
+    <startingEnergy>100</startingEnergy> <!-- Energie initiale des joueurs -->
+    <projectileScope>5</projectileScope> <!-- Portée d'un projectile -->
+    <bombDamage>50</bombDamage> <!-- Dégâts infligés par une bombe -->
+    <bombTimer>3</bombTimer> <!-- Nombre de tours avant l'explosion d'une bombe -->
+    <mineDamage>30</mineDamage> <!-- Dégâts infligés par une mine -->
+    <projectileDamage>20</projectileDamage> <!-- Dégâts infligés par un projectile -->
+    <pelletBoost>10</pelletBoost> <!-- Boost apporté par une pastille -->
+    <moveCost>2</moveCost> <!-- Coût d'un déplacement -->
+    <shieldCost>5</shieldCost> <!-- Coût de l'activation de l'armure -->
+    <shieldAbsorption>80</shieldAbsorption> <!-- Rétention de l'armure face aux attaques -->
+    <shieldTimer>5</shieldTimer> <!-- Nombre de tours avant la disparition de l'armure -->
+    <randomPlayers>1</randomPlayers> <!-- Nombre de joueurs avec la stratégie random -->
+    <minimaxPlayers>1</minimaxPlayers> <!-- Nombre de joueurs avec la stratégie minimax -->
+    <initPellet>0</initPellet> <!-- Nombre initial de pastille dans le jeu -->
+    <nbWall>0</nbWall> <!-- Nombre initial de murs dans le  jeu -->
+    <fillStrategy>0</fillStrategy> <!-- 0 pour une stratégie random et 1 pour le cornerfillstrategy -->
+
 </gameSettings>

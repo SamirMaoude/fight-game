@@ -74,6 +74,48 @@ public class UnchangeableSettingsHandler extends DefaultHandler {
                 case "shieldTimer":
                     UnchangeableSettings.SHIELD_TIMER = Integer.parseInt(value);
                     break;
+
+                case "randomPlayers":{
+                    int intVal = Integer.parseInt(value);
+                    if(intVal >=0){
+                        UnchangeableSettings.NB_RANDOM_PLAYERS = intVal;
+                    }
+                    break;
+                }
+
+                case "minimaxPlayers":{
+                    int intVal = Integer.parseInt(value);
+                    if(intVal >=0){
+                        UnchangeableSettings.NB_MINIMAX_PLAYERS = intVal;
+                    }
+                    break;
+                }
+                    
+                case "initPellet":{
+                    int intVal = Integer.parseInt(value);
+                    if(intVal >=0){
+                        UnchangeableSettings.NB_INIT_PELLET = intVal;
+                    }
+                    break;
+                }
+
+                case "nbWall":{
+                    int intVal = Integer.parseInt(value);
+                    if(intVal >=0){
+                        UnchangeableSettings.NB_WALL = intVal;
+                    }
+                    break;
+                }
+                case "fillStrategy":{
+                    int intVal = Integer.parseInt(value) % 2;
+                    if(intVal >=0){
+                        UnchangeableSettings.FILL_STRATEGIE = intVal;
+                    }
+                    break;
+                }
+                
+
+                
             }
         }
     }

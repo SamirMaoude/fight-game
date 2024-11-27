@@ -25,11 +25,11 @@ public class UnchangeableSettings {
     public static int SHIELD_COST;
     public static int SHIELD_ABSORPTION;
     public static int SHIELD_TIMER;
-    public static int NB_RANDOM_PLAYERS = 2;
-    public static int NB_MINIMAX_PLAYERS = 2;
-    public static int NB_INIT_PELLET = 0;
-    public static int NB_WALL = 0;
-    public static int FILL_STRATEGIE = 1;
+    public static int NB_RANDOM_PLAYERS;
+    public static int NB_MINIMAX_PLAYERS;
+    public static int NB_INIT_PELLET;
+    public static int NB_WALL;
+    public static int FILL_STRATEGIE;
 
 
 
