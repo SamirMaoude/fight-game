@@ -20,8 +20,8 @@
     <shieldTimer>5</shieldTimer> <!-- Nombre de tours avant la disparition de l'armure -->
     <randomPlayers>3</randomPlayers> <!-- Nombre de joueurs avec la stratégie random -->
     <minimaxPlayers>1</minimaxPlayers> <!-- Nombre de joueurs avec la stratégie minimax -->
-    <initPellet>0</initPellet> <!-- Nombre initial de pastille dans le jeu -->
-    <nbWall>0</nbWall> <!-- Nombre initial de murs dans le  jeu -->
+    <initPellet>2</initPellet> <!-- Nombre initial de pastille dans le jeu -->
+    <nbWall>2</nbWall> <!-- Nombre initial de murs dans le  jeu -->
     <fillStrategy>0</fillStrategy> <!-- 0 pour une stratégie random et 1 pour le cornerfillstrategy -->
 
     <boringAction>50</boringAction> <!-- Limite de tours pour stopper le jeu, lorsque les joueurs ne font plus rien-->
