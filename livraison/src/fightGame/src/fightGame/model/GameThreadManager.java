@@ -1,16 +1,20 @@
 package fightGame.model;
 
+
+import fightGame.model.io.Logger;
 import fightGame.view.widgets.InfosView;
 import gamePlayers.util.Action;
 import gamePlayers.util.Player;
 
 public class GameThreadManager {
     private GameBoard gameBoard;
+    private Logger logger;
     private boolean paused = false;
     private final Object pauseLock = new Object();
 
-    public GameThreadManager(GameBoard gameBoard) {
+    public GameThreadManager(GameBoard gameBoard, Logger logger) {
         this.gameBoard = gameBoard;
+        this.logger = logger;
     }
 
     public void playGame(){
@@ -33,6 +37,7 @@ public class GameThreadManager {
             try {
                 FightGamePlayer player = this.gameBoard.getNextPlayer();
                 Action action = player.play();
+                logger.log(player, action.toString());
                 this.gameBoard.performAction((FightGameAction) action, player);
                 Thread.sleep(1000);
 

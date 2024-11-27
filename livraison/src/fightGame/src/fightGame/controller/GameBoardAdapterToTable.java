@@ -118,4 +118,14 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
         super.fireTableDataChanged();
     }
 
+    public GameBoard getGameBoard() {
+        return gameBoard;
+    }
+
+    public GameBoardProxy getProxy() {
+        return proxy;
+    }
+
+    
+
 }
