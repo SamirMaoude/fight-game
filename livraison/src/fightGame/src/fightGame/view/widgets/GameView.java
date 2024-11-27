@@ -27,22 +27,21 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
     private GameButton homeButton;
     private GameButton pauseButton;
     private GameButton resumeButton;
-    private Logger logger;
     private boolean robotPlay;
-
+    Logger logger;
     private GameBoard gameBoard;
     private GameBoardTable gameBoardTable;
     private DashBordView dashBordView;
     private GameBoardProxy proxy;
     private GameThreadManager threadManager;
 
-    public GameView(String name, GameBoard gameBoard, GameBoardProxy proxy, boolean robotPlay, GameThreadManager threadManager) {
+    public GameView(String name, GameBoard gameBoard, GameBoardProxy proxy, boolean robotPlay, GameThreadManager threadManager, Logger logger) {
         super(name);
         this.gameBoard = gameBoard;
         this.proxy = proxy;
         this.gameBoard.addModelListener(this);
         this.robotPlay = robotPlay;
-        this.logger = new Logger();
+        this.logger = logger;
         this.threadManager = threadManager;
         GameBoardAdapterToTable gameBoardAdapterToTable = new GameBoardAdapterToTable(gameBoard, this.proxy);
         this.gameBoardTable = new GameBoardTable(gameBoardAdapterToTable);

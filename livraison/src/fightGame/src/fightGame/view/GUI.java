@@ -8,6 +8,7 @@ import fightGame.model.GameBoard;
 import fightGame.model.GameThreadManager;
 import fightGame.model.aiAlgorithms.*;
 import fightGame.model.io.GameBoardIO;
+import fightGame.model.io.Logger;
 import fightGame.model.strategy.ConnerFillStrategy;
 import fightGame.model.strategy.GameBordInitFillStrategy;
 import fightGame.model.strategy.RandaomFillStrategy;
@@ -109,6 +110,7 @@ public class GUI extends JFrame implements ActionListener {
         int nbCases = (UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS) + UnchangeableSettings.NB_WALL
                 + UnchangeableSettings.NB_INIT_PELLET;
         if (nbEntity < nbCases) {
+            Logger logger = new Logger();
             GameBordInitFillStrategy fillStrategy;
 
             switch (UnchangeableSettings.FILL_STRATEGIE) {
@@ -138,13 +140,13 @@ public class GUI extends JFrame implements ActionListener {
             int nbPlayers = UnchangeableSettings.NB_MINIMAX_PLAYERS + UnchangeableSettings.NB_RANDOM_PLAYERS;
             GameThreadManager threadManager = null;
             if (withRobot) {
-                threadManager = new GameThreadManager(gameBoard);
+                threadManager = new GameThreadManager(gameBoard,logger);
             }
-            this.gameViews.add(new GameView("View", gameBoard, null, withRobot, threadManager));
+            this.gameViews.add(new GameView("View", gameBoard, null, withRobot, threadManager,logger));
             for (int i = 0; i < nbPlayers; i++) {
                 FightGamePlayer player = gameBoard.getPlayers().get(i);
                 this.gameViews.add(new GameView("View for Player " + player.getName(), gameBoard,
-                        player.getGameBoardProxy(), withRobot, threadManager));
+                        player.getGameBoardProxy(), withRobot, threadManager,logger));
             }
             if (withRobot) {
                 threadManager.playGame();

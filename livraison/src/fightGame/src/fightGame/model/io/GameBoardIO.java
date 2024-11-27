@@ -39,9 +39,10 @@ public class GameBoardIO {
             GameBoard gameBoard = (GameBoard) in.readObject();
             //System.out.println("GameBoard chargé depuis le fichier : " + filePath);
             int nbPlayers = gameBoard.getPlayers().size();
+            Logger logger = new Logger();
             for (int i = 0; i < nbPlayers; i++) {
                 FightGamePlayer player = gameBoard.getPlayers().get(i);
-                new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy(),false,null);
+                new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy(),false,null,logger);
             }
             //play(gameBoard);
         } catch (IOException | ClassNotFoundException e) {
