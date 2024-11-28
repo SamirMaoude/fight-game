@@ -1,48 +1,49 @@
 package fightGame.view.widgets;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JProgressBar;
-import javax.swing.border.Border;
-
+import java.awt.*;
+import javax.swing.*;
 import fightGame.UnchangeableSettings;
 import fightGame.model.FightGamePlayer;
 import fightGame.view.InterfaceSetting;
 
+/**
+ * A view component that displays the status and weapons of a player.
+ */
 public class PlayerView extends JPanel {
-  
-    public static int WIDTH = (InterfaceSetting.WIDTH) / 3 -50;
+
+    public static final int WIDTH = (InterfaceSetting.WIDTH) / 3 - 50;
+
     private GameProgressBar energyProgressBar;
-    JLabel nbMineLabel;
-    JLabel nbBombLabel;
-    JLabel nbProjectilLabel;
-    
-    public PlayerView(FightGamePlayer player){
+    private JLabel nbMineLabel;
+    private JLabel nbBombLabel;
+    private JLabel nbProjectilLabel;
+
+    /**
+     * Constructs a view for a specific player.
+     *
+     * @param player the player whose information is to be displayed
+     */
+    public PlayerView(FightGamePlayer player) {
         super();
+
+        // Player name
         JLabel nameLabel = new JLabel(player.getName());
         nameLabel.setFont(InterfaceSetting.TEXT_FONT);
+
+        // Energy bar
         this.energyProgressBar = new GameProgressBar(0, UnchangeableSettings.STARTING_ENERGY);
         this.energyProgressBar.setValue(player.getUnit().getEnergy());
-    
+
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        // Energy panel
         JPanel energyPanel = new JPanel();
         energyPanel.add(nameLabel);
         energyPanel.add(this.energyProgressBar);
         this.add(energyPanel);
 
-        JPanel weaponPanel = new JPanel();
-        weaponPanel.setLayout(new FlowLayout());
+        // Weapons panel
+        JPanel weaponPanel = new JPanel(new FlowLayout());
         JLabel bombLabel = new JLabel("Bombs");
         bombLabel.setFont(InterfaceSetting.TEXT_FONT);
         this.nbBombLabel = new JLabel(String.valueOf(player.getUnit().getBombs().size()));
@@ -53,7 +54,7 @@ public class PlayerView extends JPanel {
         this.nbMineLabel = new JLabel(String.valueOf(player.getUnit().getMines().size()));
         this.nbMineLabel.setFont(InterfaceSetting.TEXT_FONT);
 
-        JLabel projectilLabel = new JLabel("Projectils");
+        JLabel projectilLabel = new JLabel("Projectiles");
         projectilLabel.setFont(InterfaceSetting.TEXT_FONT);
         this.nbProjectilLabel = new JLabel(String.valueOf(player.getUnit().getProjectiles().size()));
         this.nbProjectilLabel.setFont(InterfaceSetting.TEXT_FONT);
@@ -67,36 +68,57 @@ public class PlayerView extends JPanel {
 
         this.add(weaponPanel);
 
-        this.setBorder(BorderFactory.createLineBorder(Color.black));
-      
+        // Border styling
+        this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
-    
+
+    /**
+     * Returns the energy progress bar of the player.
+     *
+     * @return the energy progress bar
+     */
     public JProgressBar getEnergyProgressBar() {
         return energyProgressBar;
     }
 
-    public void setEnergy(int energy){
-        if(energy<=60 && energy>30){
+    /**
+     * Updates the player's energy display.
+     *
+     * @param energy the current energy level
+     */
+    public void setEnergy(int energy) {
+        if (energy <= 60 && energy > 30) {
             this.energyProgressBar.setForeground(InterfaceSetting.WARNING_COLOR);
-        }else if(energy<=30){
+        } else if (energy <= 30) {
             this.energyProgressBar.setForeground(InterfaceSetting.DANGER_COLOR);
         }
         this.energyProgressBar.setValue(energy);
     }
 
+    /**
+     * Updates the display for the number of mines.
+     *
+     * @param nbMineLabel the number of mines as a string
+     */
     public void setNbMineLabel(String nbMineLabel) {
-        this.nbMineLabel.setText(nbMineLabel);;
+        this.nbMineLabel.setText(nbMineLabel);
     }
 
+    /**
+     * Updates the display for the number of bombs.
+     *
+     * @param nbBombLabel the number of bombs as a string
+     */
     public void setNbBombLabel(String nbBombLabel) {
-        this.nbBombLabel.setText(nbBombLabel);;
+        this.nbBombLabel.setText(nbBombLabel);
     }
 
+    /**
+     * Updates the display for the number of projectiles.
+     *
+     * @param nbProjectilLabel the number of projectiles as a string
+     */
     public void setNbProjectilLabel(String nbProjectilLabel) {
-        this.nbProjectilLabel .setText(nbProjectilLabel);
+        this.nbProjectilLabel.setText(nbProjectilLabel);
     }
-
-    
-
-    
 }

@@ -11,6 +11,7 @@ import fightGame.model.FightGameActionType;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
 import fightGame.model.GameBoardProxy;
+import fightGame.model.strategy.FightGamePlayerStrategy;
 import gamePlayers.fighters.Unit;
 import gamePlayers.util.Action;
 import gamePlayers.util.Direction;

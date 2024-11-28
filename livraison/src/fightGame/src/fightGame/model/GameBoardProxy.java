@@ -102,6 +102,10 @@ public class GameBoardProxy implements GameBoardInterface, Serializable{
         return player;
     }
 
+    public boolean isValidPosition(Position position) {
+        return gameBoard.isValidPosition(position);
+    }
+
     @Override
     public int getNextPlayerIndex() {
         return gameBoard.getNextPlayerIndex();
@@ -168,6 +172,8 @@ public class GameBoardProxy implements GameBoardInterface, Serializable{
         return gameBoard.isGameOver();
     }
 
-    
+    public List<FightGamePlayer> getPlayers() {
+        return gameBoard.getPlayers();
+    }
 
 }

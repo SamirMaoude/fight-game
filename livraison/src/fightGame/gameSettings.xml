@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gameSettings>
-    <nbRows>4</nbRows> <!-- Nombre de lignes pour la grille -->
-    <nbCols>4</nbCols> <!-- Nombre de colones pour la grille -->
+    <nbRows>5</nbRows> <!-- Nombre de lignes pour la grille -->
+    <nbCols>5</nbCols> <!-- Nombre de colones pour la grille -->
     <nbBombs>5</nbBombs> <!-- Nombre initial de bombes pour chaque joueurs -->
     <nbProjectiles>10</nbProjectiles> <!-- Nombre initial de projectiles pour chaque joueurs -->
     <nbMines>3</nbMines> <!-- Nombre initial de mines pour chaque joueurs -->
@@ -18,7 +18,7 @@
     <shieldCost>5</shieldCost> <!-- Coût de l'activation de l'armure -->
     <shieldAbsorption>80</shieldAbsorption> <!-- Rétention de l'armure face aux attaques -->
     <shieldTimer>5</shieldTimer> <!-- Nombre de tours avant la disparition de l'armure -->
-    <randomPlayers>3</randomPlayers> <!-- Nombre de joueurs avec la stratégie random -->
+    <randomPlayers>1</randomPlayers> <!-- Nombre de joueurs avec la stratégie random -->
     <minimaxPlayers>1</minimaxPlayers> <!-- Nombre de joueurs avec la stratégie minimax -->
     <initPellet>2</initPellet> <!-- Nombre initial de pastille dans le jeu -->
     <nbWall>2</nbWall> <!-- Nombre initial de murs dans le  jeu -->

@@ -4,9 +4,22 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.List;
-
+/**
+ * Custom cell renderer for the game board table that displays a list of icons within each cell.
+ */
 public class CellRenderer extends DefaultTableCellRenderer {
 
+    /**
+     * Customizes the rendering of each cell to display a list of icons.
+     *
+     * @param table     the JTable being rendered
+     * @param value     the value to assign to the cell (expected to be a list of {@link ImageIcon})
+     * @param isSelected whether the cell is selected
+     * @param hasFocus   whether the cell has focus
+     * @param row       the row of the cell
+     * @param column    the column of the cell
+     * @return the component used for rendering the cell
+     */
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
                                                    boolean hasFocus, int row, int column) {
@@ -17,7 +30,7 @@ public class CellRenderer extends DefaultTableCellRenderer {
         int cellHeight = table.getRowHeight(row);
 
         int iconCount = iconList.size();
-        int spacing = 1; 
+        int spacing = 1; // Space between icons
 
         int maxWidth = (cellWidth - (iconCount - 1) * spacing) / iconCount;
 
@@ -26,27 +39,27 @@ public class CellRenderer extends DefaultTableCellRenderer {
             protected void paintComponent(Graphics g) {
                 super.paintComponent(g);
 
-                int x = 0; 
+                int x = 0; // Horizontal position for icons
                 for (ImageIcon icon : iconList) {
-                    // Redimensionner l'icône pour s'adapter à l'espace disponible
+                    // Resize icon to fit within the available space
                     int iconWidth = Math.min(maxWidth, icon.getIconWidth());
                     int iconHeight = Math.min(cellHeight, icon.getIconHeight());
-                    int y = (cellHeight - iconHeight) / 2; // Centrer verticalement
+                    int y = (cellHeight - iconHeight) / 2; // Center vertically
 
                     g.drawImage(icon.getImage(), x, y, iconWidth, iconHeight, this);
-                    x += iconWidth + spacing; // Décale pour la prochaine image
+                    x += iconWidth + spacing; // Move to the next icon position
                 }
 
-                // Dessiner l'effet de sélection
+                // Add selection effect
                 if (isSelected) {
-                    g.setColor(new Color(0, 0, 0, 100)); // Couleur semi-transparente
+                    g.setColor(new Color(0, 0, 0, 100)); // Semi-transparent overlay
                     g.fillRect(0, 0, getWidth(), getHeight());
                 }
             }
         };
 
         panel.setOpaque(false);
-        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // Bordure de la cellule
+        panel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1)); // Add cell border
         return panel;
     }
 }

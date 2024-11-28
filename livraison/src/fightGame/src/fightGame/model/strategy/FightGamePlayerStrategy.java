@@ -1,4 +1,4 @@
-package fightGame.model.aiAlgorithms;
+package fightGame.model.strategy;
 
 import fightGame.model.GameBoardProxy;
 import gamePlayers.util.Action;

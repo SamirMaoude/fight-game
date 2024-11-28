@@ -664,7 +664,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
      * @param position
      * @return true if a position coordinates are valid and there is no a wall; else false
      */
-    private boolean isValidPosition(Position position) {
+    public boolean isValidPosition(Position position) {
         int r = position.getRow();
         int c = position.getCol();
 

@@ -1,4 +1,4 @@
-package fightGame.model.aiAlgorithms;
+package fightGame.model.strategy;
 
 import java.io.Serializable;
 import java.util.List;

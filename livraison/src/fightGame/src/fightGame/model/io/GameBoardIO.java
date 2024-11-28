@@ -55,7 +55,7 @@ public class GameBoardIO {
             Logger logger = new Logger();
             for (int i = 0; i < nbPlayers; i++) {
                 FightGamePlayer player = gameBoard.getPlayers().get(i);
-                new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy(), false, null, logger);
+                new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy(), false,false, null, logger);
             }
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Erreur lors du chargement : " + e.getMessage());
