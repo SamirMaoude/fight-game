@@ -6,6 +6,7 @@ import fightGame.UnchangeableSettings;
 import fightGame.controller.GameThreadManager;
 import fightGame.controller.GameWithHumainManager;
 import fightGame.model.*;
+import fightGame.model.aiAlgorithms.MinimaxStrategy;
 import fightGame.model.aiAlgorithms.RandomStrategy;
 import fightGame.model.io.GameBoardIO;
 import fightGame.model.io.Logger;
@@ -63,8 +64,8 @@ public class GUI extends JFrame implements ActionListener {
         loadButton = new GameButton("Load", 150, 50);
         newGameButton = new GameButton("New", 150, 50);
         exitButton = new GameButton("Exit", 150, 50);
-        robotButton = new GameButton("Robot", 150, 50);
-        humainButton = new GameButton("H vs H ", 150, 50);
+        robotButton = new GameButton("Watch", 150, 50);
+        humainButton = new GameButton("H vs R ", 150, 50);
 
         loadButton.addActionListener(this);
         newGameButton.addActionListener(this);
@@ -148,10 +149,10 @@ public class GUI extends JFrame implements ActionListener {
             // Initialize game board
             this.gameBoard = new GameBoard(UnchangeableSettings.NB_ROWS, UnchangeableSettings.NB_COLS, fillStrategy);
 
-            this.addPlayer(UnchangeableSettings.NB_RANDOM_PLAYERS, this.gameBoard, "RP_", 0);
-            this.addPlayer(UnchangeableSettings.NB_MINIMAX_PLAYERS, this.gameBoard, "MINIMAX_", UnchangeableSettings.NB_RANDOM_PLAYERS);
-            this.addPlayer(UnchangeableSettings.NB_MULTY_STRAT_PLAYERS, this.gameBoard, "MULTY_STRAT_", UnchangeableSettings.NB_RANDOM_PLAYERS+UnchangeableSettings.NB_MINIMAX_PLAYERS);
-            this.addPlayer(UnchangeableSettings.NB_HUMAIN_PLAYERS, this.gameBoard, "HUMAIN_",  UnchangeableSettings.NB_RANDOM_PLAYERS+UnchangeableSettings.NB_MINIMAX_PLAYERS+UnchangeableSettings.NB_MULTY_STRAT_PLAYERS);
+            this.addPlayer(UnchangeableSettings.NB_RANDOM_PLAYERS, this.gameBoard, "RP_", 0, new RandomStrategy());
+            this.addPlayer(UnchangeableSettings.NB_MINIMAX_PLAYERS, this.gameBoard, "MINIMAX_", UnchangeableSettings.NB_RANDOM_PLAYERS, new MinimaxStrategy());
+            this.addPlayer(UnchangeableSettings.NB_MULTY_STRAT_PLAYERS, this.gameBoard, "MULTY_STRAT_", UnchangeableSettings.NB_RANDOM_PLAYERS+UnchangeableSettings.NB_MINIMAX_PLAYERS, new MultiStrategy());
+            this.addPlayer(UnchangeableSettings.NB_HUMAIN_PLAYERS, this.gameBoard, "HUMAIN_",  UnchangeableSettings.NB_RANDOM_PLAYERS+UnchangeableSettings.NB_MINIMAX_PLAYERS+UnchangeableSettings.NB_MULTY_STRAT_PLAYERS, new HumainStrategy());
 
 
             // Fill the game board with entities
@@ -187,10 +188,10 @@ public class GUI extends JFrame implements ActionListener {
         }
     }
 
-    private void addPlayer(int nbPlayers, GameBoard gameBoard, String prefixe, int start){
+    private void addPlayer(int nbPlayers, GameBoard gameBoard, String prefixe, int start, FightGamePlayerStrategy strategy){
         for (int i = 0; i < nbPlayers; i++) {
             FightGamePlayer player = new FightGamePlayer(gameBoard, prefixe + (i + 1), i+start);
-            player.setStrategy(new RandomStrategy());
+            player.setStrategy(strategy);
             gameBoard.addPlayer(player);
         }
     }

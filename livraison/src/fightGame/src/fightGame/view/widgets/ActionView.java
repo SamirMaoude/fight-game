@@ -1,29 +1,16 @@
 package fightGame.view.widgets;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.ScrollPane;
-import java.awt.TextField;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-
-import javax.swing.BoxLayout;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-
-import fightGame.model.FightGameAction;
-import fightGame.model.GameBoardProxy;
+import java.util.*;
+import javax.swing.*;
+import fightGame.model.*;
 import fightGame.view.InterfaceSetting;
 import gamePlayers.util.Action;
 import gamePlayers.util.ListenableModel;
 import gamePlayers.util.ModelListener;
-
+import java.util.List;
 public class ActionView extends JFrame implements ActionListener, ListenableModel{
     private List<Action> actionTypes;
     private TextField input;

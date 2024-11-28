@@ -30,7 +30,6 @@ public class FightGamePlayer implements Player, Serializable {
                                 .withShieldRetention(UnchangeableSettings.SHIELD_ABSORPTION)
                                 .withEnergy(UnchangeableSettings.STARTING_ENERGY)
                                 .build();
-       // gameBoard.addEntity(unit, startingposition);
         this.gameBoardProxy = new GameBoardProxy(gameBoard, this);
 
     }

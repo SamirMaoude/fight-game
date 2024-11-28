@@ -2,6 +2,8 @@ package fightGame;
 
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
+
+import fightGame.view.widgets.InfosView;
 public class UnchangeableSettings {
 
     public static String SETTINGS_FILE = "livraison/src/fightGame/gameSettings.xml";
@@ -27,16 +29,12 @@ public class UnchangeableSettings {
     public static int SHIELD_TIMER;
     public static int NB_RANDOM_PLAYERS;
     public static int NB_MINIMAX_PLAYERS;
-    public static int NB_MULTY_STRAT_PLAYERS = 1;
-    public static int NB_HUMAIN_PLAYERS = 0;
+    public static int NB_MULTY_STRAT_PLAYERS = 0;
+    public static int NB_HUMAIN_PLAYERS = 1;
     public static int NB_INIT_PELLET;
     public static int NB_WALL;
     public static int FILL_STRATEGIE;
     public static int BORING_MOVE_LIMIT;
-
-
-
-
     // Méthode pour charger les paramètres
     public static void loadSettings() {
         try {
@@ -44,9 +42,8 @@ public class UnchangeableSettings {
             SAXParser saxParser = factory.newSAXParser();
             UnchangeableSettingsHandler handler = new UnchangeableSettingsHandler();
             saxParser.parse(SETTINGS_FILE, handler);
-            System.out.println("Game settings loaded successfully.");
         } catch (Exception e) {
-            e.printStackTrace();
+            new InfosView(null, "Error", "Config file loading failed : " + e.getMessage(), false);
         }
     }
 }

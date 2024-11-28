@@ -5,6 +5,7 @@ import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
 import fightGame.model.GameBoardProxy;
 import fightGame.model.io.Logger;
+import fightGame.model.strategy.HumainStrategy;
 import fightGame.view.GUI;
 import fightGame.view.widgets.ActionView;
 import fightGame.view.widgets.GameView;
@@ -55,22 +56,27 @@ public class GameWithHumainManager implements ModelListener {
             }
 
             try {
-                this.thread.sleep(2000);
+                this.thread.sleep(3000);
                 this.currentPlayer = this.gameBoard.getNextPlayer();
-                for(GameView view : GUI.gameViews){
-                    GameBoardProxy proxy = view.getProxy();
-                    if(proxy != null){
-                        if(proxy.getPlayer().equals(this.currentPlayer)){
-                            this.actionView = new ActionView(view,proxy);
-                            actionView.addModelListener(this);
-                            break;
+                if(this.currentPlayer.getStrategy().getClass().equals(HumainStrategy.class)){
+                    for(GameView view : GUI.gameViews){
+                        GameBoardProxy proxy = view.getProxy();
+                        if(proxy != null){
+                            if(proxy.getPlayer().equals(this.currentPlayer)){
+                                this.actionView = new ActionView(view,proxy);
+                                actionView.addModelListener(this);
+                                pause();
+                                break;
+                            }
                         }
+                        
                     }
-                    
+                }else{
+                    Action action = this.currentPlayer.play();
+                    logger.log(this.currentPlayer, action.toString());
+                    this.gameBoard.performAction((FightGameAction)action, this.currentPlayer);
                 }
                 
-                pause();
-
             } catch (Exception e) {
                 new InfosView(null, "Exception", e.getMessage(), false);
             }
