@@ -6,6 +6,7 @@ import javax.swing.table.AbstractTableModel;
 
 import fightGame.model.GameBoard;
 import fightGame.model.GameBoardProxy;
+import fightGame.view.InterfaceSetting;
 import gamePlayers.*;
 import gamePlayers.fighters.Unit;
 import gamePlayers.util.ListenableModel;
@@ -85,59 +86,58 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
         }
 
         if (positionsImpactedByBombs.contains(position)) {
-            icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/bombexplosion.jpg"));
+            icons.add(new ImageIcon(InterfaceSetting.BOMB_EXPLOSION_URL));
         }
         if (positionsImpactedByMines.contains(position)) {
-            icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/minesexplosion.jpg"));
+            icons.add(new ImageIcon(InterfaceSetting.BOMB_EXPLOSION_URL));
         }
 
         if (positionsImpactedByProjectils.contains(position)) {
-            // System.out.println(this.gameBoard.getLastActionPlayed().getTYPE());
             switch (this.gameBoard.getLastActionPlayed().getTYPE()) {
                 case USE_PROJECTILE_AT_RIGHT:
-                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/right.jpg"));
+                    icons.add(new ImageIcon(InterfaceSetting.PROJECTIL_RIGHT_ICON_URL));
                     break;
                 case USE_PROJECTILE_AT_LEFT:
-                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/left.jpg"));
+                    icons.add(new ImageIcon(InterfaceSetting.PROJECTIL_LEFT_ICON_URL));
                     break;
                 case USE_PROJECTILE_AT_TOP:
-                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/top.jpg"));
+                    icons.add(new ImageIcon(InterfaceSetting.PROJECTIL_TOP_ICON_URL));
                     break;
                 case USE_PROJECTILE_AT_BOTTOM:
-                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/bottom.jpg"));
+                    icons.add(new ImageIcon(InterfaceSetting.PROJECTIL_BOTTOM_ICON_URL));
                     break;
                 default:
                     break;
             }
-
         }
 
         for (AbstractGameEntity entity : entities) {
             switch (entity.getType()) {
                 case BOMB:
-                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/bombicon.png"));
+                    icons.add(new ImageIcon(InterfaceSetting.BOMB_ICON_URL));
                     break;
                 case WALL:
-                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/wall.png"));
+                    icons.add(new ImageIcon(InterfaceSetting.WALL_ICON_URL));
                     break;
                 case MINE:
-                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/mines.jpg"));
+                    icons.add(new ImageIcon(InterfaceSetting.MINE_ICON_URL));
                     break;
                 case UNIT:
                     if (proxy == null) {
-                        icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.png"));
+                        icons.add(new ImageIcon(InterfaceSetting.UNIT_ICON_URL));
                     } else if (proxy.getPlayer().equals(entity.getOwner())) {
-                        icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/mainUnit.png"));
+                        icons.add(new ImageIcon(InterfaceSetting.MAIN_UNIT_ICON_URL));
+
                     } else {
-                        icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.png"));
+                        icons.add(new ImageIcon(InterfaceSetting.UNIT_ICON_URL));
                     }
                     Unit u = (Unit) entity;
                     if (u.isShieldActivated()) {
-                        icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/shield.jpg"));
+                        icons.add(new ImageIcon(InterfaceSetting.SHIELD_URL));
                     }
                     break;
                 case PELLET:
-                    icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/pellet.jpg"));
+                    icons.add(new ImageIcon(InterfaceSetting.PELLET_ICON_URL));
                     break;
 
                 default:
@@ -145,7 +145,7 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
             }
         }
         if (icons.size() == 0) {
-            icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/blanc.png"));
+            icons.add(new ImageIcon(InterfaceSetting.BLANC_ICON_URL));
         }
         return icons;
     }

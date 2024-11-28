@@ -64,7 +64,7 @@ public class GUI extends JFrame implements ActionListener {
         newGameButton = new GameButton("New", 150, 50);
         exitButton = new GameButton("Exit", 150, 50);
         robotButton = new GameButton("Robot", 150, 50);
-        humainButton = new GameButton("Humain", 150, 50);
+        humainButton = new GameButton("H vs H ", 150, 50);
 
         loadButton.addActionListener(this);
         newGameButton.addActionListener(this);
@@ -114,22 +114,11 @@ public class GUI extends JFrame implements ActionListener {
             System.exit(0);
         }
         if (e.getSource().equals(this.robotButton)) {
-            showRobotPlay();
-        }
-
-        if (e.getSource().equals(this.robotButton)) {
-            showRobotPlay();
+            this.newGame(true,false);
         }
         if(e.getSource().equals(this.humainButton)){
             this.newGame(false, true);
         }
-    }
-
-    /**
-     * Starts a new game with robot players.
-     */
-    public void showRobotPlay() {
-        this.newGame(true,false);
     }
 
     /**
@@ -139,7 +128,7 @@ public class GUI extends JFrame implements ActionListener {
      */
     public void newGame(boolean withRobot, boolean withHumain) {
         int nbEntity = UnchangeableSettings.NB_MINIMAX_PLAYERS + UnchangeableSettings.NB_RANDOM_PLAYERS +
-                UnchangeableSettings.NB_MULTY_STRAT_PLAYERS + UnchangeableSettings.NB_WALL + UnchangeableSettings.NB_INIT_PELLET;
+                UnchangeableSettings.NB_MULTY_STRAT_PLAYERS + UnchangeableSettings.NB_HUMAIN_PLAYERS + UnchangeableSettings.NB_WALL + UnchangeableSettings.NB_INIT_PELLET;
         int nbCases = (UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS);
 
         if (nbEntity < nbCases) {
@@ -173,8 +162,15 @@ public class GUI extends JFrame implements ActionListener {
             }
             for (int i = 0; i < UnchangeableSettings.NB_MULTY_STRAT_PLAYERS; i++) {
                 FightGamePlayer player = new FightGamePlayer(gameBoard, "MULTY_STRAT_" + (i + 1),
-                        (i + UnchangeableSettings.NB_RANDOM_PLAYERS));
+                        (i + UnchangeableSettings.NB_RANDOM_PLAYERS+UnchangeableSettings.NB_MINIMAX_PLAYERS));
                 player.setStrategy(new MultiStrategy());
+                gameBoard.addPlayer(player);
+            }
+
+            for (int i = 0; i < UnchangeableSettings.NB_HUMAIN_PLAYERS; i++) {
+                FightGamePlayer player = new FightGamePlayer(gameBoard, "HUMAIN_" + (i + 1),
+                        (i + UnchangeableSettings.NB_RANDOM_PLAYERS+UnchangeableSettings.NB_MINIMAX_PLAYERS + UnchangeableSettings.NB_MULTY_STRAT_PLAYERS));
+                player.setStrategy(new HumainStrategy());
                 gameBoard.addPlayer(player);
             }
 
@@ -182,13 +178,13 @@ public class GUI extends JFrame implements ActionListener {
             gameBoard.fillGameBoard();
 
             int nbPlayers = UnchangeableSettings.NB_MINIMAX_PLAYERS + UnchangeableSettings.NB_RANDOM_PLAYERS +
-                    UnchangeableSettings.NB_MULTY_STRAT_PLAYERS;
+                    UnchangeableSettings.NB_MULTY_STRAT_PLAYERS + UnchangeableSettings.NB_HUMAIN_PLAYERS;
 
             GameThreadManager threadManager = null;
             if (withRobot) {
                 threadManager = new GameThreadManager(gameBoard, logger);
             }
-
+            //Création des vues
             this.gameViews.add(new GameView("View", gameBoard, null, withRobot,withHumain, threadManager, logger));
 
             for (int i = 0; i < nbPlayers; i++) {

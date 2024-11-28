@@ -1,31 +1,31 @@
 package fightGame.view.widgets;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.ScrollPane;
 import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.BoxLayout;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import fightGame.model.FightGameAction;
-import fightGame.model.FightGameActionType;
+import fightGame.model.GameBoardProxy;
 import fightGame.view.InterfaceSetting;
+import gamePlayers.util.Action;
 import gamePlayers.util.ListenableModel;
 import gamePlayers.util.ModelListener;
 
 public class ActionView extends JFrame implements ActionListener, ListenableModel{
-    private ArrayList<FightGameActionType> actionTypes = new ArrayList<>(Arrays.asList(FightGameActionType.values()));
+    private List<Action> actionTypes;
     private TextField input;
     private GameButton submiButton;
     private int actionNumber;
@@ -33,15 +33,17 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
     protected List<ModelListener> listeners;
 
 
-    public ActionView(JFrame parent) {
+    public ActionView(JFrame parent, GameBoardProxy proxy) {
+        
         this.listeners = new ArrayList<>();
-        buildView();
+        this.actionTypes = proxy.getActions();
+        buildView(proxy);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(parent);
         this.setVisible(true);
     }
 
-    private void buildView() {
+    private void buildView(GameBoardProxy proxy) {
         JPanel contentPanel = new JPanel();
         ScrollPane scrollPane = new ScrollPane();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
@@ -50,7 +52,7 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
         submiButton.setFont(InterfaceSetting.TEXT_FONT);
         submiButton.addActionListener(this);
 
-        input = new TextField("                           ");
+        input = new TextField("Input action number");
         input.setMinimumSize(new Dimension(400, 90));
 
         JPanel inputJPanel = new JPanel();
@@ -58,7 +60,6 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
         inputJPanel.add(input);
         inputJPanel.add(submiButton);
         
-
         for (int i = 0; i < actionTypes.size(); i++) {
             JPanel panel = new JPanel();
             panel.setMinimumSize(new Dimension(100, 400));
@@ -67,11 +68,13 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
             panel.add(label);
             contentPanel.add(panel);
         }
-        
+        JLabel playerNameLabel = new JLabel("Player : " + proxy.getPlayer().getName());
+        playerNameLabel.setForeground(Color.RED);
         this.setMinimumSize(new Dimension(400, 500));
         scrollPane.add(contentPanel);
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
         this.getContentPane().add(inputJPanel);
+        this.getContentPane().add(playerNameLabel);
         this.getContentPane().add(scrollPane);
         this.revalidate(); 
         this.repaint();
@@ -88,7 +91,7 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
         String chaine = this.input.getText();
         if(isInteger(chaine)){
             this.actionNumber = Integer.valueOf(chaine);
-            this.action = new FightGameAction(actionTypes.get(actionNumber));
+            this.action = (FightGameAction)this.actionTypes.get(actionNumber);
             this.dispose();
             notifyModelListeners();
         }

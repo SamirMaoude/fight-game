@@ -61,7 +61,7 @@ public class GameWithHumainManager implements ModelListener {
                     GameBoardProxy proxy = view.getProxy();
                     if(proxy != null){
                         if(proxy.getPlayer().equals(this.currentPlayer)){
-                            this.actionView = new ActionView(view);
+                            this.actionView = new ActionView(view,proxy);
                             actionView.addModelListener(this);
                             break;
                         }
@@ -105,7 +105,7 @@ public class GameWithHumainManager implements ModelListener {
 
     public void pause() {
         synchronized (pauseLock) {
-            paused = true; // Définir le flag sur "pause"
+            paused = true;
         }
     }
 
