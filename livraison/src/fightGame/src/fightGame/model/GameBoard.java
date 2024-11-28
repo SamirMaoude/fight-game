@@ -369,7 +369,6 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
      * @return true if action is executed else false
      */
     public boolean performAction(FightGameAction action, FightGamePlayer player) {
-System.out.println("performe");
         Unit unit = player.getUnit();
         Position unitPosition = unit.getPosition();
         reinitializeFromLastAction();
@@ -832,7 +831,6 @@ System.out.println("performe");
                 }
 
                 impactedPositionsByBomb.add(impactedPosition);
-
             }
         }
 
@@ -873,7 +871,6 @@ System.out.println("performe");
         }
 
         impactedPositionsByMine.add(position);
-
     }
 
     /**
@@ -925,10 +922,7 @@ System.out.println("performe");
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-
         }
-
-        
     }
 
     /**

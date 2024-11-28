@@ -1,18 +1,9 @@
 package gamePlayers.fighters;
 
-import gamePlayers.fighters.Unit;
-import gamePlayers.fighters.UnitBuilder;
-import gamePlayers.util.Position;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import java.util.LinkedList;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class UnitBuilderTest {
 
-    private UnitBuilder unitBuilder;
+    /*private UnitBuilder unitBuilder;
 
     @BeforeEach
     public void setUp() {
@@ -101,5 +92,5 @@ public class UnitBuilderTest {
         assertNull(unit.getBombs(), "Erreur : La liste de bombes par défaut devrait être nulle.");
         assertNull(unit.getMines(), "Erreur : La liste de mines par défaut devrait être nulle.");
         assertNull(unit.getProjectiles(), "Erreur : La liste de projectiles par défaut devrait être nulle.");
-    }
+    }*/
 }

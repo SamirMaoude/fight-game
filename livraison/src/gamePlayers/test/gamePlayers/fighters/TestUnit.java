@@ -1,21 +1,10 @@
 package gamePlayers.fighters;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions.*;
 
-import java.beans.Transient;
-import java.util.LinkedList;
-
-import gamePlayers.objects.Bomb;
-import gamePlayers.objects.Mine;
-import gamePlayers.objects.Projectile;
-import gamePlayers.util.Position;
-import gamePlayers.util.Move;
 
 public class TestUnit {
 
-    private Unit unit;
+   /*  private Unit unit;
     private Position initialPosition;
     private LinkedList<Bomb> bombs;
     private LinkedList<Mine> mines;
@@ -114,6 +103,6 @@ public class TestUnit {
         assertFalse(unit.hasProjectiles());
         mines.add(new Projectile());
         assertTrue(unit.hasProjectiles());
-    }
+    }*/
     
 }

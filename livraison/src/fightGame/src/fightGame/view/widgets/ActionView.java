@@ -11,17 +11,27 @@ import gamePlayers.util.Action;
 import gamePlayers.util.ListenableModel;
 import gamePlayers.util.ModelListener;
 import java.util.List;
-public class ActionView extends JFrame implements ActionListener, ListenableModel{
-    private List<Action> actionTypes;
-    private TextField input;
-    private GameButton submiButton;
-    private int actionNumber;
-    private FightGameAction action;
-    protected List<ModelListener> listeners;
 
+/**
+ * The ActionView class represents a graphical interface for selecting and submitting actions 
+ * during the game. It displays a list of available actions for the player and allows the 
+ * player to input the action number to execute.
+ */
+public class ActionView extends JFrame implements ActionListener, ListenableModel {
+    private List<Action> actionTypes; // List of available actions
+    private TextField input; // Input field for entering action number
+    private GameButton submiButton; // Button to submit the chosen action
+    private int actionNumber; // Number of the chosen action
+    private FightGameAction action; // Selected action
+    protected List<ModelListener> listeners; // List of model listeners
 
+    /**
+     * Constructs the ActionView for a specific player.
+     * 
+     * @param parent The parent JFrame from which this view is launched.
+     * @param proxy  The GameBoardProxy providing access to available actions.
+     */
     public ActionView(JFrame parent, GameBoardProxy proxy) {
-        
         this.listeners = new ArrayList<>();
         this.actionTypes = proxy.getActions();
         buildView(proxy);
@@ -30,6 +40,11 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
         this.setVisible(true);
     }
 
+    /**
+     * Builds and initializes the graphical components of the ActionView.
+     * 
+     * @param proxy The GameBoardProxy providing player and action information.
+     */
     private void buildView(GameBoardProxy proxy) {
         JPanel contentPanel = new JPanel();
         ScrollPane scrollPane = new ScrollPane();
@@ -67,43 +82,79 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
         this.repaint();
     }
 
+    /**
+     * Handles button click events for submitting the chosen action.
+     * 
+     * @param e The action event triggered by user interaction.
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-       if(e.getSource().equals(this.submiButton)){
+       if (e.getSource().equals(this.submiButton)) {
             getActionNumber();
        }
     }
 
-    private void getActionNumber(){
+    /**
+     * Retrieves and validates the action number input by the player.
+     */
+    private void getActionNumber() {
         String chaine = this.input.getText();
-        if(isInteger(chaine)){
+        if (isInteger(chaine)) {
             this.actionNumber = Integer.valueOf(chaine);
-            this.action = (FightGameAction)this.actionTypes.get(actionNumber);
-            this.dispose();
-            notifyModelListeners();
+            if(this.actionNumber>=0){
+                this.action = (FightGameAction)this.actionTypes.get(actionNumber);
+                this.dispose();
+                notifyModelListeners();
+            }else{
+                new InfosView(this, "Invalid input", "Action number must be an positif integer", false);
+            }
+            
         }
     }
 
-    public FightGameAction getAction(){
+    /**
+     * Gets the selected action after the player inputs the action number.
+     * 
+     * @return The selected FightGameAction.
+     */
+    public FightGameAction getAction() {
         return this.action;
     }
 
+    /**
+     * Checks if a given string is a valid integer.
+     * 
+     * @param str The string to validate.
+     * @return True if the string is an integer; false otherwise.
+     */
     public static boolean isInteger(String str) {
         Scanner scanner = new Scanner(str);
         return scanner.hasNextInt(); 
     }
 
-   
+    /**
+     * Adds a listener to be notified of changes in the model.
+     * 
+     * @param modelListener The listener to add.
+     */
     @Override
     public void addModelListener(ModelListener modelListener) {
         this.listeners.add(modelListener);
     }
    
+    /**
+     * Removes a listener from being notified of changes in the model.
+     * 
+     * @param modelListener The listener to remove.
+     */
     @Override
     public void removeModelListener(ModelListener modelListener) {
         this.listeners.remove(modelListener);
     }
 
+    /**
+     * Notifies all registered listeners of changes in the model.
+     */
     @Override
     public void notifyModelListeners() {
         for (ModelListener modelListener : this.listeners) {

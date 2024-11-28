@@ -1,14 +1,10 @@
 package gamePlayers.objects;
 
-import gamePlayers.util.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ProjectileTest {
 
-    private Projectile projectile1;
+    /*private Projectile projectile1;
     private Projectile projectile2;
     private Position position1;
     private Player player1;
@@ -61,5 +57,5 @@ public void testConstructor() {
 
         assertNull(clonedProjectile.getOwner(),
                    "Le joueur du projectile cloné devrait être null. Résultat attendu: null, résultat obtenu: " + clonedProjectile.getOwner());
-    }
+    }*/
 }

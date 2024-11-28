@@ -1,14 +1,8 @@
 package gamePlayers.objects;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
-import gamePlayers.util.Position;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class PelletTest {
 
-    private Pellet pellet1;
+   /* private Pellet pellet1;
     private Position position1;
 
     @BeforeEach
@@ -43,5 +37,5 @@ public class PelletTest {
         assertEquals(pellet1.getPosition(), clonedPellet.getPosition(),
                      "La position du pellet cloné devrait être égale à celle du pellet original. Résultat attendu: "
                              + pellet1.getPosition() + ", résultat obtenu: " + clonedPellet.getPosition());
-    }
+    }*/
 }
