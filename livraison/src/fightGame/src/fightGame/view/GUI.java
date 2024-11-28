@@ -3,6 +3,8 @@ package fightGame.view;
 import javax.swing.*;
 
 import fightGame.UnchangeableSettings;
+import fightGame.controller.GameThreadManager;
+import fightGame.controller.GameWithHumainManager;
 import fightGame.model.*;
 import fightGame.model.aiAlgorithms.*;
 import fightGame.model.io.GameBoardIO;
@@ -137,7 +139,7 @@ public class GUI extends JFrame implements ActionListener {
      */
     public void newGame(boolean withRobot, boolean withHumain) {
         int nbEntity = UnchangeableSettings.NB_MINIMAX_PLAYERS + UnchangeableSettings.NB_RANDOM_PLAYERS +
-                UnchangeableSettings.NB_ATTACK_PLAYERS + UnchangeableSettings.NB_WALL + UnchangeableSettings.NB_INIT_PELLET;
+                UnchangeableSettings.NB_MULTY_STRAT_PLAYERS + UnchangeableSettings.NB_WALL + UnchangeableSettings.NB_INIT_PELLET;
         int nbCases = (UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS);
 
         if (nbEntity < nbCases) {
@@ -169,10 +171,10 @@ public class GUI extends JFrame implements ActionListener {
                 player.setStrategy(new MinimaxStrategy());
                 gameBoard.addPlayer(player);
             }
-            for (int i = 0; i < UnchangeableSettings.NB_ATTACK_PLAYERS; i++) {
-                FightGamePlayer player = new FightGamePlayer(gameBoard, "ATTACK" + (i + 1),
+            for (int i = 0; i < UnchangeableSettings.NB_MULTY_STRAT_PLAYERS; i++) {
+                FightGamePlayer player = new FightGamePlayer(gameBoard, "MULTY_STRAT_" + (i + 1),
                         (i + UnchangeableSettings.NB_RANDOM_PLAYERS));
-                player.setStrategy(new AttackStrategy());
+                player.setStrategy(new MultiStrategy());
                 gameBoard.addPlayer(player);
             }
 
@@ -180,17 +182,15 @@ public class GUI extends JFrame implements ActionListener {
             gameBoard.fillGameBoard();
 
             int nbPlayers = UnchangeableSettings.NB_MINIMAX_PLAYERS + UnchangeableSettings.NB_RANDOM_PLAYERS +
-                    UnchangeableSettings.NB_ATTACK_PLAYERS;
+                    UnchangeableSettings.NB_MULTY_STRAT_PLAYERS;
 
             GameThreadManager threadManager = null;
             if (withRobot) {
                 threadManager = new GameThreadManager(gameBoard, logger);
             }
 
-            // Create a view for the main game board
             this.gameViews.add(new GameView("View", gameBoard, null, withRobot,withHumain, threadManager, logger));
 
-            // Create a view for each player
             for (int i = 0; i < nbPlayers; i++) {
                 FightGamePlayer player = gameBoard.getPlayers().get(i);
                 this.gameViews.add(new GameView("View for Player " + player.getName(), gameBoard,
@@ -205,8 +205,6 @@ public class GUI extends JFrame implements ActionListener {
                     threadManager.playGame();
                 }
             }
-           
-
             this.dispose();
         } else {
             new InfosView(this, "Invalid configuration", "There are too many entities than boxes", false);

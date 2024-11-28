@@ -2,11 +2,10 @@ package fightGame.view.widgets;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.io.*;
-
 import javax.swing.*;
 import java.util.List;
 import fightGame.controller.GameBoardAdapterToTable;
+import fightGame.controller.GameThreadManager;
 import fightGame.model.*;
 import fightGame.model.io.*;
 import fightGame.view.GUI;
@@ -151,6 +150,7 @@ public class GameView extends JFrame implements ModelListener, ActionListener {
             if (!this.gameBoard.isGameOver()) {
                 FightGamePlayer player = this.gameBoard.getNextPlayer();
                 Action action = player.play();
+                //action peut être null
                 logger.log(player, action.toString());
                 this.gameBoard.performAction((FightGameAction) action, player);
             } else {

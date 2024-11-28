@@ -34,7 +34,6 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
 
 
     public ActionView(JFrame parent) {
-        //super(parent);
         this.listeners = new ArrayList<>();
         buildView();
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -51,7 +50,7 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
         submiButton.setFont(InterfaceSetting.TEXT_FONT);
         submiButton.addActionListener(this);
 
-        input = new TextField("Write your action number");
+        input = new TextField("                           ");
         input.setMinimumSize(new Dimension(400, 90));
 
         JPanel inputJPanel = new JPanel();
@@ -69,14 +68,13 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
             contentPanel.add(panel);
         }
         
-
+        this.setMinimumSize(new Dimension(400, 500));
         scrollPane.add(contentPanel);
         this.getContentPane().setLayout(new BoxLayout(this.getContentPane(), BoxLayout.Y_AXIS));
         this.getContentPane().add(inputJPanel);
         this.getContentPane().add(scrollPane);
         this.revalidate(); 
         this.repaint();
-        this.pack();
     }
 
     @Override
@@ -93,16 +91,12 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
             this.action = new FightGameAction(actionTypes.get(actionNumber));
             this.dispose();
             notifyModelListeners();
-        }else{
-
         }
     }
 
     public FightGameAction getAction(){
         return this.action;
     }
-
-
 
     public static boolean isInteger(String str) {
         Scanner scanner = new Scanner(str);
@@ -114,14 +108,12 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
     public void addModelListener(ModelListener modelListener) {
         this.listeners.add(modelListener);
     }
-
    
     @Override
     public void removeModelListener(ModelListener modelListener) {
         this.listeners.remove(modelListener);
     }
 
-   
     @Override
     public void notifyModelListeners() {
         for (ModelListener modelListener : this.listeners) {

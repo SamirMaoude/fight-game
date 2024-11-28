@@ -49,6 +49,7 @@ public class InfosView extends JDialog implements ActionListener {
 
         // Dialog settings
         this.setMinimumSize(new Dimension(300, 300));
+        this.pack();
         this.setVisible(true);
     }
 

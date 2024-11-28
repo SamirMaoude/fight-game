@@ -1,12 +1,18 @@
-package fightGame.model;
+package fightGame.controller;
 
+import fightGame.model.FightGameAction;
+import fightGame.model.FightGamePlayer;
+import fightGame.model.GameBoard;
+import fightGame.model.GameBoardProxy;
 import fightGame.model.io.Logger;
 import fightGame.view.GUI;
 import fightGame.view.widgets.ActionView;
 import fightGame.view.widgets.GameView;
+import fightGame.view.widgets.InfosView;
 import gamePlayers.util.Action;
 import gamePlayers.util.ListenableModel;
 import gamePlayers.util.ModelListener;
+import gamePlayers.util.Player;
 
 public class GameWithHumainManager implements ModelListener {
     private GameBoard gameBoard;
@@ -15,18 +21,27 @@ public class GameWithHumainManager implements ModelListener {
     private boolean paused = false;
     private final Object pauseLock = new Object();
     private ActionView actionView;
+    Thread thread;
 
 
     public GameWithHumainManager(GameBoard gameBoard, Logger logger){
         this.gameBoard = gameBoard;
         this.logger = logger;
+        this.thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                play();
+            }
+        });
+
     }
 
     public void playGame(){
-        new Thread(()->run()).start();
+        this.thread.start();
     }
 
-    public void run() {
+    @SuppressWarnings("static-access")
+    public void play() {
         while (!this.gameBoard.isGameOver()) {
             synchronized (pauseLock) {
                 while (paused) {
@@ -40,6 +55,7 @@ public class GameWithHumainManager implements ModelListener {
             }
 
             try {
+                this.thread.sleep(2000);
                 this.currentPlayer = this.gameBoard.getNextPlayer();
                 for(GameView view : GUI.gameViews){
                     GameBoardProxy proxy = view.getProxy();
@@ -47,7 +63,6 @@ public class GameWithHumainManager implements ModelListener {
                         if(proxy.getPlayer().equals(this.currentPlayer)){
                             this.actionView = new ActionView(view);
                             actionView.addModelListener(this);
-
                             break;
                         }
                     }
@@ -57,11 +72,11 @@ public class GameWithHumainManager implements ModelListener {
                 pause();
 
             } catch (Exception e) {
-                System.out.println(e.getMessage());
+                new InfosView(null, "Exception", e.getMessage(), false);
             }
 
         }
-       /*  boolean allDead = true;
+        boolean allDead = true;
         String winnerName = "";
         for (Player player : this.gameBoard.getPlayers()) {
             if(player.getUnit().isAlive()){
@@ -75,7 +90,7 @@ public class GameWithHumainManager implements ModelListener {
 
         }else{
             new InfosView(null, "Game Over", winnerName + " winne the game.", true);
-        }*/
+        }
 
     }
 
@@ -84,19 +99,14 @@ public class GameWithHumainManager implements ModelListener {
         Action action = this.actionView.getAction();
         logger.log(this.currentPlayer, action.toString());
         this.gameBoard.performAction((FightGameAction) action, this.currentPlayer);
-        try {
-            Thread.sleep(4000);
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        
         resume();
-        //Thread.sleep(1000);
     }
 
     public void pause() {
-        paused = true; 
-        //System.out.println("pause");
+        synchronized (pauseLock) {
+            paused = true; // Définir le flag sur "pause"
+        }
     }
 
     public void resume() {
