@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import fightGame.UnchangeableSettings;
+import fightGame.model.aiAlgorithms.RandomStrategy;
 import fightGame.model.strategy.FightGamePlayerStrategy;
-import fightGame.model.strategy.RandomStrategy;
 import gamePlayers.fighters.Unit;
 import gamePlayers.fighters.UnitBuilder;
 import gamePlayers.util.Action;

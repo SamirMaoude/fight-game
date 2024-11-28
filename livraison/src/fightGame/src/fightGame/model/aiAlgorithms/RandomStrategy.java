@@ -1,10 +1,11 @@
-package fightGame.model.strategy;
+package fightGame.model.aiAlgorithms;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Random;
 
 import fightGame.model.GameBoardProxy;
+import fightGame.model.strategy.FightGamePlayerStrategy;
 import gamePlayers.util.Action;
 import gamePlayers.util.Player;
 

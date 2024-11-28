@@ -2,6 +2,7 @@ package fightGame.model.strategy;
 
 import fightGame.model.GameBoardProxy;
 import fightGame.model.aiAlgorithms.MinimaxStrategy;
+import fightGame.model.aiAlgorithms.RandomStrategy;
 import gamePlayers.util.Action;
 import gamePlayers.util.Player;
 

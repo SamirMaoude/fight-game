@@ -2,14 +2,12 @@ package fightGame.view.widgets;
 
 import javax.swing.*;
 import javax.swing.table.*;
-import fightGame.model.GameBoard;
 import fightGame.view.InterfaceSetting;
 import fightGame.view.utils.CellRenderer;
 /**
  * Represents a graphical table view of the game board, displaying the state of each cell.
  */
 public class GameBoardTable extends JTable {
-    private GameBoard gameBoard;
     public static final int WIDTH = (InterfaceSetting.WIDTH * 2) / 3;
     public static final int HEIGHT = InterfaceSetting.HEIGHT - 300;
 
@@ -36,12 +34,4 @@ public class GameBoardTable extends JTable {
         this.setDefaultRenderer(Object.class, new CellRenderer());
     }
 
-    /**
-     * Returns the associated {@link GameBoard}.
-     *
-     * @return the game board
-     */
-    public GameBoard getGameBoard() {
-        return this.gameBoard;
-    }
 }
