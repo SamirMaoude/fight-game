@@ -127,7 +127,7 @@ public class GameBoardAdapterToTable extends AbstractTableModel implements Model
                     if (proxy == null) {
                         icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.png"));
                     } else if (proxy.getPlayer().equals(entity.getOwner())) {
-                        icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit2.png"));
+                        icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/mainUnit.png"));
                     } else {
                         icons.add(new ImageIcon("livraison/src/fightGame/src/fightGame/view/img/unit.png"));
                     }
