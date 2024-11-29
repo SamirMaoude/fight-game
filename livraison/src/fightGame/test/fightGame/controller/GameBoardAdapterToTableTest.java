@@ -184,8 +184,8 @@ public class GameBoardAdapterToTableTest extends TestCase {
         ImageIcon value7 = (ImageIcon)l7.get(0);
         ImageIcon value8 = (ImageIcon)l7.get(1);
         assertEquals(l7.size(), 2);
-        assertTrue ("La méthode ne renvoie pas la bonne valeur", value7.getDescription().equals(BombFilePath));
-        assertTrue ("La méthode ne renvoie pas la bonne valeur", value8.getDescription().equals(WallFilePath));
+        assertTrue ("La méthode ne renvoie pas la bonne valeur", value7.getDescription().equals(WallFilePath));
+        assertTrue ("La méthode ne renvoie pas la bonne valeur", value8.getDescription().equals(BombFilePath));
 
         ArrayList l8 = (ArrayList)adapter1.getValueAt(1, 3);
         ImageIcon value9 = (ImageIcon)l8.get(0);

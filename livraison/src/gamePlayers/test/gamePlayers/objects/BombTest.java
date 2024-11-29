@@ -1,8 +1,5 @@
 package gamePlayers.objects;
 
-
-import static org.junit.Assert.*;
-
 import org.junit.Assert;
 
 import org.junit.Before;
@@ -12,7 +9,6 @@ import gamePlayers.util.Player;
 import gamePlayers.util.Position;
 import junit.framework.TestCase;
 
-/* */
 
 /**
  * Classe de test pour la classe Bomb.
@@ -71,8 +67,6 @@ public class BombTest extends TestCase{
     @Test
     public void testClone() throws CloneNotSupportedException {
         Bomb clonedBomb = bomb1.clone();
-        
-       // Assert.assertNotSame(clonedBomb, clonedBomb);
         Assert.assertEquals(bomb1.getDamage(), clonedBomb.getDamage());
         Assert.assertEquals(bomb1.getPosition(), clonedBomb.getPosition());
         Assert.assertEquals(bomb1.getTimeBeforeExplosion(), clonedBomb.getTimeBeforeExplosion());

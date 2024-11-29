@@ -6,7 +6,6 @@ import javax.swing.*;
 import java.util.List;
 import fightGame.controller.GameBoardAdapterToTable;
 import fightGame.controller.GameManager;
-import fightGame.controller.GameThreadManager;
 import fightGame.model.*;
 import fightGame.model.io.*;
 import fightGame.view.GUI;

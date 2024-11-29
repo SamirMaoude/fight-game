@@ -4,7 +4,6 @@ import javax.swing.*;
 
 import fightGame.UnchangeableSettings;
 import fightGame.controller.GameManager;
-import fightGame.controller.GameThreadManager;
 import fightGame.model.*;
 import fightGame.model.aiAlgorithms.MinimaxStrategy;
 import fightGame.model.aiAlgorithms.MultiStrategy;
@@ -222,8 +221,7 @@ public class GUI extends JFrame implements ActionListener {
      */
     private void addPlayer(int nbPlayers, GameBoard gameBoard, String prefixe, int start, FightGamePlayerStrategy strategy){
         for (int i = 0; i < nbPlayers; i++) {
-            FightGamePlayer player = new FightGamePlayer(gameBoard, prefixe + (i + 1), i + start);
-            player.setStrategy(strategy);
+            FightGamePlayer player = new FightGamePlayer(gameBoard, prefixe + (i + 1), i + start,strategy);
             gameBoard.addPlayer(player);
         }
     }
