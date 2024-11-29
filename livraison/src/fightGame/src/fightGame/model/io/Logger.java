@@ -2,6 +2,8 @@ package fightGame.model.io;
 
 import java.io.FileWriter;
 import java.io.IOException;
+
+import fightGame.UnchangeableSettings;
 import fightGame.view.widgets.InfosView;
 import gamePlayers.util.Player;
 
@@ -10,17 +12,13 @@ import gamePlayers.util.Player;
  */
 public class Logger {
 
-    /**
-     * Path to the log file.
-     */
-    private static final String LOG_FILE = "livraison/src/fightGame/log.txt";
-
+    
     /**
      * Constructs a Logger instance and clears the existing contents of the log file.
      * Displays an error message if the file operation fails.
      */
     public Logger() {
-        try (FileWriter writer = new FileWriter(LOG_FILE)) {
+        try (FileWriter writer = new FileWriter(UnchangeableSettings.LOG_FILE)) {
             // Clears the log file.
         } catch (IOException e) {
             new InfosView(null, "Error in log process", "Error deleting file contents: \n" + e.getMessage(), false);
@@ -35,7 +33,7 @@ public class Logger {
      */
     public void log(Player player, String action) {
         String texte = player.getUnit().getName() + " play " + action;
-        try (FileWriter writer = new FileWriter(LOG_FILE, true)) {
+        try (FileWriter writer = new FileWriter(UnchangeableSettings.LOG_FILE, true)) {
             writer.write(texte + System.lineSeparator());
         } catch (IOException e) {
             new InfosView(null, "Error in log process", "Log failed \n" + e.getMessage(), false);

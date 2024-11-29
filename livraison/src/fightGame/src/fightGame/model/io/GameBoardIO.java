@@ -55,8 +55,10 @@ public class GameBoardIO {
             Logger logger = new Logger();
             for (int i = 0; i < nbPlayers; i++) {
                 FightGamePlayer player = gameBoard.getPlayers().get(i);
-                new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy(), false,false, null, logger);
+                new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy(), null, logger);
             }
+            new GameView("Main frame", gameBoard,null, null, logger);
+
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Erreur lors du chargement : " + e.getMessage());
         }
@@ -70,7 +72,7 @@ public class GameBoardIO {
      */
     public static void saveGame(JFrame frame, GameBoard gameBoard) {
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setDialogTitle("Sauvegarder la partie");
+        fileChooser.setDialogTitle("Save game");
         int userSelection = fileChooser.showSaveDialog(frame);
 
         if (userSelection == JFileChooser.APPROVE_OPTION) {
@@ -80,12 +82,11 @@ public class GameBoardIO {
             try (FileOutputStream fileOut = new FileOutputStream(filePath);
                     ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
                 out.writeObject(gameBoard);
-                new InfosView(frame, "Sauvegarde", "Votre jeu a été bien sauvegardé dans le fichier " + filePath, true);
+                new InfosView(frame, "Sauvegarde", "Your game has been successfully saved in the file" + filePath, true);
+                
             } catch (IOException e) {
-                new InfosView(frame, "Sauvegarde", "Erreur lors de la sauvegarde : " + e.getMessage(), false);
+                new InfosView(frame, "Sauvegarde", "Error while saving : " + e.getMessage(), false);
             }
-        } else {
-            System.out.println("L'utilisateur a annulé la sauvegarde.");
-        }
+        } 
     }
 }

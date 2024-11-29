@@ -7,12 +7,12 @@ import fightGame.view.GUI;
 import fightGame.view.widgets.*;
 import gamePlayers.util.*;
 /**
- * GameWithHumainManager is responsible for managing a game session between human and AI players.
+ * GameManager is responsible for managing a game session between human and AI players.
  * It coordinates the game flow, handles player turns, and updates the game state.
  * Specifically, it manages the interaction when the current player is human, showing a GUI for input.
  * It also pauses and resumes the game as necessary during the player's turn.
  */
-public class GameWithHumainManager implements ModelListener {
+public class GameManager implements ModelListener {
     private GameBoard gameBoard;
     private Logger logger;
     private FightGamePlayer currentPlayer;
@@ -27,7 +27,7 @@ public class GameWithHumainManager implements ModelListener {
      * @param gameBoard the game board managing the game state
      * @param logger the logger to log actions and events
      */
-    public GameWithHumainManager(GameBoard gameBoard, Logger logger){
+    public GameManager(GameBoard gameBoard, Logger logger){
         this.gameBoard = gameBoard;
         this.logger = logger;
         this.thread = new Thread(new Runnable() {
@@ -51,7 +51,7 @@ public class GameWithHumainManager implements ModelListener {
      * It pauses the game when a human player is taking their turn and resumes afterward.
      */
     @SuppressWarnings("static-access")
-    public void play() {
+    private void play() {
         while (!this.gameBoard.isGameOver()) {
             synchronized (pauseLock) {
                 while (paused) {

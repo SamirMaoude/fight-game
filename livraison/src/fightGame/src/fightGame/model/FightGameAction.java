@@ -1,8 +1,10 @@
 package fightGame.model;
 
+import java.io.Serializable;
+
 import gamePlayers.util.Action;
 
-public class FightGameAction implements Action {
+public class FightGameAction implements Action, Serializable {
 
     public FightGameActionType TYPE;
     public FightGameAction(FightGameActionType type){

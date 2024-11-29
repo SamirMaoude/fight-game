@@ -3,10 +3,11 @@ package fightGame.view;
 import javax.swing.*;
 
 import fightGame.UnchangeableSettings;
+import fightGame.controller.GameManager;
 import fightGame.controller.GameThreadManager;
-import fightGame.controller.GameWithHumainManager;
 import fightGame.model.*;
 import fightGame.model.aiAlgorithms.MinimaxStrategy;
+import fightGame.model.aiAlgorithms.MultiStrategy;
 import fightGame.model.aiAlgorithms.RandomStrategy;
 import fightGame.model.io.GameBoardIO;
 import fightGame.model.io.Logger;
@@ -110,7 +111,7 @@ public class GUI extends JFrame implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.newGameButton)) {
             if(UnchangeableSettings.NB_HUMAIN_PLAYERS<=0){
-                this.newGame(false,false);
+                this.newGame(0);
             } else {
                 new InfosView(this, "Invalid configuration", "The number of human players is positive", false);
             }
@@ -127,14 +128,14 @@ public class GUI extends JFrame implements ActionListener {
         }
         if (e.getSource().equals(this.robotButton)) {
             if(UnchangeableSettings.NB_HUMAIN_PLAYERS<=0){
-                this.newGame(true,false);
+                this.newGame(1);
             } else {
                 new InfosView(this, "Invalid configuration", "The number of human players is positive", false);
             }
         }
         if(e.getSource().equals(this.humainButton)){
             if(UnchangeableSettings.NB_HUMAIN_PLAYERS>0){
-                this.newGame(false, true);
+                this.newGame(2);
             } else {
                 new InfosView(this, "Invalid configuration", "The number of human players is invalid", false);
             }
@@ -148,7 +149,7 @@ public class GUI extends JFrame implements ActionListener {
      * @param withRobot indicates whether the game should include robot players
      * @param withHumain indicates whether the game should include human players
      */
-    public void newGame(boolean withRobot, boolean withHumain) {
+    public void newGame(int type) {
         int nbEntity = UnchangeableSettings.NB_MINIMAX_PLAYERS + UnchangeableSettings.NB_RANDOM_PLAYERS +
                 UnchangeableSettings.NB_MULTY_STRAT_PLAYERS + UnchangeableSettings.NB_HUMAIN_PLAYERS + UnchangeableSettings.NB_WALL + UnchangeableSettings.NB_INIT_PELLET;
         int nbCases = (UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS);
@@ -181,27 +182,29 @@ public class GUI extends JFrame implements ActionListener {
             int nbPlayers = UnchangeableSettings.NB_MINIMAX_PLAYERS + UnchangeableSettings.NB_RANDOM_PLAYERS +
                     UnchangeableSettings.NB_MULTY_STRAT_PLAYERS + UnchangeableSettings.NB_HUMAIN_PLAYERS;
 
-            GameThreadManager threadManager = null;
-            if (withRobot) {
-                threadManager = new GameThreadManager(gameBoard, logger);
+            GameManager manager;
+            switch (type) {
+                case 0:
+                    manager = null;
+                    break;
+                default:
+                    manager = new GameManager(gameBoard, logger);
+                    break;
             }
-            // Create views for the game
-            this.gameViews.add(new GameView("View", gameBoard, null, withRobot, withHumain, threadManager, logger));
 
+            // Create views for the game
             for (int i = 0; i < nbPlayers; i++) {
                 FightGamePlayer player = gameBoard.getPlayers().get(i);
                 this.gameViews.add(new GameView("View for Player " + player.getName(), gameBoard,
-                        player.getGameBoardProxy(), withRobot, withHumain, threadManager, logger));
+                        player.getGameBoardProxy(), manager, logger));
             }
 
-            if(withHumain){
-                GameWithHumainManager gameWithHumainManager = new GameWithHumainManager(gameBoard, logger);
-                gameWithHumainManager.playGame();
-            } else {
-                if (withRobot) {
-                    threadManager.playGame();
-                }
+            this.gameViews.add(new GameView("Main frame", gameBoard, null, manager, logger));
+
+            if(manager!=null){
+                manager.playGame();
             }
+            
             this.dispose();
         } else {
             new InfosView(this, "Invalid configuration", "There are too many entities than boxes", false);

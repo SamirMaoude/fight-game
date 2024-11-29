@@ -10,15 +10,6 @@ public class Wall extends AbstractGameEntity {
         super(EntityType.WALL, position, null);
     }
 
-    /**
-     * TODO: Définir destroy
-     */
-    @Override
-    public void destroy() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'destroy'");
-    }
-
     public Wall clone() throws CloneNotSupportedException {
         
         Wall clonedWall = new Wall(new Position(position));

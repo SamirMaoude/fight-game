@@ -20,7 +20,7 @@ import gamePlayers.util.Position;
 
 
 
-public class MinimaxStrategy implements FightGamePlayerStrategy,Serializable {
+public class MinimaxStrategy implements FightGamePlayerStrategy, Serializable {
 
     private int nbPlayers;
     private List<FightGamePlayer> players;
