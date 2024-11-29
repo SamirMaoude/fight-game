@@ -1,12 +1,17 @@
 package gamePlayers.objects;
 
+
+import static org.junit.Assert.*;
+
+import gamePlayers.util.Position;
+
 /* */
 
 /**
  * Classe de test pour la classe Bomb.
  */
 public class BombTest {
-/* 
+
     private Bomb bomb1;
     private Bomb bomb2;
     private Bomb bomb3;
@@ -89,6 +94,6 @@ public class BombTest {
         bomb1.setTimeBeforeExplosion(10);
         assertEquals(10, bomb1.getTimeBeforeExplosion(),
                 "Le temps avant l'explosion devrait être de 10. Résultat obtenu: " + bomb1.getTimeBeforeExplosion());
-    }*/
+    }
 
-}
+}*
