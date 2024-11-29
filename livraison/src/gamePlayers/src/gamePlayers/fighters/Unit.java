@@ -1,7 +1,6 @@
 package gamePlayers.fighters;
 
 import java.util.LinkedList;
-import java.util.stream.Collectors;
 import gamePlayers.AbstractGameEntity;
 import gamePlayers.objects.*;
 import gamePlayers.util.*;
@@ -31,7 +30,7 @@ public class Unit extends AbstractGameEntity {
      * @param bombs           The bombs available to the unit.
      * @param mines           The mines available to the unit.
      * @param projectiles     The projectiles available to the unit.
-     * @param shieldRetention The shield retention value.
+     * @param shieldRetention The shield retention value.The shield retention value.
      * @throws IllegalArgumentException if the unit name is empty.
      */
     public Unit(Position position, String name, Player owner, int energy, LinkedList<Bomb> bombs,
@@ -65,13 +64,15 @@ public class Unit extends AbstractGameEntity {
      * @param damage The damage to be received by the unit.
      */
     public void receiveDamage(int damage) {
-        if (this.shieldActivated) {
-            if (damage >= this.shieldRetention) {
+        if(damage>0){
+            if (this.shieldActivated) {
+                if (damage >= this.shieldRetention) {
+                    this.energy -= damage;
+                    this.energy += this.shieldRetention;
+                }
+            } else {
                 this.energy -= damage;
-                this.energy += this.shieldRetention;
             }
-        } else {
-            this.energy -= damage;
         }
     }
 
@@ -118,6 +119,16 @@ public class Unit extends AbstractGameEntity {
     }
 
     /**
+     * 
+     * @return The shield retention value.
+     */
+
+    public int getShieldRetention() {
+        return shieldRetention;
+    }
+
+
+    /**
      * Retrieves the list of bombs available to the unit.
      * 
      * @return A list of bombs.
@@ -153,6 +164,7 @@ public class Unit extends AbstractGameEntity {
         this.shieldTimer = time;
     }
 
+    
     /**
      * Checks if the shield is currently activated.
      * 
@@ -371,4 +383,5 @@ public class Unit extends AbstractGameEntity {
         this.shieldRetention = shieldRetention;
     }
 
+  
 }
