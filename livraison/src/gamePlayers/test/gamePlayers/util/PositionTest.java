@@ -2,9 +2,9 @@ package gamePlayers.util;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-public class PositionTest {
+public class PositionTest extends TestCase{
 
     private Position position1;
     private Position position2;
@@ -21,25 +21,24 @@ public class PositionTest {
 
     @Test
 public void testConstructor() {
+    
     assertNotNull("Le constructeur n'a pas bien initialisé la position. La position devrait être différente de null.", position1);
     assertEquals("La ligne de la position n'est pas correcte. Attendu : 1, obtenu : " + position1.getRow(), 1, position1.getRow());
     assertEquals("La colonne de la position n'est pas correcte. Attendu : 2, obtenu : " + position1.getCol(), 2, position1.getCol());
-
     try {
         new Position(-1, 2);
         fail("Le constructeur devrait lancer une exception IllegalArgumentException pour des coordonnées négatives. Aucun exception n'a été lancée.");
     } catch (IllegalArgumentException e) {
-        assertEquals("Le message d'exception ne correspond pas. Attendu : 'Position coordinates cannot be negative', obtenu : '" + e.getMessage() + "'",
-                "Position coordinates cannot be negative", e.getMessage());
+        assertEquals("Le message d'exception ne correspond pas. Attendu : 'Position coordinates can't be negative', obtenu : '" + e.getMessage() + "'",
+                "Position coordinates can't be negative", e.getMessage());
     }
 
-    // Test avec une colonne négative
     try {
         new Position(1, -2);
         fail("Le constructeur devrait lancer une exception IllegalArgumentException pour des coordonnées négatives. Aucun exception n'a été lancée.");
     } catch (IllegalArgumentException e) {
-        assertEquals("Le message d'exception ne correspond pas. Attendu : 'Position coordinates cannot be negative', obtenu : '" + e.getMessage() + "'",
-                "Position coordinates cannot be negative", e.getMessage());
+        assertEquals("Le message d'exception ne correspond pas. Attendu : 'Position coordinates can't be negative', obtenu : '" + e.getMessage() + "'",
+                "Position coordinates can't be negative", e.getMessage());
     }
 }
 
