@@ -34,13 +34,8 @@ public class UnchangeableSettings {
     public static int SHIELD_TIMER;
     public static int NB_RANDOM_PLAYERS;
     public static int NB_MINIMAX_PLAYERS;
-<<<<<<< HEAD
     public static int NB_MULTY_STRAT_PLAYERS ;
     public static int NB_HUMAIN_PLAYERS ;
-=======
-    public static int NB_MULTY_STRAT_PLAYERS = 1;
-    public static int NB_HUMAIN_PLAYERS = 1;
->>>>>>> 391ca88 (Save humain game in progress)
     public static int NB_INIT_PELLET;
     public static int NB_WALL;
     public static int FILL_STRATEGIE;
