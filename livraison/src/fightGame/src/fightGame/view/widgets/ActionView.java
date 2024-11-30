@@ -3,6 +3,8 @@ package fightGame.view.widgets;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.*;
 import javax.swing.*;
 import fightGame.model.*;
@@ -17,9 +19,9 @@ import java.util.List;
  * during the game. It displays a list of available actions for the player and allows the 
  * player to input the action number to execute.
  */
-public class ActionView extends JFrame implements ActionListener, ListenableModel {
+public class ActionView extends JFrame implements ActionListener, ListenableModel, FocusListener {
     private List<Action> actionTypes; // List of available actions
-    private TextField input; // Input field for entering action number
+    private JTextField input; // Input field for entering action number
     private GameButton submiButton; // Button to submit the chosen action
     private int actionNumber; // Number of the chosen action
     private FightGameAction action; // Selected action
@@ -54,8 +56,9 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
         submiButton.setFont(InterfaceSetting.TEXT_FONT);
         submiButton.addActionListener(this);
 
-        input = new TextField("Input action number");
+        input = new JTextField("Input your action number");
         input.setMinimumSize(new Dimension(400, 90));
+        input.addFocusListener(this);
 
         JPanel inputJPanel = new JPanel();
         inputJPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 50, 20));
@@ -82,6 +85,7 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
         this.repaint();
     }
 
+
     /**
      * Handles button click events for submitting the chosen action.
      * 
@@ -101,12 +105,12 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
         String chaine = this.input.getText();
         if (isInteger(chaine)) {
             this.actionNumber = Integer.valueOf(chaine);
-            if(this.actionNumber>=0){
+            if(this.actionNumber>=0 && this.actionNumber < this.actionTypes.size()){
                 this.action = (FightGameAction)this.actionTypes.get(actionNumber);
                 this.dispose();
                 notifyModelListeners();
             }else{
-                new InfosView(this, "Invalid input", "Action number must be an positif integer", false);
+                new InfosView(this, "Invalid input", "Invalid action number", false);
             }
             
         }
@@ -160,5 +164,17 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
         for (ModelListener modelListener : this.listeners) {
             modelListener.update(this);
         }
+    }
+
+    @Override
+    public void focusGained(FocusEvent e) {
+        if(e.getSource().equals(this.input)){
+            this.input.setText(null);
+        }
+    }
+
+    @Override
+    public void focusLost(FocusEvent e) {
+       
     }
 }
