@@ -89,6 +89,13 @@ public class FightGameAction implements Action, Serializable {
             case USE_PROJECTILE_AT_BOTTOM :
                 display = "Tirer en bas ";
                 break;
+            case NOTHING :
+                display ="Ne rien utiliser";
+                break;
+            case ACTIVATE_SHIELD :
+                display = "Activer l'armure ";
+                break;
+                
             default :
                 break;
         }
