@@ -35,7 +35,7 @@ public class GUI extends JFrame implements ActionListener {
      * Constructs the GUI, initializes game settings, and creates the home screen.
      */
     public GUI() {
-        UnchangeableSettings.loadSettings();
+        UnchangeableSettings.loadSettings(null);
         this.gameViews = new ArrayList<>();
 
         setTitle("Home View");
