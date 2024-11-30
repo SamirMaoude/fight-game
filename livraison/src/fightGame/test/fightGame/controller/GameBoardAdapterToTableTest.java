@@ -25,13 +25,13 @@ public class GameBoardAdapterToTableTest extends TestCase {
     private FightGamePlayer player2;
     private GameBoardAdapterToTable adapter1;
     private GameBoardAdapterToTable adapter2;
-    private String Unit2FilePath = "livraison/src/fightGame/src/fightGame/view/img/mainUnit.png";
-    private String Unit1FilePath = "livraison/src/fightGame/src/fightGame/view/img/unit.png";
-    private String PelletFilePath = "livraison/src/fightGame/src/fightGame/view/img/pellet.jpg";
-    private String BlancFilePath ="livraison/src/fightGame/src/fightGame/view/img/blanc.png";
-    private String BombFilePath = "livraison/src/fightGame/src/fightGame/view/img/bombicon.png";
-    private String WallFilePath = "livraison/src/fightGame/src/fightGame/view/img/wall.png";
-    private String MineFilePath = "livraison/src/fightGame/src/fightGame/view/img/mines.jpg";
+    private String Unit2FilePath = "src/fightGame/src/fightGame/view/img/mainUnit.png";
+    private String Unit1FilePath = "src/fightGame/src/fightGame/view/img/unit.png";
+    private String PelletFilePath = "src/fightGame/src/fightGame/view/img/pellet.jpg";
+    private String BlancFilePath ="src/fightGame/src/fightGame/view/img/blanc.png";
+    private String BombFilePath = "src/fightGame/src/fightGame/view/img/bombicon.png";
+    private String WallFilePath = "src/fightGame/src/fightGame/view/img/wall.png";
+    private String MineFilePath = "src/fightGame/src/fightGame/view/img/mines.jpg";
 
     Position p1 = new Position(0,0);
     Position p2 = new Position(1,1);
