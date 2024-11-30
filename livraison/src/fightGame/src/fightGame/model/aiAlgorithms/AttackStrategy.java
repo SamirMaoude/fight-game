@@ -1,18 +1,14 @@
-package fightGame.model.strategy;
+package fightGame.model.aiAlgorithms;
 
 
+import java.io.Serializable;
 import java.util.List;
-import fightGame.model.FightGameAction;
-import fightGame.model.FightGameActionType;
-import fightGame.model.FightGamePlayer;
-import fightGame.model.GameBoardProxy;
+import fightGame.model.*;
+import fightGame.model.strategy.FightGamePlayerStrategy;
 import gamePlayers.AbstractGameEntity;
-import gamePlayers.util.Action;
-import gamePlayers.util.EntityType;
-import gamePlayers.util.Player;
-import gamePlayers.util.Position;
+import gamePlayers.util.*;
 
-public class AttackStrategy implements FightGamePlayerStrategy {
+public class AttackStrategy implements FightGamePlayerStrategy, Serializable{
     private int moveCounter = 0;
     private boolean usedMine = false;
     private boolean usedProjectile = false;

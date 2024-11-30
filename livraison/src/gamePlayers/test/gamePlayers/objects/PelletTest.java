@@ -1,47 +1,51 @@
 package gamePlayers.objects;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 import gamePlayers.util.Position;
+import junit.framework.TestCase;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-public class PelletTest {
+/**
+ * Classe de test pour la classe Pallet.
+ */
+public class PelletTest extends TestCase {
 
     private Pellet pellet1;
+    private Pellet pellet2;
     private Position position1;
 
-    @BeforeEach
+    @Before
     public void setUp() {
-        position1 = new Position(3, 4);
-        pellet1 = new Pellet(position1, 100); 
+        position1 = new Position(1, 2);
+        pellet1 = new Pellet(position1, 50);
+        pellet2 = new Pellet(position1, 30);
     }
 
     @Test
     public void testConstructor() {
-        assertNotNull(pellet1, "Le pellet ne devrait pas être nul.");
-        assertEquals(100, pellet1.getEnergy(),
-                     "L'énergie du pellet devrait être de 100. Résultat obtenu: " + pellet1.getEnergy());
-        assertEquals(position1, pellet1.getPosition(),
-                     "La position du pellet devrait être " + position1 + ". Résultat obtenu: " + pellet1.getPosition());
+        Assert.assertNotNull("Le pellet ne devrait pas être null. Résultat attendu: un objet Pellet.", pellet1);
+        Assert.assertEquals(50, pellet1.getEnergy());
     }
 
     @Test
-    public void testDestroy() {
-        pellet1.destroy();
-        assertNull(pellet1.getPosition(),
-                   "La position du pellet devrait être nulle après la destruction. Résultat obtenu: " + pellet1.getPosition());
+    public void testGetEnergy() {
+        Assert.assertEquals(50, pellet1.getEnergy());
+        Assert.assertEquals(30, pellet2.getEnergy());
     }
 
     @Test
     public void testClone() throws CloneNotSupportedException {
         Pellet clonedPellet = pellet1.clone();
-        assertNotSame(pellet1, clonedPellet, "Le pellet cloné devrait être un objet différent.");
-        assertEquals(pellet1.getEnergy(), clonedPellet.getEnergy(),
-                     "L'énergie du pellet cloné devrait être égale à celle du pellet original. Résultat attendu: "
-                             + pellet1.getEnergy() + ", résultat obtenu: " + clonedPellet.getEnergy());
-        assertEquals(pellet1.getPosition(), clonedPellet.getPosition(),
-                     "La position du pellet cloné devrait être égale à celle du pellet original. Résultat attendu: "
-                             + pellet1.getPosition() + ", résultat obtenu: " + clonedPellet.getPosition());
+        Assert.assertEquals(pellet1.getEnergy(), clonedPellet.getEnergy());
+        Assert.assertEquals(pellet1.getPosition(), clonedPellet.getPosition());
+    }
+
+    @Test
+    public void testDestroy() {
+        pellet1.destroy();
+        Assert.assertNull("La position du pellet devrait être null après la destruction.", pellet1.getPosition());
     }
 }

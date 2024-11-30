@@ -1,11 +1,13 @@
-package fightGame.model.strategy;
+package fightGame.model.aiAlgorithms;
+
+import java.io.Serializable;
 
 import fightGame.model.GameBoardProxy;
-import fightGame.model.aiAlgorithms.MinimaxStrategy;
+import fightGame.model.strategy.FightGamePlayerStrategy;
 import gamePlayers.util.Action;
 import gamePlayers.util.Player;
 
-public class MultiStrategy implements FightGamePlayerStrategy {
+public class MultiStrategy implements FightGamePlayerStrategy , Serializable{
 
     @Override
     public Action play(Player player, GameBoardProxy proxy) {

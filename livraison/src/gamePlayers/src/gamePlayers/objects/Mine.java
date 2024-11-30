@@ -49,3 +49,4 @@ public class Mine extends Weapon {
         return new Mine(clonedPosition, this.getDamage(), clonedPlayer);
     }
 }
+

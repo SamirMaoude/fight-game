@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gameSettings>
-    <nbRows>5</nbRows> <!-- Nombre de lignes pour la grille -->
-    <nbCols>5</nbCols> <!-- Nombre de colones pour la grille -->
+    <nbRows>10</nbRows> <!-- Nombre de lignes pour la grille -->
+    <nbCols>10</nbCols> <!-- Nombre de colones pour la grille -->
     <nbBombs>5</nbBombs> <!-- Nombre initial de bombes pour chaque joueurs -->
-    <nbProjectiles>10</nbProjectiles> <!-- Nombre initial de projectiles pour chaque joueurs -->
-    <nbMines>3</nbMines> <!-- Nombre initial de mines pour chaque joueurs -->
+    <nbProjectiles>5</nbProjectiles> <!-- Nombre initial de projectiles pour chaque joueurs -->
+    <nbMines>5</nbMines> <!-- Nombre initial de mines pour chaque joueurs -->
     <bombVisibility>0</bombVisibility> <!-- 0 pour une visibilité publique et 1 pour une visibilité privée -->
     <mineVisibility>0</mineVisibility> <!-- 0 pour une visibilité publique et 1 pour une visibilité privée -->
     <startingEnergy>100</startingEnergy> <!-- Energie initiale des joueurs -->
@@ -13,16 +13,16 @@
     <bombTimer>3</bombTimer> <!-- Nombre de tours avant l'explosion d'une bombe -->
     <mineDamage>30</mineDamage> <!-- Dégâts infligés par une mine -->
     <projectileDamage>20</projectileDamage> <!-- Dégâts infligés par un projectile -->
-    <pelletBoost>10</pelletBoost> <!-- Boost apporté par une pastille -->
+    <pelletBoost>20</pelletBoost> <!-- Boost apporté par une pastille -->
     <moveCost>2</moveCost> <!-- Coût d'un déplacement -->
     <shieldCost>5</shieldCost> <!-- Coût de l'activation de l'armure -->
     <shieldAbsorption>80</shieldAbsorption> <!-- Rétention de l'armure face aux attaques -->
     <shieldTimer>5</shieldTimer> <!-- Nombre de tours avant la disparition de l'armure -->
-    <randomPlayers>1</randomPlayers> <!-- Nombre de joueurs avec la stratégie random -->
-    <minimaxPlayers>1</minimaxPlayers> <!-- Nombre de joueurs avec la stratégie minimax -->
+    <randomPlayers>3</randomPlayers> <!-- Nombre de joueurs avec la stratégie random -->
+    <minimaxPlayers>3</minimaxPlayers> <!-- Nombre de joueurs avec la stratégie minimax -->
     <initPellet>2</initPellet> <!-- Nombre initial de pastille dans le jeu -->
     <nbWall>2</nbWall> <!-- Nombre initial de murs dans le  jeu -->
-    <fillStrategy>0</fillStrategy> <!-- 0 pour une stratégie random et 1 pour le cornerfillstrategy -->
+    <fillStrategy>1</fillStrategy> <!-- 0 pour une stratégie random et 1 pour le cornerfillstrategy -->
 
     <boringAction>50</boringAction> <!-- Limite de tours pour stopper le jeu, lorsque les joueurs ne font plus rien-->
 

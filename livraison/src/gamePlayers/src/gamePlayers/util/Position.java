@@ -20,7 +20,7 @@ public class Position implements Cloneable, Serializable {
      */
     public Position(int row, int col) {
         if (row < 0 || col < 0) {
-            throw new IllegalArgumentException("Position coordinates cannot be negative");
+            throw new IllegalArgumentException("Position coordinates can't be negative");
         }
         this.row = row;
         this.col = col;

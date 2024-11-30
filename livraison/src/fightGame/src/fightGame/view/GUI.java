@@ -3,10 +3,11 @@ package fightGame.view;
 import javax.swing.*;
 
 import fightGame.UnchangeableSettings;
-import fightGame.controller.GameThreadManager;
-import fightGame.controller.GameWithHumainManager;
+import fightGame.controller.GameManager;
 import fightGame.model.*;
-import fightGame.model.aiAlgorithms.*;
+import fightGame.model.aiAlgorithms.MinimaxStrategy;
+import fightGame.model.aiAlgorithms.MultiStrategy;
+import fightGame.model.aiAlgorithms.RandomStrategy;
 import fightGame.model.io.GameBoardIO;
 import fightGame.model.io.Logger;
 import fightGame.model.strategy.*;
@@ -17,7 +18,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 /**
- * The main GUI class for the Fight Game. This class manages the home screen where the user can start a new game,
+ * The main graphical user interface (GUI) class for the Fight Game.
+ * This class is responsible for managing the home screen where users can start a new game,
  * load an existing game, or exit the application.
  */
 public class GUI extends JFrame implements ActionListener {
@@ -33,6 +35,7 @@ public class GUI extends JFrame implements ActionListener {
 
     /**
      * Constructs the GUI, initializes game settings, and creates the home screen.
+     * The constructor loads the settings and initializes the game views.
      */
     public GUI() {
         UnchangeableSettings.loadSettings(null);
@@ -44,6 +47,7 @@ public class GUI extends JFrame implements ActionListener {
 
     /**
      * Builds the layout of the home screen, including buttons for loading, starting a new game, and exiting.
+     * This method sets up the main window size, layout, and adds buttons to the screen.
      */
     public void buildView() {
         setSize(600, 600);
@@ -63,15 +67,14 @@ public class GUI extends JFrame implements ActionListener {
         loadButton = new GameButton("Load", 150, 50);
         newGameButton = new GameButton("New", 150, 50);
         exitButton = new GameButton("Exit", 150, 50);
-        robotButton = new GameButton("Robot", 150, 50);
-        humainButton = new GameButton("Humain", 150, 50);
+        robotButton = new GameButton("Watch", 150, 50);
+        humainButton = new GameButton("H vs R ", 150, 50);
 
         loadButton.addActionListener(this);
         newGameButton.addActionListener(this);
         exitButton.addActionListener(this);
         robotButton.addActionListener(this);
         humainButton.addActionListener(this);
-
 
         GridBagConstraints gbc = new GridBagConstraints();
 
@@ -99,47 +102,55 @@ public class GUI extends JFrame implements ActionListener {
 
     /**
      * Handles button click events to start a new game, load a game, or exit the application.
+     * This method is invoked when any of the buttons are clicked.
      *
      * @param e the ActionEvent triggered by a button click
      */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource().equals(this.newGameButton)) {
-            this.newGame(false,false);
+            if(UnchangeableSettings.NB_HUMAIN_PLAYERS<=0){
+                this.newGame(0);
+            } else {
+                new InfosView(this, "Invalid configuration", "The number of human players is positive", false);
+            }
         }
         if (e.getSource().equals(this.loadButton)) {
-            this.loadGame();
+            if(UnchangeableSettings.NB_HUMAIN_PLAYERS<=0){
+                this.loadGame();
+            } else {
+                new InfosView(this, "Invalid configuration", "The number of human players is positive", false);
+            }
         }
         if (e.getSource().equals(this.exitButton)) {
             System.exit(0);
         }
         if (e.getSource().equals(this.robotButton)) {
-            showRobotPlay();
-        }
-
-        if (e.getSource().equals(this.robotButton)) {
-            showRobotPlay();
+            if(UnchangeableSettings.NB_HUMAIN_PLAYERS<=0){
+                this.newGame(1);
+            } else {
+                new InfosView(this, "Invalid configuration", "The number of human players is positive", false);
+            }
         }
         if(e.getSource().equals(this.humainButton)){
-            this.newGame(false, true);
+            if(UnchangeableSettings.NB_HUMAIN_PLAYERS>0){
+                this.newGame(2);
+            } else {
+                new InfosView(this, "Invalid configuration", "The number of human players is invalid", false);
+            }
         }
-    }
-
-    /**
-     * Starts a new game with robot players.
-     */
-    public void showRobotPlay() {
-        this.newGame(true,false);
     }
 
     /**
      * Starts a new game with the option to include robot players.
+     * This method initializes the game board and adds the specified number of players.
      *
      * @param withRobot indicates whether the game should include robot players
+     * @param withHumain indicates whether the game should include human players
      */
-    public void newGame(boolean withRobot, boolean withHumain) {
+    public void newGame(int type) {
         int nbEntity = UnchangeableSettings.NB_MINIMAX_PLAYERS + UnchangeableSettings.NB_RANDOM_PLAYERS +
-                UnchangeableSettings.NB_MULTY_STRAT_PLAYERS + UnchangeableSettings.NB_WALL + UnchangeableSettings.NB_INIT_PELLET;
+                UnchangeableSettings.NB_MULTY_STRAT_PLAYERS + UnchangeableSettings.NB_HUMAIN_PLAYERS + UnchangeableSettings.NB_WALL + UnchangeableSettings.NB_INIT_PELLET;
         int nbCases = (UnchangeableSettings.NB_ROWS * UnchangeableSettings.NB_COLS);
 
         if (nbEntity < nbCases) {
@@ -159,58 +170,61 @@ public class GUI extends JFrame implements ActionListener {
             // Initialize game board
             this.gameBoard = new GameBoard(UnchangeableSettings.NB_ROWS, UnchangeableSettings.NB_COLS, fillStrategy);
 
-            // Add players based on configuration
-            for (int i = 0; i < UnchangeableSettings.NB_RANDOM_PLAYERS; i++) {
-                FightGamePlayer player = new FightGamePlayer(gameBoard, "RP_" + (i + 1), i);
-                player.setStrategy(new RandomStrategy());
-                gameBoard.addPlayer(player);
-            }
-            for (int i = 0; i < UnchangeableSettings.NB_MINIMAX_PLAYERS; i++) {
-                FightGamePlayer player = new FightGamePlayer(gameBoard, "MINIMAX_" + (i + 1),
-                        (i + UnchangeableSettings.NB_RANDOM_PLAYERS));
-                player.setStrategy(new MinimaxStrategy());
-                gameBoard.addPlayer(player);
-            }
-            for (int i = 0; i < UnchangeableSettings.NB_MULTY_STRAT_PLAYERS; i++) {
-                FightGamePlayer player = new FightGamePlayer(gameBoard, "MULTY_STRAT_" + (i + 1),
-                        (i + UnchangeableSettings.NB_RANDOM_PLAYERS));
-                player.setStrategy(new MultiStrategy());
-                gameBoard.addPlayer(player);
-            }
+            this.addPlayer(UnchangeableSettings.NB_RANDOM_PLAYERS, this.gameBoard, "RP_", 0, new RandomStrategy());
+            this.addPlayer(UnchangeableSettings.NB_MINIMAX_PLAYERS, this.gameBoard, "MINIMAX_", UnchangeableSettings.NB_RANDOM_PLAYERS, new MinimaxStrategy());
+            this.addPlayer(UnchangeableSettings.NB_MULTY_STRAT_PLAYERS, this.gameBoard, "MULTY_STRAT_", UnchangeableSettings.NB_RANDOM_PLAYERS+UnchangeableSettings.NB_MINIMAX_PLAYERS, new MultiStrategy());
+            this.addPlayer(UnchangeableSettings.NB_HUMAIN_PLAYERS, this.gameBoard, "HUMAIN_",  UnchangeableSettings.NB_RANDOM_PLAYERS+UnchangeableSettings.NB_MINIMAX_PLAYERS+UnchangeableSettings.NB_MULTY_STRAT_PLAYERS, new HumainStrategy());
 
             // Fill the game board with entities
             gameBoard.fillGameBoard();
 
             int nbPlayers = UnchangeableSettings.NB_MINIMAX_PLAYERS + UnchangeableSettings.NB_RANDOM_PLAYERS +
-                    UnchangeableSettings.NB_MULTY_STRAT_PLAYERS;
+                    UnchangeableSettings.NB_MULTY_STRAT_PLAYERS + UnchangeableSettings.NB_HUMAIN_PLAYERS;
 
-            GameThreadManager threadManager = null;
-            if (withRobot) {
-                threadManager = new GameThreadManager(gameBoard, logger);
+            GameManager manager;
+            switch (type) {
+                case 0:
+                    manager = null;
+                    break;
+                default:
+                    manager = new GameManager(gameBoard, logger);
+                    break;
             }
 
-            this.gameViews.add(new GameView("View", gameBoard, null, withRobot,withHumain, threadManager, logger));
-
+            // Create views for the game
             for (int i = 0; i < nbPlayers; i++) {
                 FightGamePlayer player = gameBoard.getPlayers().get(i);
                 this.gameViews.add(new GameView("View for Player " + player.getName(), gameBoard,
-                        player.getGameBoardProxy(), withRobot,withHumain, threadManager, logger));
+                        player.getGameBoardProxy(), manager, logger));
             }
 
-            if(withHumain){
-                GameWithHumainManager gameWithHumainManager = new GameWithHumainManager(gameBoard, logger);
-                gameWithHumainManager.playGame();
-            }else{
-                if (withRobot) {
-                    threadManager.playGame();
-                }
+            this.gameViews.add(new GameView("Main frame", gameBoard, null, manager, logger));
+
+            if(manager!=null){
+                manager.playGame();
             }
+            
             this.dispose();
         } else {
             new InfosView(this, "Invalid configuration", "There are too many entities than boxes", false);
         }
     }
 
+    /**
+     * Adds players to the game board with the specified strategy.
+     *
+     * @param nbPlayers the number of players to add
+     * @param gameBoard the game board to add players to
+     * @param prefixe the prefix to assign to the players' names
+     * @param start the index at which to start numbering the players
+     * @param strategy the strategy to assign to the players
+     */
+    private void addPlayer(int nbPlayers, GameBoard gameBoard, String prefixe, int start, FightGamePlayerStrategy strategy){
+        for (int i = 0; i < nbPlayers; i++) {
+            FightGamePlayer player = new FightGamePlayer(gameBoard, prefixe + (i + 1), i + start,strategy);
+            gameBoard.addPlayer(player);
+        }
+    }
     /**
      * Opens the file chooser dialog to load a previously saved game.
      */
