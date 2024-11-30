@@ -5,8 +5,8 @@
     <nbBombs>5</nbBombs> <!-- Nombre initial de bombes pour chaque joueurs -->
     <nbProjectiles>5</nbProjectiles> <!-- Nombre initial de projectiles pour chaque joueurs -->
     <nbMines>5</nbMines> <!-- Nombre initial de mines pour chaque joueurs -->
-    <bombVisibility>0</bombVisibility> <!-- 0 pour une visibilité publique et 1 pour une visibilité privée -->
-    <mineVisibility>0</mineVisibility> <!-- 0 pour une visibilité publique et 1 pour une visibilité privée -->
+    <bombVisibility>0</bombVisibility> <!-- 0 pour une visibilité privée et 1 pour une visibilité publique -->
+    <mineVisibility>0</mineVisibility> <!-- 0 pour une visibilité privée et 1 pour une visibilité publique -->
     <startingEnergy>100</startingEnergy> <!-- Energie initiale des joueurs -->
     <projectileScope>5</projectileScope> <!-- Portée d'un projectile -->
     <bombDamage>40</bombDamage> <!-- Dégâts infligés par une bombe -->
