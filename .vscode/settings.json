@@ -4,7 +4,8 @@
         "livraison/src/fightGame/lib/junit.jar",
         "livraison/src/fightGame/lib/ant-junit.jar",
         "livraison/src/gamePlayers/lib/junit.jar",
-        "livraison/src/gamePlayers/lib/ant-junit.jar"
+        "livraison/src/gamePlayers/lib/ant-junit.jar",
+        "livraison/src/fightGame/lib/gamePlayers-0.1.jar"
     ],
     "java.debug.settings.onBuildFailureProceed": true
 }
