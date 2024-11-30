@@ -7,6 +7,10 @@ import org.junit.Test;
 import gamePlayers.util.Position;
 import junit.framework.TestCase;
 
+
+/**
+ * Classe de test pour la classe Pallet.
+ */
 public class PelletTest extends TestCase {
 
     private Pellet pellet1;

@@ -7,6 +7,10 @@ import gamePlayers.util.Player;
 import gamePlayers.util.Position;
 import junit.framework.TestCase;
 
+/**
+ * Classe de test pour la classe Mine.
+ */
+
 public class MineTest extends TestCase {
 
     private Mine mine1;
