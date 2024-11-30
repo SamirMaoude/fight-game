@@ -18,8 +18,8 @@
     <shieldCost>5</shieldCost> <!-- Coût de l'activation de l'armure -->
     <shieldAbsorption>80</shieldAbsorption> <!-- Rétention de l'armure face aux attaques -->
     <shieldTimer>5</shieldTimer> <!-- Nombre de tours avant la disparition de l'armure -->
-    <randomPlayers>3</randomPlayers> <!-- Nombre de joueurs avec la stratégie random -->
-    <minimaxPlayers>3</minimaxPlayers> <!-- Nombre de joueurs avec la stratégie minimax -->
+    <randomPlayers>1</randomPlayers> <!-- Nombre de joueurs avec la stratégie random -->
+    <minimaxPlayers>1</minimaxPlayers> <!-- Nombre de joueurs avec la stratégie minimax -->
     <initPellet>2</initPellet> <!-- Nombre initial de pastille dans le jeu -->
     <nbWall>2</nbWall> <!-- Nombre initial de murs dans le  jeu -->
     <fillStrategy>1</fillStrategy> <!-- 0 pour une stratégie random et 1 pour le cornerfillstrategy -->

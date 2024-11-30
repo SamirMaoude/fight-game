@@ -9,10 +9,13 @@ import java.io.ObjectOutputStream;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
+import fightGame.controller.GameManager;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
+import fightGame.model.strategy.HumainStrategy;
 import fightGame.view.widgets.GameView;
 import fightGame.view.widgets.InfosView;
+import gamePlayers.util.Player;
 
 /**
  * Utility class for saving and loading the state of the game board to and from files.
@@ -39,6 +42,8 @@ public class GameBoardIO {
             java.io.File fileToLoad = fileChooser.getSelectedFile();
             System.out.println("Fichier sélectionné : " + fileToLoad.getAbsolutePath());
             loadGameFromFile(fileToLoad.getAbsolutePath());
+        }else{
+            new InfosView(component, "Error", "Invalid file selected", false);
         }
     }
 
@@ -53,15 +58,30 @@ public class GameBoardIO {
             GameBoard gameBoard = (GameBoard) in.readObject();
             int nbPlayers = gameBoard.getPlayers().size();
             Logger logger = new Logger();
+            GameManager manager = null;
+            if(isHumainPlayed(gameBoard)){
+                manager = new GameManager(gameBoard, logger);
+            }
             for (int i = 0; i < nbPlayers; i++) {
                 FightGamePlayer player = gameBoard.getPlayers().get(i);
                 new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy(), null, logger);
             }
-            new GameView("Main frame", gameBoard,null, null, logger);
-
+            new GameView("Main frame", gameBoard,null, manager, logger);
+            if(manager!=null){
+                manager.playGame();
+            }
         } catch (IOException | ClassNotFoundException e) {
             System.err.println("Erreur lors du chargement : " + e.getMessage());
         }
+    }
+
+    private static boolean isHumainPlayed(GameBoard gameBoard){
+        for (FightGamePlayer player : gameBoard.getPlayers()) {
+            if(player.getStrategy().getClass().equals(HumainStrategy.class)){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
