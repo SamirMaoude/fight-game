@@ -147,9 +147,15 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
      */
     public boolean addEntity(AbstractGameEntity entity, Position position) {
 
-        if (!isValidMove(position)) {
-            return false;
+        if(entity.getType() != EntityType.BOMB && entity.getType() != EntityType.MINE){
+            if (!isValidMove(position)) {
+                return false;
+            }
         }
+        else{
+            if(!isValidPosition(position)) return false;
+        }
+        
 
         Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
         positionEntities.add(entity);
