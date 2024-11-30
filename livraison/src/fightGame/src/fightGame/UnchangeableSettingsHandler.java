@@ -122,6 +122,22 @@ public class UnchangeableSettingsHandler extends DefaultHandler {
                     break;
                 }
                 
+                case "nbmultiStartPLayers":{
+                    int intVal = Integer.parseInt(value);
+                    if(intVal >=0){
+                        UnchangeableSettings.NB_MULTY_STRAT_PLAYERS = intVal;
+                    }
+                    break;
+                }
+
+                 case "nbHumainsPLayer":{
+                    int intVal = Integer.parseInt(value);
+                    if(intVal >=0){
+                        UnchangeableSettings.NB_HUMAIN_PLAYERS = intVal;
+                    }
+                    break;
+                }
+                
 
                 
             }

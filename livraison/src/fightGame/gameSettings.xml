@@ -23,7 +23,9 @@
     <initPellet>2</initPellet> <!-- Nombre initial de pastille dans le jeu -->
     <nbWall>2</nbWall> <!-- Nombre initial de murs dans le  jeu -->
     <fillStrategy>1</fillStrategy> <!-- 0 pour une stratégie random et 1 pour le cornerfillstrategy -->
-
+    <nbmultiStartPLayers>3</nbmultiStartPLayers> <!-- Nombre initial de multi players dans le jeu -->
+    <nbHumainsPLayer>0</nbHumainsPLayer> <!-- Nombre initial de joueurs humain dans le jeu -->
+    
     <boringAction>50</boringAction> <!-- Limite de tours pour stopper le jeu, lorsque les joueurs ne font plus rien-->
 
 </gameSettings>
