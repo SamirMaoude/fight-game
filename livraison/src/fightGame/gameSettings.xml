@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gameSettings>
-    <nbRows>10</nbRows> <!-- Nombre de lignes pour la grille -->
-    <nbCols>10</nbCols> <!-- Nombre de colones pour la grille -->
+    <nbRows>5</nbRows> <!-- Nombre de lignes pour la grille -->
+    <nbCols>5</nbCols> <!-- Nombre de colones pour la grille -->
     <nbBombs>5</nbBombs> <!-- Nombre initial de bombes pour chaque joueurs -->
     <nbProjectiles>5</nbProjectiles> <!-- Nombre initial de projectiles pour chaque joueurs -->
     <nbMines>5</nbMines> <!-- Nombre initial de mines pour chaque joueurs -->
@@ -9,7 +9,7 @@
     <mineVisibility>0</mineVisibility> <!-- 0 pour une visibilité publique et 1 pour une visibilité privée -->
     <startingEnergy>100</startingEnergy> <!-- Energie initiale des joueurs -->
     <projectileScope>5</projectileScope> <!-- Portée d'un projectile -->
-    <bombDamage>50</bombDamage> <!-- Dégâts infligés par une bombe -->
+    <bombDamage>40</bombDamage> <!-- Dégâts infligés par une bombe -->
     <bombTimer>3</bombTimer> <!-- Nombre de tours avant l'explosion d'une bombe -->
     <mineDamage>30</mineDamage> <!-- Dégâts infligés par une mine -->
     <projectileDamage>20</projectileDamage> <!-- Dégâts infligés par un projectile -->

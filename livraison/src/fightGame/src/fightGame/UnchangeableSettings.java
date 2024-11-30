@@ -4,10 +4,15 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import fightGame.view.widgets.InfosView;
+
 public class UnchangeableSettings {
 
-    public static String SETTINGS_FILE = "livraison/src/fightGame/gameSettings.xml";
-    
+    public static String SETTINGS_FILE = "src/fightGame/gameSettings.xml";
+    /**
+     * Path to the log file.
+     */
+    public static final String LOG_FILE = "src/fightGame/log.txt";
+
     // Déclaration des constantes de jeu
     public static int NB_ROWS;
     public static int NB_COLS;
@@ -35,10 +40,6 @@ public class UnchangeableSettings {
     public static int NB_WALL;
     public static int FILL_STRATEGIE;
     public static int BORING_MOVE_LIMIT;
-    /**
-     * Path to the log file.
-     */
-    public static final String LOG_FILE = "livraison/src/fightGame/log.txt";
 
     // Méthode pour charger les paramètres
     public static void loadSettings(String file) {
