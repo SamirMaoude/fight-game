@@ -5,12 +5,15 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import fightGame.UnchangeableSettings;
 import fightGame.model.GameBoard;
 import fightGame.model.objects.Wall;
+import fightGame.model.strategy.ConnerFillStrategy;
 import gamePlayers.AbstractGameEntity;
 import gamePlayers.fighters.Unit;
+import gamePlayers.util.Action;
 import gamePlayers.util.Direction;
 import gamePlayers.util.EntityType;
 import gamePlayers.util.Position;
@@ -109,6 +112,8 @@ public class GameBoardTest extends TestCase {
 
 
     }
+
+    
 
     
 }
