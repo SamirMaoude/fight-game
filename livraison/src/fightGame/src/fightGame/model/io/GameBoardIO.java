@@ -103,7 +103,6 @@ public class GameBoardIO {
                     ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
                 out.writeObject(gameBoard);
                 new InfosView(frame, "Sauvegarde", "Your game has been successfully saved in the file" + filePath, true);
-                
             } catch (IOException e) {
                 new InfosView(frame, "Sauvegarde", "Error while saving : " + e.getMessage(), false);
             }
