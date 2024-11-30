@@ -153,6 +153,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
         Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
         positionEntities.add(entity);
+        entity.setPosition(position);
         entities.put(position, positionEntities);
 
         return true;
