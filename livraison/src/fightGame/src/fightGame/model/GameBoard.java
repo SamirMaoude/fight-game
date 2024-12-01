@@ -3,6 +3,7 @@ package fightGame.model;
 import java.util.HashSet;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -424,6 +425,9 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             actions.add(new FightGameAction(FightGameActionType.ACTIVATE_SHIELD));
 
         actions.add(new FightGameAction(FightGameActionType.NOTHING));
+
+        Collections.sort(actions);
+        
         return actions;
     }
 
@@ -808,9 +812,10 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 switch (entity.getType()) {
                     case BOMB: {
                         Bomb bomb = (Bomb) entity;
-                        if (bomb.getTimeBeforeExplosion() == 0) {
+                        if (bomb.getTimeBeforeExplosion() == 0 || !bomb.getOwner().getUnit().isAlive()) {
                             detonateBombAt(position, bomb);
                         } else {
+                            if(this.getNextPlayer().equals(bomb.getOwner()))
                             bomb.decreaseTime();
                         }
 

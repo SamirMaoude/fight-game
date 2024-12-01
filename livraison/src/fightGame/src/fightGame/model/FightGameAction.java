@@ -101,4 +101,13 @@ public class FightGameAction implements Action, Serializable {
     public FightGameActionType getTYPE() {
         return TYPE;
     }
+
+    @Override
+    public int compareTo(Object o) {
+        FightGameAction action = (FightGameAction)o;
+
+        return this.screenDisplay().compareTo(action.screenDisplay());
+    }
+
 }
+
