@@ -68,7 +68,6 @@ public class GameManager implements ModelListener {
                 this.thread.sleep(3000);
                 this.currentPlayer = this.gameBoard.getNextPlayer();
                 if(this.currentPlayer.getStrategy().getClass().equals(HumainStrategy.class)){
-                    System.out.println("Tour d'un humain");
                     for(GameView view : GUI.gameViews){
                         GameBoardProxy proxy = view.getProxy();
                         if(proxy != null){
@@ -137,7 +136,6 @@ public class GameManager implements ModelListener {
         synchronized (pauseLock) {
             paused = false; 
             pauseLock.notifyAll(); 
-            System.out.println("resume");
         }
     }
 }

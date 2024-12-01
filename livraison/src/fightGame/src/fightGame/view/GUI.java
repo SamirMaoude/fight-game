@@ -121,7 +121,7 @@ public class GUI extends JFrame implements ActionListener {
             }
         }
         if (e.getSource().equals(this.loadButton)) {
-            this.loadGame();
+            GameBoardIO.chooseFile(this);
         }
         if (e.getSource().equals(this.exitButton)) {
             System.exit(0);
@@ -236,10 +236,5 @@ public class GUI extends JFrame implements ActionListener {
         }
     }
 
-    /**
-     * Opens the file chooser dialog to load a previously saved game.
-     */
-    private void loadGame() {
-        GameBoardIO.chooseFile(this);
-    }
+   
 }

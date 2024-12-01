@@ -13,6 +13,7 @@ import fightGame.controller.GameManager;
 import fightGame.model.FightGamePlayer;
 import fightGame.model.GameBoard;
 import fightGame.model.strategy.HumainStrategy;
+import fightGame.view.GUI;
 import fightGame.view.widgets.GameView;
 import fightGame.view.widgets.InfosView;
 
@@ -27,17 +28,16 @@ public class GameBoardIO {
      * Opens a file chooser dialog to let the user select a game file for loading.
      * If a valid file is selected, the game state is loaded and views are created.
      *
-     * @param component the parent JFrame for the dialog
+     * @param component the parent GUI for the dialog
      */
-    public static void chooseFile(JFrame component) {
+    public static void chooseFile(GUI component) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Load Game File");
         fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Game Files", "game", "txt"));
         int userSelection = fileChooser.showOpenDialog(component);
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             java.io.File fileToLoad = fileChooser.getSelectedFile();
-            System.out.println("Selected file: " + fileToLoad.getAbsolutePath());
-            loadGameFromFile(fileToLoad.getAbsolutePath());
+            loadGameFromFile(fileToLoad.getAbsolutePath(), component);
         } else {
             new InfosView(component, "Error", "Invalid file selected", false);
         }
@@ -49,9 +49,9 @@ public class GameBoardIO {
      *
      * @param filePath the path to the serialized game file
      */
-    public static void loadGameFromFile(String filePath) {
+    public static void loadGameFromFile(String filePath, GUI gui) {
         try (FileInputStream fileIn = new FileInputStream(filePath);
-             ObjectInputStream in = new ObjectInputStream(fileIn)) {
+                ObjectInputStream in = new ObjectInputStream(fileIn)) {
             GameBoard gameBoard = (GameBoard) in.readObject();
             int nbPlayers = gameBoard.getPlayers().size();
             Logger logger = new Logger();
@@ -63,9 +63,10 @@ public class GameBoardIO {
 
             for (int i = 0; i < nbPlayers; i++) {
                 FightGamePlayer player = gameBoard.getPlayers().get(i);
-                new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy(), null, logger);
+                GUI.gameViews.add(new GameView("View for Player " + player.getName(), gameBoard,
+                        player.getGameBoardProxy(), null, logger));
             }
-            new GameView("Main frame", gameBoard, null, manager, logger);
+            GUI.gameViews.add(new GameView("Main frame", gameBoard, null, manager, logger));
 
             if (manager != null) {
                 manager.playGame();
@@ -107,7 +108,7 @@ public class GameBoardIO {
             String filePath = fileToSave.getAbsolutePath();
 
             try (FileOutputStream fileOut = new FileOutputStream(filePath);
-                 ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+                    ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
                 out.writeObject(gameBoard);
                 new InfosView(frame, "Save", "Your game has been successfully saved in the file " + filePath, true);
             } catch (IOException e) {

@@ -52,9 +52,8 @@ public class RandaomFillStrategy implements GameBordInitFillStrategy, Serializab
         int i = 0;
         for (FightGamePlayer player : players) {
             Position position = used.get(i++);
-            System.out.println(player + " added at position " + position);
             player.getUnit().setPosition(position);
-            System.out.println(gameBoard.addEntity(player.getUnit(), position));
+            gameBoard.addEntity(player.getUnit(), position);
         }
 
         // Adds pellets at random positions.

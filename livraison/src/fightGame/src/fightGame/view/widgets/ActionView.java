@@ -67,6 +67,7 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
         
         for (int i = 0; i < actionTypes.size(); i++) {
             JPanel panel = new JPanel();
+            panel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
             panel.setMinimumSize(new Dimension(100, 400));
             JLabel label = new JLabel(i + " : " + actionTypes.get(i).screenDisplay());
             label.setFont(InterfaceSetting.TEXT_FONT);
