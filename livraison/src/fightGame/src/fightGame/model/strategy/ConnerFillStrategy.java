@@ -92,7 +92,6 @@ public class ConnerFillStrategy implements GameBordInitFillStrategy, Serializabl
                     used.add(position);
                     Pellet pellet = new Pellet(position, UnchangeableSettings.PELLET_BOOST);
                     gameBoard.addEntity(pellet, position);
-                    System.out.println(pellet + " added at position " + position);
                 }
             }
         }
@@ -112,7 +111,6 @@ public class ConnerFillStrategy implements GameBordInitFillStrategy, Serializabl
                     used.add(position);
                     Wall wall = new Wall(position);
                     gameBoard.addEntity(wall, position);
-                    System.out.println(wall + " added at position " + position);
                 }
             }
         }

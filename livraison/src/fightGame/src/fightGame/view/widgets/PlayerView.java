@@ -65,6 +65,7 @@ public class PlayerView extends JPanel {
         weaponPanel.add(this.nbMineLabel);
         weaponPanel.add(projectilLabel);
         weaponPanel.add(this.nbProjectilLabel);
+      
 
         this.add(weaponPanel);
 

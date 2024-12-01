@@ -57,7 +57,7 @@ public class ActionView extends JFrame implements ActionListener, ListenableMode
         submiButton.addActionListener(this);
 
         input = new JTextField("Input your action number");
-        input.setMinimumSize(new Dimension(400, 90));
+        input.setMinimumSize(new Dimension(600, 90));
         input.addFocusListener(this);
 
         JPanel inputJPanel = new JPanel();

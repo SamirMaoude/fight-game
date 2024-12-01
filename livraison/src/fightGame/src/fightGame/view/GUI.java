@@ -117,7 +117,7 @@ public class GUI extends JFrame implements ActionListener {
             if (UnchangeableSettings.NB_HUMAIN_PLAYERS <= 0) {
                 this.newGame(0);
             } else {
-                new InfosView(this, "Invalid configuration", "The number of human players is positive", false);
+                new InfosView(this, "Invalid configuration", "Put the number of human players at 0", false);
             }
         }
         if (e.getSource().equals(this.loadButton)) {
@@ -130,7 +130,7 @@ public class GUI extends JFrame implements ActionListener {
             if (UnchangeableSettings.NB_HUMAIN_PLAYERS <= 0) {
                 this.newGame(1);
             } else {
-                new InfosView(this, "Invalid configuration", "The number of human players is positive", false);
+                new InfosView(this, "Invalid configuration", "Put the number of human players at 0", false);
             }
         }
         if (e.getSource().equals(this.humainButton)) {
