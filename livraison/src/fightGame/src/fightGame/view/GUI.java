@@ -122,6 +122,7 @@ public class GUI extends JFrame implements ActionListener {
         }
         if (e.getSource().equals(this.loadButton)) {
             GameBoardIO.chooseFile(this);
+            this.dispose();
         }
         if (e.getSource().equals(this.exitButton)) {
             System.exit(0);

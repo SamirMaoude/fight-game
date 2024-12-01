@@ -9,7 +9,7 @@ import fightGame.view.utils.CellRenderer;
  */
 public class GameBoardTable extends JTable {
     public static final int WIDTH = (InterfaceSetting.WIDTH * 2) / 3;
-    public static final int HEIGHT = InterfaceSetting.HEIGHT - 100;
+    public static final int HEIGHT = InterfaceSetting.HEIGHT - 300;
 
     /**
      * Constructs a GameBoardTable with the specified table model.

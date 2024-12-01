@@ -33,13 +33,24 @@ public class GameBoardIO {
     public static void chooseFile(GUI component) {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Load Game File");
-        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Game Files", "game", "txt"));
+
+        // Add a file filter to show only .fightGame files
+        fileChooser.setFileFilter(
+                new javax.swing.filechooser.FileNameExtensionFilter("Fight Game Files (*.fightGame)", "fightGame"));
+
         int userSelection = fileChooser.showOpenDialog(component);
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             java.io.File fileToLoad = fileChooser.getSelectedFile();
-            loadGameFromFile(fileToLoad.getAbsolutePath(), component);
+
+            // Ensure the selected file has the correct extension
+            if (fileToLoad.getName().endsWith(".fightGame")) {
+                loadGameFromFile(fileToLoad.getAbsolutePath(), component);
+            } else {
+                new InfosView(component, "Error", "Invalid file format selected. Please select a .fightGame file.",
+                        false);
+            }
         } else {
-            new InfosView(component, "Error", "Invalid file selected", false);
+            new InfosView(component, "Error", "No file selected", false);
         }
     }
 
@@ -93,7 +104,8 @@ public class GameBoardIO {
 
     /**
      * Opens a file chooser dialog to save the current game state to a file.
-     * The game state is serialized and written to the specified file.
+     * The game state is serialized and written to the specified file with a
+     * `.fightGame` extension.
      *
      * @param frame     the parent JFrame for the dialog
      * @param gameBoard the game board to be serialized and saved
@@ -106,6 +118,11 @@ public class GameBoardIO {
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             java.io.File fileToSave = fileChooser.getSelectedFile();
             String filePath = fileToSave.getAbsolutePath();
+
+            // Ensure the file has the .fightGame extension
+            if (!filePath.endsWith(".fightGame")) {
+                filePath += ".fightGame";
+            }
 
             try (FileOutputStream fileOut = new FileOutputStream(filePath);
                     ObjectOutputStream out = new ObjectOutputStream(fileOut)) {

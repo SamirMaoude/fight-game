@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gameSettings>
-    <nbRows>3</nbRows> <!-- Nombre de lignes pour la grille -->
-    <nbCols>3</nbCols> <!-- Nombre de colones pour la grille -->
+    <nbRows>5</nbRows> <!-- Nombre de lignes pour la grille -->
+    <nbCols>5</nbCols> <!-- Nombre de colones pour la grille -->
     <nbBombs>5</nbBombs> <!-- Nombre initial de bombes pour chaque joueurs -->
     <nbProjectiles>5</nbProjectiles> <!-- Nombre initial de projectiles pour chaque joueurs -->
     <nbMines>5</nbMines> <!-- Nombre initial de mines pour chaque joueurs -->
     <bombVisibility>0</bombVisibility> <!-- 0 pour une visibilité privée et 1 pour une visibilité publique -->
     <mineVisibility>0</mineVisibility> <!-- 0 pour une visibilité privée et 1 pour une visibilité publique -->
-    <startingEnergy>100</startingEnergy> <!-- Energie initiale des joueurs -->
+    <startingEnergy>200</startingEnergy> <!-- Energie initiale des joueurs -->
     <projectileScope>5</projectileScope> <!-- Portée d'un projectile -->
-    <bombDamage>40</bombDamage> <!-- Dégâts infligés par une bombe -->
-    <bombTimer>3</bombTimer> <!-- Nombre de tours avant l'explosion d'une bombe -->
+    <bombDamage>50</bombDamage> <!-- Dégâts infligés par une bombe -->
+    <bombTimer>5</bombTimer> <!-- Nombre de tours avant l'explosion d'une bombe -->
     <mineDamage>30</mineDamage> <!-- Dégâts infligés par une mine -->
     <projectileDamage>30</projectileDamage> <!-- Dégâts infligés par un projectile -->
-    <pelletBoost>20</pelletBoost> <!-- Boost apporté par une pastille -->
-    <moveCost>10</moveCost> <!-- Coût d'un déplacement -->
+    <pelletBoost>80</pelletBoost> <!-- Boost apporté par une pastille -->
+    <moveCost>5</moveCost> <!-- Coût d'un déplacement -->
     <shieldCost>5</shieldCost> <!-- Coût de l'activation de l'armure -->
-    <shieldAbsorption>80</shieldAbsorption> <!-- Rétention de l'armure face aux attaques -->
+    <shieldAbsorption>50</shieldAbsorption> <!-- Rétention de l'armure face aux attaques -->
     <shieldTimer>5</shieldTimer> <!-- Nombre de tours avant la disparition de l'armure -->
-    <initPellet>4</initPellet> <!-- Nombre initial de pastille dans le jeu -->
-    <nbWall>0</nbWall> <!-- Nombre initial de murs dans le  jeu -->
+    <initPellet>3</initPellet> <!-- Nombre initial de pastille dans le jeu -->
+    <nbWall>2</nbWall> <!-- Nombre initial de murs dans le  jeu -->
     <fillStrategy>0</fillStrategy> <!-- 0 pour une stratégie random et 1 pour le cornerfillstrategy -->
     <nbmultiStartPLayers>0</nbmultiStartPLayers> <!-- Nombre initial de multi players dans le jeu -->
     <nbHumainsPLayer>2</nbHumainsPLayer> <!-- Nombre initial de joueurs humain dans le jeu -->

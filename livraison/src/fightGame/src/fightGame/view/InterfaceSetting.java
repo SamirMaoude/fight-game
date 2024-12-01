@@ -1,23 +1,26 @@
 package fightGame.view;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Toolkit;
 
 /**
  * This class defines various interface settings such as window dimensions, fonts, and colors
  * that are used across the game's graphical user interface.
  */
 public class InterfaceSetting {
-
+    private static Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+       
     /**
      * The width of the game window.
      */
-    public static int WIDTH = 1400;
+    public static int WIDTH = screenSize.width;
 
     /**
      * The height of the game window.
      */
-    public static int HEIGHT = 900;
+    public static int HEIGHT = screenSize.height;
 
     /**
      * The font used for buttons throughout the interface.

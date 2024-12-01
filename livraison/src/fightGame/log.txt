@@ -1,0 +1,1 @@
+HUMAIN_1 play Action [TYPE=USE_BOMB_AT_TOP]
