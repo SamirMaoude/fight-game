@@ -69,7 +69,6 @@ public class RandaomFillStrategy implements GameBordInitFillStrategy, Serializab
                     used.add(position);
                     Pellet pellet = new Pellet(position, UnchangeableSettings.PELLET_BOOST);
                     gameBoard.addEntity(pellet, position);
-                    System.out.println(pellet + " added at position " + position);
                 }
             } while (i != 0);
         }
@@ -87,7 +86,6 @@ public class RandaomFillStrategy implements GameBordInitFillStrategy, Serializab
                     used.add(position);
                     Wall wall = new Wall(position);
                     gameBoard.addEntity(wall, position);
-                    System.out.println(wall + " added at position " + position);
                 }
             } while (i != 0);
         }
