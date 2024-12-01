@@ -1,4 +1,4 @@
-package fightGame.model.aiAlgorithms;
+package fightGame.model.strategy.aiAlgorithms;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -7,18 +7,10 @@ import java.util.Random;
 
 import fightGame.UnchangeableSettings;
 import fightGame.model.FightGameAction;
-import fightGame.model.FightGameActionType;
-import fightGame.model.FightGamePlayer;
-import fightGame.model.GameBoard;
-import fightGame.model.GameBoardProxy;
+import fightGame.model.*;
 import fightGame.model.strategy.FightGamePlayerStrategy;
 import gamePlayers.fighters.Unit;
-import gamePlayers.util.Action;
-import gamePlayers.util.Direction;
-import gamePlayers.util.Player;
-import gamePlayers.util.Position;
-
-
+import gamePlayers.util.*;
 
 public class MinimaxStrategy implements FightGamePlayerStrategy, Serializable {
 

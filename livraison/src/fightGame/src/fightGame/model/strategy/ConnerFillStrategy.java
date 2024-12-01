@@ -47,7 +47,6 @@ public class ConnerFillStrategy implements GameBordInitFillStrategy, Serializabl
                 Position position = corners.get(i);
                 used.add(position);
                 FightGamePlayer player = players.get(i);
-                System.out.println(player + " added at position " + position);
                 player.getUnit().setPosition(position);
                 gameBoard.addEntity(player.getUnit(), position);
             }

@@ -15,23 +15,19 @@ import fightGame.model.GameBoard;
 import fightGame.model.strategy.HumainStrategy;
 import fightGame.view.widgets.GameView;
 import fightGame.view.widgets.InfosView;
-import gamePlayers.util.Player;
 
 /**
- * Utility class for saving and loading the state of the game board to and from files.
+ * Utility class for handling the saving and loading of the game state.
+ * Provides methods to serialize and deserialize the `GameBoard` object
+ * and create corresponding game views.
  */
 public class GameBoardIO {
 
     /**
-     * Default constructor.
-     */
-    public GameBoardIO() {
-    }
-
-    /**
-     * Opens a file chooser dialog to allow the user to select a file for loading a game state.
+     * Opens a file chooser dialog to let the user select a game file for loading.
+     * If a valid file is selected, the game state is loaded and views are created.
      *
-     * @param component the parent frame for the dialog
+     * @param component the parent JFrame for the dialog
      */
     public static void chooseFile(JFrame component) {
         JFileChooser fileChooser = new JFileChooser();
@@ -40,44 +36,54 @@ public class GameBoardIO {
         int userSelection = fileChooser.showOpenDialog(component);
         if (userSelection == JFileChooser.APPROVE_OPTION) {
             java.io.File fileToLoad = fileChooser.getSelectedFile();
-            System.out.println("Fichier sélectionné : " + fileToLoad.getAbsolutePath());
+            System.out.println("Selected file: " + fileToLoad.getAbsolutePath());
             loadGameFromFile(fileToLoad.getAbsolutePath());
-        }else{
+        } else {
             new InfosView(component, "Error", "Invalid file selected", false);
         }
     }
 
     /**
-     * Loads a game state from a file and creates game views for all players.
+     * Deserializes the game state from a file and initializes the game with
+     * corresponding views and managers.
      *
-     * @param filePath the path to the file containing the serialized game state
+     * @param filePath the path to the serialized game file
      */
     public static void loadGameFromFile(String filePath) {
         try (FileInputStream fileIn = new FileInputStream(filePath);
-                ObjectInputStream in = new ObjectInputStream(fileIn)) {
+             ObjectInputStream in = new ObjectInputStream(fileIn)) {
             GameBoard gameBoard = (GameBoard) in.readObject();
             int nbPlayers = gameBoard.getPlayers().size();
             Logger logger = new Logger();
             GameManager manager = null;
-            if(isHumainPlayed(gameBoard)){
+
+            if (isHumainPlayed(gameBoard)) {
                 manager = new GameManager(gameBoard, logger);
             }
+
             for (int i = 0; i < nbPlayers; i++) {
                 FightGamePlayer player = gameBoard.getPlayers().get(i);
                 new GameView("View for Player " + player.getName(), gameBoard, player.getGameBoardProxy(), null, logger);
             }
-            new GameView("Main frame", gameBoard,null, manager, logger);
-            if(manager!=null){
+            new GameView("Main frame", gameBoard, null, manager, logger);
+
+            if (manager != null) {
                 manager.playGame();
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Erreur lors du chargement : " + e.getMessage());
+            System.err.println("Error while loading: " + e.getMessage());
         }
     }
 
-    private static boolean isHumainPlayed(GameBoard gameBoard){
+    /**
+     * Checks if the game board contains a player with a `HumainStrategy`.
+     *
+     * @param gameBoard the game board to check
+     * @return true if a player with a human strategy exists, false otherwise
+     */
+    private static boolean isHumainPlayed(GameBoard gameBoard) {
         for (FightGamePlayer player : gameBoard.getPlayers()) {
-            if(player.getStrategy().getClass().equals(HumainStrategy.class)){
+            if (player.getStrategy().getClass().equals(HumainStrategy.class)) {
                 return true;
             }
         }
@@ -86,8 +92,9 @@ public class GameBoardIO {
 
     /**
      * Opens a file chooser dialog to save the current game state to a file.
+     * The game state is serialized and written to the specified file.
      *
-     * @param frame     the parent frame for the dialog
+     * @param frame     the parent JFrame for the dialog
      * @param gameBoard the game board to be serialized and saved
      */
     public static void saveGame(JFrame frame, GameBoard gameBoard) {
@@ -100,12 +107,12 @@ public class GameBoardIO {
             String filePath = fileToSave.getAbsolutePath();
 
             try (FileOutputStream fileOut = new FileOutputStream(filePath);
-                    ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
+                 ObjectOutputStream out = new ObjectOutputStream(fileOut)) {
                 out.writeObject(gameBoard);
-                new InfosView(frame, "Sauvegarde", "Your game has been successfully saved in the file" + filePath, true);
+                new InfosView(frame, "Save", "Your game has been successfully saved in the file " + filePath, true);
             } catch (IOException e) {
-                new InfosView(frame, "Sauvegarde", "Error while saving : " + e.getMessage(), false);
+                new InfosView(frame, "Save", "Error while saving: " + e.getMessage(), false);
             }
-        } 
+        }
     }
 }

@@ -14,8 +14,18 @@ import gamePlayers.AbstractGameEntity;
 import gamePlayers.fighters.Unit;
 import gamePlayers.objects.*;
 import gamePlayers.util.*;
-public class GameBoard extends AbtractListenableModel implements GameBoardInterface, Cloneable, Serializable{
-    private static final long serialVersionUID = 1L; 
+
+/**
+ * Represents the game board for a fight game. It manages the grid of entities,
+ * players, and actions
+ * performed on the game board. It also supports cloning the game board and
+ * initializing it with different strategies.
+ * Extends AbstractListenableModel to support listeners and implements
+ * GameBoardInterface for game board operations.
+ */
+public class GameBoard extends AbtractListenableModel implements GameBoardInterface, Cloneable, Serializable {
+    private static final long serialVersionUID = 1L;
+
     private int rows;
     private int cols;
     private int nextPlayerIndex = 0;
@@ -31,29 +41,72 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     private FightGamePlayer precedentPlayer = null;
     private int nbBoringMove = 0;
 
+    /**
+     * Constructs a GameBoard with the specified number of rows and columns.
+     * 
+     * @param rows the number of rows in the game board
+     * @param cols the number of columns in the game board
+     */
     public GameBoard(int rows, int cols) {
         this.rows = rows;
         this.cols = cols;
     }
 
-    public GameBoard (int rows, int cols, GameBordInitFillStrategy strategy){
+    /**
+     * Constructs a GameBoard with the specified number of rows, columns, and
+     * initial fill strategy.
+     * 
+     * @param rows     the number of rows in the game board
+     * @param cols     the number of columns in the game board
+     * @param strategy the strategy for filling the game board
+     */
+    public GameBoard(int rows, int cols, GameBordInitFillStrategy strategy) {
         this(rows, cols);
         this.fillStrategy = strategy;
     }
 
+    /**
+     * Constructs a GameBoard with the specified number of rows, columns, and a list
+     * of players.
+     * 
+     * @param rows    the number of rows in the game board
+     * @param cols    the number of columns in the game board
+     * @param players the list of players in the game
+     */
     public GameBoard(int rows, int cols, List<FightGamePlayer> players) {
         this(rows, cols);
         this.players = players;
     }
 
+    /**
+     * Sets the players for the game board.
+     * 
+     * @param players the list of players to set
+     */
     public void setPlayers(List<FightGamePlayer> players) {
         this.players = players;
     }
 
+    /**
+     * Constructs a new GameBoard by copying the properties from another game board
+     * and a list of players.
+     * 
+     * @param gameBoard the game board to copy
+     * @param players   the list of players to initialize
+     */
     public GameBoard(GameBoard gameBoard, List<FightGamePlayer> players) {
         this(gameBoard.getRows(), gameBoard.getCols(), players);
     }
 
+    /**
+     * Constructs a new GameBoard by copying the properties from another game board,
+     * a list of players,
+     * and the current entities on the game board.
+     * 
+     * @param gameBoard the game board to copy
+     * @param players   the list of players to initialize
+     * @param entities  the current entities on the game board to copy
+     */
     public GameBoard(GameBoard gameBoard, List<FightGamePlayer> players,
             Map<Position, Set<AbstractGameEntity>> entities) {
         this(gameBoard, players);
@@ -61,25 +114,28 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     }
 
     /**
-     * Clone The given gameboard
-     * @param gameBoard
+     * Creates a new GameBoard by cloning the properties and entities from another
+     * game board.
+     * The players and entities are also cloned and reassigned.
+     * 
+     * @param gameBoard the game board to clone
      */
-    public GameBoard(GameBoard gameBoard){
+    public GameBoard(GameBoard gameBoard) {
         List<FightGamePlayer> players = new ArrayList<>();
-        for(int playerIndex = 0; playerIndex < gameBoard.getNbPlayers(); playerIndex++){
+        for (int playerIndex = 0; playerIndex < gameBoard.getNbPlayers(); playerIndex++) {
             players.add(new FightGamePlayer(null, playerIndex));
         }
 
         Map<Position, Set<AbstractGameEntity>> entities = new HashMap<>();
-        for(Position position: gameBoard.getEntities().keySet()){
+        for (Position position : gameBoard.getEntities().keySet()) {
             Set<AbstractGameEntity> positionEntities = gameBoard.getEntitiesAt(position);
             Set<AbstractGameEntity> copy = new HashSet<>();
-            for(AbstractGameEntity entity: positionEntities){
+            for (AbstractGameEntity entity : positionEntities) {
                 try {
                     AbstractGameEntity clone = entity.clone();
                     copy.add(clone);
-                    if(entity.getType()==EntityType.UNIT){
-                        Unit unit = (Unit)clone;
+                    if (entity.getType() == EntityType.UNIT) {
+                        Unit unit = (Unit) clone;
                         int playerIndex = unit.getOwner().getPlayerIndex();
                         players.get(playerIndex).setUnit(unit);
                         unit.setOwner(players.get(playerIndex));
@@ -87,16 +143,13 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }
-                
-                
             }
             entities.put(position, copy);
         }
 
-
-        for(int playerIndex = 0; playerIndex < gameBoard.getNbPlayers(); playerIndex++){
-            FightGamePlayer player =  players.get(playerIndex);
-            player.setGameBoardProxy(new GameBoardProxy(this, player));;
+        for (int playerIndex = 0; playerIndex < gameBoard.getNbPlayers(); playerIndex++) {
+            FightGamePlayer player = players.get(playerIndex);
+            player.setGameBoardProxy(new GameBoardProxy(this, player));
         }
 
         this.rows = gameBoard.getRows();
@@ -104,58 +157,61 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         this.entities = entities;
         this.players = players;
         this.nextPlayerIndex = gameBoard.getNextPlayer().getPlayerIndex();
-
     }
 
     /**
-     * Return the grid
-     * @return
+     * Returns the entities present on the game board, represented as a map of
+     * positions to sets of entities.
+     * 
+     * @return a map of positions to sets of entities
      */
     public Map<Position, Set<AbstractGameEntity>> getEntities() {
         return entities;
     }
 
     /**
-     * set the way to fill the grid
-     * @param strategy
+     * Sets the strategy for filling the game board during initialization.
+     * 
+     * @param strategy the strategy for filling the board
      */
-    public void setStrategy(GameBordInitFillStrategy strategy){
+    public void setStrategy(GameBordInitFillStrategy strategy) {
         this.fillStrategy = strategy;
     }
 
     /**
      * Fill the grid based on strategy
      */
-    public void fillGameBoard(){
+    public void fillGameBoard() {
         this.fillStrategy.fillGrid(this);
     }
 
     /**
      * Add a player in the game
+     * 
      * @param player
      */
 
-    public void addPlayer(FightGamePlayer player){
+    public void addPlayer(FightGamePlayer player) {
         this.players.add(player);
     }
 
     /**
      * Add entity at the given position
+     * 
      * @param entity
      * @param position
      * @return true if entity is added; else false
      */
     public boolean addEntity(AbstractGameEntity entity, Position position) {
 
-        if(entity.getType() != EntityType.BOMB && entity.getType() != EntityType.MINE){
+        if (entity.getType() != EntityType.BOMB && entity.getType() != EntityType.MINE) {
             if (!isValidMove(position)) {
                 return false;
             }
+        } else {
+            if (!isValidPosition(position))
+                return false;
         }
-        else{
-            if(!isValidPosition(position)) return false;
-        }
-        
 
         Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
         positionEntities.add(entity);
@@ -164,7 +220,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
         return true;
     }
-    
+
     /**
      * Return a set of entities at the given position
      */
@@ -174,7 +230,8 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     }
 
     /**
-     * move unit from one position to another
+     * Move unit from one position to another
+     * 
      * @return true if one entity has been moved, else false
      */
     @Override
@@ -230,7 +287,8 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
         Set<AbstractGameEntity> newPositionEntities = this.getEntitiesAt(newPosition);
 
-        if(unit.isAlive())newPositionEntities.add(unit);
+        if (unit.isAlive())
+            newPositionEntities.add(unit);
 
         entities.put(newPosition, newPositionEntities);
 
@@ -267,13 +325,13 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     /**
      * Return possible actions that the next player can do
+     * 
      * @param player
      * @return
      */
     public List<Action> getActions(FightGamePlayer player) {
 
         List<Action> actions = new ArrayList<>();
-        
 
         Unit unit = player.getUnit();
         Position position = unit.getPosition();
@@ -371,6 +429,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     /**
      * Execute en action given by the next player
+     * 
      * @param action
      * @param player
      * @return true if action is executed else false
@@ -380,8 +439,8 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         Position unitPosition = unit.getPosition();
         reinitializeFromLastAction();
 
-        switch (action.TYPE) {
-            case MOVE_UNIT_TO_RIGHT:            
+        switch (action.getTYPE()) {
+            case MOVE_UNIT_TO_RIGHT:
                 if (!this.moveUnit(unitPosition, Direction.RIGHT))
                     return false;
                 break;
@@ -544,7 +603,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 int maxDistance = col + UnchangeableSettings.PROJECTILE_SCOPE;
 
                 col++;
-                while (col < Math.min(maxDistance+1, this.getCols())) {
+                while (col < Math.min(maxDistance + 1, this.getCols())) {
                     Position position = new Position(row, col);
 
                     if (!this.projectileEffect(position))
@@ -602,7 +661,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 int maxDistance = row + UnchangeableSettings.PROJECTILE_SCOPE;
 
                 row++;
-                while (row < Math.min(maxDistance+1, this.getRows())) {
+                while (row < Math.min(maxDistance + 1, this.getRows())) {
                     Position position = new Position(row, col);
 
                     if (!this.projectileEffect(position))
@@ -629,10 +688,11 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 break;
         }
 
-        if(action.TYPE != FightGameActionType.NOTHING) this.nbBoringMove += 0;
+        if (action.getTYPE() != FightGameActionType.NOTHING)
+            this.nbBoringMove += 0;
 
         this.updateEntities();
-        
+
         getNextPlayerIndex();
 
         lastActionPlayed = action;
@@ -645,7 +705,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     /**
      * @param position
-     * @return  true if one unit can move to given position; else false
+     * @return true if one unit can move to given position; else false
      */
     private boolean isValidMove(Position position) {
         if (!isValidPosition(position))
@@ -668,7 +728,8 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     /**
      * 
      * @param position
-     * @return true if a position coordinates are valid and there is no a wall; else false
+     * @return true if a position coordinates are valid and there is no a wall; else
+     *         false
      */
     public boolean isValidPosition(Position position) {
         int r = position.getRow();
@@ -713,23 +774,23 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     @Override
     public int getNextPlayerIndex() {
         nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
-        if(playersRemaining()==0) return nextPlayerIndex;
+        if (playersRemaining() == 0)
+            return nextPlayerIndex;
         boolean ok = false;
         while (!ok) {
             Unit nextUnit = players.get(nextPlayerIndex).getUnit();
-            if(nextUnit == null){
+            if (nextUnit == null) {
                 nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
                 continue;
-            }
-            else if(!nextUnit.isAlive()){
+            } else if (!nextUnit.isAlive()) {
                 nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
                 continue;
             }
 
             ok = true;
-            
+
         }
-        
+
         return nextPlayerIndex;
     }
 
@@ -765,7 +826,8 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                                 unit.setShieldActivated(false);
                             }
                         }
-                        if (!unit.isAlive())positionEntities.remove(entity);
+                        if (!unit.isAlive())
+                            positionEntities.remove(entity);
                         break;
                     }
                     default:
@@ -775,11 +837,12 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
             }
 
         }
-        
+
     }
 
     /**
      * Bomb explosion effect
+     * 
      * @param position
      * @param currentBomb
      */
@@ -845,6 +908,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     /**
      * Mine effect
+     * 
      * @param position
      * @param currentMine
      */
@@ -868,7 +932,8 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 case UNIT:
                     Unit unit = (Unit) entity;
                     unit.receiveDamage(UnchangeableSettings.BOMB_DAMAGE);
-                    if (!unit.isAlive())positionEntities.remove(entity);
+                    if (!unit.isAlive())
+                        positionEntities.remove(entity);
                     break;
 
                 default:
@@ -882,12 +947,11 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     /**
      * projectile effect
+     * 
      * @param position
      * @return
      */
     public boolean projectileEffect(Position position) {
-
-        
 
         Set<AbstractGameEntity> positionEntities = this.getEntitiesAt(position);
 
@@ -921,9 +985,11 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
                 Action action = player.play();
                 System.out.println(player + " played " + action);
                 performAction((FightGameAction) action, player);
-                for(Player p: players){
-                    if(p.getUnit().isAlive())System.out.println(p+" energy remaining is "+p.getUnit().getEnergy());
-                    else System.out.println(p+" is dead");
+                for (Player p : players) {
+                    if (p.getUnit().isAlive())
+                        System.out.println(p + " energy remaining is " + p.getUnit().getEnergy());
+                    else
+                        System.out.println(p + " is dead");
                 }
 
             } catch (Exception e) {
@@ -934,13 +1000,15 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     /**
      * count remaining players
+     * 
      * @return
      */
     public int playersRemaining() {
 
         int nb = 0;
         for (FightGamePlayer player : players) {
-            if(player.getUnit() == null) continue;
+            if (player.getUnit() == null)
+                continue;
             if (player.getUnit().isAlive()) {
                 nb++;
             }
@@ -950,6 +1018,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
 
     /**
      * Return all players
+     * 
      * @return
      */
     public List<FightGamePlayer> getPlayers() {
@@ -959,13 +1028,13 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     /**
      * Clear effect of last actions
      */
-    public void reinitializeFromLastAction(){
+    public void reinitializeFromLastAction() {
         impactedPositionsByProjectile.clear();
         impactedPositionsByBomb.clear();
         impactedPositionsByMine.clear();
         lastMove.clear();
     }
-    
+
     /**
      * @return list of position impacted by bomb explosion
      */
@@ -1002,14 +1071,14 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
      * 
      * @return true if the game is over
      */
-    public boolean isGameOver(){
+    public boolean isGameOver() {
 
-        if(this.nbBoringMove > UnchangeableSettings.BORING_MOVE_LIMIT){
+        if (this.nbBoringMove > UnchangeableSettings.BORING_MOVE_LIMIT) {
             this.notifyModelListeners();
             return true;
         }
 
-        if(playersRemaining() <= 1){
+        if (playersRemaining() <= 1) {
             this.notifyModelListeners();
             return true;
         }
@@ -1022,7 +1091,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
      * 
      * @return number of players
      */
-    public int getNbPlayers(){
+    public int getNbPlayers() {
         return this.players.size();
     }
 
@@ -1041,7 +1110,5 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
     public FightGamePlayer getPrecedentPlayer() {
         return precedentPlayer;
     }
-
-    
 
 }

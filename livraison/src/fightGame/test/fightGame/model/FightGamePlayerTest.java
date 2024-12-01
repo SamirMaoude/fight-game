@@ -5,9 +5,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import fightGame.model.aiAlgorithms.*;
 import fightGame.model.strategy.FightGamePlayerStrategy;
 import fightGame.model.strategy.HumainStrategy;
+import fightGame.model.strategy.aiAlgorithms.*;
 import gamePlayers.util.Position;
 import gamePlayers.fighters.Unit;
 import junit.framework.TestCase;
