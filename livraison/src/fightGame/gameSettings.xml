@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gameSettings>
-    <nbRows>5</nbRows> <!-- Nombre de lignes pour la grille -->
-    <nbCols>5</nbCols> <!-- Nombre de colones pour la grille -->
+    <nbRows>6</nbRows> <!-- Nombre de lignes pour la grille -->
+    <nbCols>6</nbCols> <!-- Nombre de colones pour la grille -->
     <nbBombs>5</nbBombs> <!-- Nombre initial de bombes pour chaque joueurs -->
     <nbProjectiles>5</nbProjectiles> <!-- Nombre initial de projectiles pour chaque joueurs -->
     <nbMines>5</nbMines> <!-- Nombre initial de mines pour chaque joueurs -->
