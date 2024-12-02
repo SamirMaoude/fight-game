@@ -219,6 +219,16 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         entity.setPosition(position);
         entities.put(position, positionEntities);
 
+        // Explode mine after adding in unit cell
+        if(entity.getType()==EntityType.MINE){
+            for(AbstractGameEntity posEntity: positionEntities){
+                if(posEntity.getType()==EntityType.UNIT){
+                    detonateMineAt(position, (Mine)entity);
+                    break;
+                }
+            }
+        }
+
         return true;
     }
 
@@ -427,7 +437,7 @@ public class GameBoard extends AbtractListenableModel implements GameBoardInterf
         actions.add(new FightGameAction(FightGameActionType.NOTHING));
 
         Collections.sort(actions);
-        
+
         return actions;
     }
 
