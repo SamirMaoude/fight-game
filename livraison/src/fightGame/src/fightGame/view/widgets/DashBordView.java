@@ -56,6 +56,8 @@ public class DashBordView extends JPanel implements ModelListener {
                     view.setNbBombLabel(String.valueOf(player.getUnit().getBombs().size()));
                     view.setNbMineLabel(String.valueOf(player.getUnit().getMines().size()));
                     view.setNbProjectilLabel(String.valueOf(player.getUnit().getProjectiles().size()));
+                    view.setNbEnergyLabel(String.valueOf(player.getUnit().getEnergy()));
+
                 }
             }
         }

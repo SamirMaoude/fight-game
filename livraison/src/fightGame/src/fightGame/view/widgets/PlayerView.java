@@ -17,6 +17,8 @@ public class PlayerView extends JPanel {
     private JLabel nbMineLabel;
     private JLabel nbBombLabel;
     private JLabel nbProjectilLabel;
+    private JLabel nbEnergyLabel;
+
 
     /**
      * Constructs a view for a specific player.
@@ -44,6 +46,7 @@ public class PlayerView extends JPanel {
 
         // Weapons panel
         JPanel weaponPanel = new JPanel(new FlowLayout());
+
         JLabel bombLabel = new JLabel("Bombs");
         bombLabel.setFont(InterfaceSetting.TEXT_FONT);
         this.nbBombLabel = new JLabel(String.valueOf(player.getUnit().getBombs().size()));
@@ -59,19 +62,37 @@ public class PlayerView extends JPanel {
         this.nbProjectilLabel = new JLabel(String.valueOf(player.getUnit().getProjectiles().size()));
         this.nbProjectilLabel.setFont(InterfaceSetting.TEXT_FONT);
 
+        JLabel energyLabel = new JLabel("Energy");
+        energyLabel.setFont(InterfaceSetting.TEXT_FONT);
+        this.nbEnergyLabel = new JLabel(String.valueOf(player.getUnit().getEnergy()));
+        this.nbEnergyLabel.setFont(InterfaceSetting.TEXT_FONT);
+
+
         weaponPanel.add(bombLabel);
         weaponPanel.add(this.nbBombLabel);
         weaponPanel.add(mineLabel);
         weaponPanel.add(this.nbMineLabel);
         weaponPanel.add(projectilLabel);
         weaponPanel.add(this.nbProjectilLabel);
+        weaponPanel.add(energyLabel);
+        weaponPanel.add(this.nbEnergyLabel);
       
 
         this.add(weaponPanel);
 
-        // Border styling
         this.setBorder(BorderFactory.createLineBorder(Color.BLACK));
     }
+
+
+    /**
+     * Updates the display for the number of mines.
+     *
+     * @param nbEnergyLabel the number of mines as a string
+     */
+    public void setNbEnergyLabel(String nbEnergyLabel) {
+        this.nbEnergyLabel.setText(nbEnergyLabel);
+    }
+
 
     /**
      * Returns the energy progress bar of the player.
