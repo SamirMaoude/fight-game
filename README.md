@@ -15,10 +15,11 @@ Lancer la commande suivante dans le dossier livraison :
 ```
 # Membres du groupe 
 
-DIALLO Mariatou Pellel
+[DIALLO Mariatou Pellel](https://github.com/Mariatoudiallo19)
+
+[COTCHO Zadelein Patrice](https://github.com/Patrice404)
+
+[MAOUDE Samir](https://github.com/SamirMaoude)
 
 DIALLO Aissatou
 
-COTCHO Zadelein Patrice
-
-MAOUDE Samir
